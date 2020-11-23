@@ -1,0 +1,141 @@
+<!doctype html><html lang=zh-cn><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="chrome=1"><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><meta name=author content="Mogeko"><meta name=description content="Mogeko 的个人博客"><meta name=keywords content="blog,KMS,Hugo,GNU/Linux,Linux,Ubuntu,Rusty Lake: Roots,Hollow Knight,空洞骑士"><link rel=prev href=https://mogeko.me/2019/043/><link rel=next href=https://mogeko.me/2019/045/><link rel=canonical href=https://mogeko.me/2019/044/><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=manifest href=/site.webmanifest><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><meta name=msapplication-TileColor content="#da532c"><meta name=theme-color content="#ffffff"><title>Rust 中的错误处理 | Mogeko`s Blog</title><meta name=title content="Rust 中的错误处理 | Mogeko`s Blog"><link rel=stylesheet href=/css/main.min.css><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/mogeko.me"},"articleSection":"posts","name":"Rust 中的错误处理","headline":"Rust 中的错误处理","description":"\u0026emsp;\u0026emsp; -- 异常\/错误处理 1 被称作是**“第四流程控制语句”**，在现代程序设计中发挥着越来越重要的作用。一般的语言喜欢使用 try...catch... 语句捕捉异常，这样做看","inLanguage":"zh-cn","author":"Mogeko","creator":"Mogeko","publisher":"Mogeko","accountablePerson":"Mogeko","copyrightHolder":"Mogeko","copyrightYear":"2019","datePublished":"2019-01-23 12:50:59 \u002b0800 \u002b0800","dateModified":"2019-01-23 12:50:59 \u002b0800 \u002b0800","url":"https:\/\/mogeko.me\/2019\/044\/","wordCount":"2931","keywords":["Rust","Mogeko`s Blog"]}</script></head><body><div class=wrapper><nav class=navbar><progress class=content_progress max=0 value=0></progress><div class=container><div class="navbar-header header-back2home-logo"><span class=logo_mark>>$</span>
+<a href=https://mogeko.me><span class=logo_text>cd /home/</span>
+<span class=logo_cursor></span></a></div><div class=navbar-right><span class=menu><a class=menu-item href=/tools/>Tools</a>
+<a class=menu-item href=/posts/>Blog</a>
+<a class=menu-item href=/categories/>Categories</a>
+<a class=menu-item href=/tags/>Tags</a>
+<a class=menu-item href=/about/>About</a>
+<a class=menu-item href=/tools/></a><a class=menu-item href=/about/ title=Mogeko>Mogeko</a>
+<span class=divide></span><a href=javascript:void(0); class=theme-switch><i class="iconfont icon-dark-mode"></i></a></span></div></div></nav><nav class=navbar-mobile id=nav-mobile style=display:none><progress class=content_progress max=0 value=0></progress><div class=container><div class=navbar><div class="navbar-header header-logo"><a href=https://mogeko.me>Mogeko`s Blog</a></div><div class=navbar-right><div><a href=javascript:void(0); class=theme-switch><i class="iconfont icon-dark-mode"></i></a></div><div class=menu-toggle><span></span><span></span><span></span></div></div></div><div class=menu id=mobile-menu><nav class=mb-md><a class=menu-item href=/tools/><h3>Tools</h3><div class=menu-active></div></a><a class=menu-item href=/posts/><h3>Blog</h3><div class=menu-active></div></a><a class=menu-item href=/categories/><h3>Categories</h3><div class=menu-active></div></a><a class=menu-item href=/tags/><h3>Tags</h3><div class=menu-active></div></a><a class=menu-item href=/about/><h3>About</h3><div class=menu-active></div></a><a class=menu-item href=/tools/><h3></h3><div class=menu-active></div></a><a class=menu-item href=/about/ title=Mogeko><h3>Mogeko</h3><div class=menu-active></div></a></nav></div></div></nav><main class=main><div class=container><article class=post-warp itemscope itemtype=http://schema.org/Article><header class=post-header><h1 class=post-title itemprop="name headline">Rust 中的错误处理</h1><div class=post-meta>Written by <a itemprop=name href=https://mogeko.me rel=author>Mogeko</a> with ♥
+<span class=post-time>on <time datetime=2019-01-23 itemprop=datePublished>January 23, 2019</time></span>
+in
+<i class="iconfont icon-folder"></i><span class=post-category></span><span class=post-word-count>2931 words</span></div></header><div class=post-content><p>异常/错误处理 <a href=#sup1><sup>1</sup></a> 被称作是**“第四流程控制语句”**，在现代程序设计中发挥着越来越重要的作用。一般的语言喜欢使用 <code>try...catch...</code> 语句捕捉异常，这样做看似很符合逻辑，却很难将代码写得优雅：如果在异常抛出处处理，容易破坏业务逻辑的完整性，不优雅；如果将所有的异常放在一起统一处理，又容易出现忘记处理的情况。所以如何处理异常，何时处理异常是一件非常考验程序员经验的事情。但 Rust 就不同了。</p><p>Rust 中的错误处理方式是我见过最优雅的。Rust 中并没有异常，而主要是使用一种名为 <code>Result</code> (实际上是一种枚举) 的概念处理错误。它的好处就在于不会影响业务逻辑，因为它本身就是业务逻辑的一部分！</p><p>Rust 中，有两种错误：</p><ul><li><strong>可恢复错误</strong> (<em>recoverable</em>)</li><li><strong>不可恢复错误</strong> (<em>unrecoverable</em>)</li></ul><p>大部分语言不区分这两类错误，并使用相似的逻辑处理他们。Rust 使用 <code>Result</code> 和 <code>panic!</code> 处理可恢复错误，在遇到不可恢复错误时直接使用 <code>panic!</code> 停止程序执行。</p><p><img src=https://mogeko.github.io/blog-images/r/044/type_0f_wrong.png alt="Rust 中的错误类型" loading=lazy></p><p>先来解释一下 <code>panic!</code>。</p><p><i id=sup1 style=color:#989898><sup>1</sup> <strong>异常</strong>和<strong>错误</strong>是有区别的，这里只比较他们的相似性，不多做区分。</i></p><h1 id=panic>panic!</h1><p><code>panic!</code> 处理错误时会采用<strong>展开</strong> (unwinding) 和<strong>终止</strong> (abort) 两种策略处理栈上的数据。</p><p>展开的意思就是说 Rust 会回溯栈并一层一层的清理它遇到的每一个函数的数据，就像这样：</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext>    Finished dev [unoptimized + debuginfo] target(s) in 0.0 secs
+     Running `target/debug/panic`
+thread &#39;main&#39; panicked at &#39;index out of bounds: the len is 3 but the index is 99&#39;, /checkout/src/liballoc/vec.rs:1555:10
+stack backtrace:
+   0: std::sys:👿:backtrace::tracing:👿:unwind_backtrace
+             at /checkout/src/libstd/sys/unix/backtrace/tracing/gcc_s.rs:49
+   1: std::sys_common::backtrace::_print
+             at /checkout/src/libstd/sys_common/backtrace.rs:71
+   2: std::panicking::default_hook::{{closure}}
+             at /checkout/src/libstd/sys_common/backtrace.rs:60
+             at /checkout/src/libstd/panicking.rs:381
+   3: std::panicking::default_hook
+             at /checkout/src/libstd/panicking.rs:397
+   4: std::panicking::rust_panic_with_hook
+             at /checkout/src/libstd/panicking.rs:611
+   5: std::panicking::begin_panic
+             at /checkout/src/libstd/panicking.rs:572
+   6: std::panicking::begin_panic_fmt
+             at /checkout/src/libstd/panicking.rs:522
+   7: rust_begin_unwind
+             at /checkout/src/libstd/panicking.rs:498
+   8: core::panicking::panic_fmt
+             at /checkout/src/libcore/panicking.rs:71
+   9: core::panicking::panic_bounds_check
+             at /checkout/src/libcore/panicking.rs:58
+  10: &lt;alloc::vec::Vec&lt;T&gt; as core::ops::index::Index&lt;usize&gt;&gt;::index
+             at /checkout/src/liballoc/vec.rs:1555
+  11: panic::main
+             at src/main.rs:4
+  12: __rust_maybe_catch_panic
+             at /checkout/src/libpanic_unwind/lib.rs:99
+  13: std::rt::lang_start
+             at /checkout/src/libstd/panicking.rs:459
+             at /checkout/src/libstd/panic.rs:361
+             at /checkout/src/libstd/rt.rs:61
+  14: main
+  15: __libc_start_main
+  16: &lt;unknown&gt;
+</code></pre></div><p>是不是很像异常？Rust 默认使用展开的策略清理内存，不过展开堆栈需要额外记录堆栈信息，这会对二进制程序的大小以及执行效率 (微乎其微) 产生影响。</p><p>另一种选择是直接终止，这会不清理数据就直接退出。剩下的一堆烂摊子扔给操作系统来处理。</p><p>展开堆栈时可以用 <code>std::panic::catch_unwind</code> 捕获 <code>panic</code> 抛出的堆栈，但是<strong>极不</strong>推荐用这种方法来处理错误。<code>catch_unwind</code> 一般是用来在多线程程序里面在将挂掉的线程 catch 住，防止一个线程挂掉导致整个进程崩掉，或者是通过外部函数接口 (FFI) 与 C 交互时将堆栈信息兜住防止 C 程序看到堆栈不知道如何处理。另外并不是所有程序都能用 <code>catch_unwind</code> 捕捉，有的嵌入式平台上的程序受限于二进制文件大小的限制，<code>panic</code> 没有使用展开，而是使用终止的方式退出程序，这就没法兜得住了。</p><h1 id=result>Result</h1><p>就下来介绍一种更常用也是我最喜欢的一种错误处理方式：<code>Result</code> 类型。</p><p><code>Result</code> 的本质是一个枚举类型。首先我们需要了解一下什么是枚举。</p><h2 id=result-与枚举>Result 与枚举</h2><p>枚举是 Rust 特有的一种类型，与 F#、OCaml 和 Haskell 这样的函数式编程语言中的<strong>代数数据类型</strong> (<em>algebraic data types</em>) 最为相似。</p><p><code>Result</code> 是 Rust 自带的一个已经定义好了的枚举。<code>Result</code> 中定义了两个成员：</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-rust data-lang=rust><span style=color:#66d9ef>enum</span> Result<span style=color:#f92672>&lt;</span>T, E<span style=color:#f92672>&gt;</span> {
+    Ok(T),
+    Err(E),
+}
+</code></pre></div><p><code>OK</code> 表示成功的情况，<code>Err</code> 表示出错的情况 (<code>T</code> 和 <code>E</code> 分别表示 <code>OK</code> 或 <code>Err</code> 中数据的类型)。如果你调用了一个可能会出错的函数，那么函数将会返回一个 <code>Result</code> 枚举。一个枚举实例表示枚举类型定义的成员中的<strong>任意</strong>一项，反映到 <code>Result</code> 上就是 <code>OK</code> 或 <code>Err</code>。也就是说函数返回的 <code>Result</code> 既可能是一个包含 <code>OK</code> 的 <code>Result</code>，也可能是一个包含 <code>Err</code> 的 <code>Result</code>，这有点类似于“薛定谔的猫”——处于生与死的叠加态——可以说 <code>Result</code> 处于 <code>OK</code> 与 <code>Err</code> 的“叠加态”。</p><p>那么这又有什么好处呢？</p><p><code>Result</code> 的优越性就在于：无论程序出错与否，**函数返回的值的类型始相同的！**函数的调用者可以采用相同的方式行云流水般的处理 <code>Result</code>。也就是说，无论成功与否，函数的调用者都要处理 <code>Result</code>，错误处理成为了业务逻辑的一部分。</p><h2 id=处理错误>处理错误</h2><p>我们已经成功的获得了从调用的函数手里返回的 <code>Result</code>，我们并不知道执行到底有没有成功。这时我们就应该开始处理错误了。</p><h3 id=unwrap-与-expect>unwrap 与 expect</h3><p>我们先看这么一个例子：</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-rust data-lang=rust><span style=color:#66d9ef>use</span> std::fs::File;
+
+<span style=color:#66d9ef>fn</span> <span style=color:#a6e22e>main</span>() {
+    <span style=color:#66d9ef>let</span> f1 <span style=color:#f92672>=</span> File::open(<span style=color:#e6db74>&#34;hello.txt&#34;</span>).unwrap();
+    <span style=color:#66d9ef>let</span> f2 <span style=color:#f92672>=</span> File::open(<span style=color:#e6db74>&#34;hello.txt&#34;</span>).expect(<span style=color:#e6db74>&#34;Failed to open hello.txt&#34;</span>);
+}
+</code></pre></div><p>代码中，我们使用 <code>File::open</code> 来读打开一个名为 <code>hello.txt</code> 的文件。函数 <code>File::open</code> 将会返回一个 <code>io::Result</code>。Rust 标准库中有很多叫做 <code>Result</code> 的类型，<code>io::Result</code> 是其中之一，并且 <code>io::Result</code> 的实例拥有 <code>unwrap</code> 方法和 <code>expect</code> 方法。 如果程序执行成功 <code>unwrap</code> 或 <code>expect</code> 方法会将正确的值取出来，如果出错就直接让程序挂掉。其中 <code>unwrap</code> 方法在挂掉时会打印出标准库内置的错误信息，而 <code>exprct</code> 则让我们可以自己定义一个字符串在程序挂掉时显示。</p><p><code>unwrap</code> /<code>expect</code> 并不是一个好的错误处理方式。 **<code>unwrap</code> 和 <code>expect</code> 只会捕捉错误，然后终止程序，并没有真正的处理错误。**所以 <code>unwrap</code> 和 <code>expect</code> 一般只是用于原型设计。</p><h3 id=match>match</h3><p>使用 <code>match</code> 来处理错误是最常用，也是最推崇的做法。还是刚刚的那个例子，如果用 <code>match</code> 来写的话：</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-rust data-lang=rust><span style=color:#66d9ef>use</span> std::fs::File;
+
+<span style=color:#66d9ef>fn</span> <span style=color:#a6e22e>main</span>() {
+    <span style=color:#66d9ef>let</span> f <span style=color:#f92672>=</span> File::open(<span style=color:#e6db74>&#34;hello.txt&#34;</span>);
+
+    <span style=color:#66d9ef>let</span> f <span style=color:#f92672>=</span> <span style=color:#66d9ef>match</span> f {
+        Ok(file) <span style=color:#f92672>=&gt;</span> file,
+        Err(error) <span style=color:#f92672>=&gt;</span> {
+            panic<span style=color:#f92672>!</span>(<span style=color:#e6db74>&#34;There was a problem opening the file: {:?}&#34;</span>, error)
+        },
+    };
+}
+</code></pre></div><p>可以把 <code>match</code> 表达式想象成某种硬币分类器：硬币滑入有着不同大小孔洞的轨道，每一个硬币都会掉入符合它大小的孔洞。同样地，值也会通过 <code>match</code> 的每一个模式，并且在遇到第一个 “符合” 的模式时，值会进入相关联的代码块并在执行中被使用。</p><p>在本例中，<code>f</code> 就是那个硬币，<code>OK</code> 和 <code>Err</code> 就是那个孔；<code>match</code> 会把 <code>f</code> (<code>io::Result</code>) 实例中值的类型与 <code>OK</code> 、<code>Err</code> 做匹配，如果匹配到了合适的类型就执行 <code>=></code> 后的表达式。当结果是 <code>Ok</code> 时，返回 <code>Ok</code> 成员中的 <code>file</code> 值，然后将这个文件句柄赋值给变量 <code>f</code>。当结果是 <code>Err</code> 时，我们选择调用 <code>panic!</code>宏。</p><h2 id=匹配不同的错误>匹配不同的错误</h2><p>上文的代码不管 <code>File::open</code> 是因为什么原因失败都会 <code>panic!</code>。我们真正希望的是对不同的错误原因采取不同的行为：如果 <code>File::open</code>因为文件不存在而失败，我们希望创建这个文件并返回新文件的句柄。如果 <code>File::open</code> 因为任何其他原因失败，例如没有打开文件的权限，我们仍然希望 <code>panic!</code>。</p><p>只需要增加一个 <code>match</code> 就可以了：</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-rust data-lang=rust><span style=color:#66d9ef>use</span> std::fs::File;
+<span style=color:#66d9ef>use</span> std::io::ErrorKind;
+
+<span style=color:#66d9ef>fn</span> <span style=color:#a6e22e>main</span>() {
+    <span style=color:#66d9ef>let</span> f <span style=color:#f92672>=</span> File::open(<span style=color:#e6db74>&#34;hello.txt&#34;</span>);
+
+    <span style=color:#66d9ef>let</span> f <span style=color:#f92672>=</span> <span style=color:#66d9ef>match</span> f {
+        Ok(file) <span style=color:#f92672>=&gt;</span> file,
+        Err(error) <span style=color:#f92672>=&gt;</span> <span style=color:#66d9ef>match</span> error.kind() {
+            ErrorKind::NotFound <span style=color:#f92672>=&gt;</span> <span style=color:#66d9ef>match</span> File::create(<span style=color:#e6db74>&#34;hello.txt&#34;</span>) {
+                Ok(fc) <span style=color:#f92672>=&gt;</span> fc,
+                Err(e) <span style=color:#f92672>=&gt;</span> panic<span style=color:#f92672>!</span>(<span style=color:#e6db74>&#34;Tried to create file but there was a problem: {:?}&#34;</span>, e),
+            },
+            other_error <span style=color:#f92672>=&gt;</span> panic<span style=color:#f92672>!</span>(<span style=color:#e6db74>&#34;There was a problem opening the file: {:?}&#34;</span>, other_error),
+        },
+    };
+}
+</code></pre></div><p>如果觉得太麻烦了，还可以使用闭包：</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-rust data-lang=rust><span style=color:#66d9ef>use</span> std::fs::File;
+<span style=color:#66d9ef>use</span> std::io::ErrorKind;
+
+<span style=color:#66d9ef>fn</span> <span style=color:#a6e22e>main</span>() {
+    <span style=color:#66d9ef>let</span> f <span style=color:#f92672>=</span> File::open(<span style=color:#e6db74>&#34;hello.txt&#34;</span>).map_err(<span style=color:#f92672>|</span>error<span style=color:#f92672>|</span> {
+        <span style=color:#66d9ef>if</span> error.kind() <span style=color:#f92672>==</span> ErrorKind::NotFound {
+            File::create(<span style=color:#e6db74>&#34;hello.txt&#34;</span>).unwrap_or_else(<span style=color:#f92672>|</span>error<span style=color:#f92672>|</span> {
+                panic<span style=color:#f92672>!</span>(<span style=color:#e6db74>&#34;Tried to create file but there was a problem: {:?}&#34;</span>, error);
+            })
+        } <span style=color:#66d9ef>else</span> {
+            panic<span style=color:#f92672>!</span>(<span style=color:#e6db74>&#34;There was a problem opening the file: {:?}&#34;</span>, error);
+        }
+    });
+}
+</code></pre></div><h2 id=传播错误>传播错误</h2><p>Rust 允许程序像别的语言处理“异常”一样的将错误扔给更上一层的调用者，这被称为<strong>传播</strong> (propagating)错误。</p><p>如果文件不存在或不能读取，这个函数会将这些错误返回给调用它的代码：</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-rust data-lang=rust><span style=color:#66d9ef>use</span> std::io;
+<span style=color:#66d9ef>use</span> std::io::Read;
+<span style=color:#66d9ef>use</span> std::fs::File;
+
+<span style=color:#66d9ef>fn</span> <span style=color:#a6e22e>read_username_from_file</span>() -&gt; Result<span style=color:#f92672>&lt;</span>String, io::Error<span style=color:#f92672>&gt;</span> {
+    <span style=color:#66d9ef>let</span> f <span style=color:#f92672>=</span> File::open(<span style=color:#e6db74>&#34;hello.txt&#34;</span>);
+
+    <span style=color:#66d9ef>let</span> <span style=color:#66d9ef>mut</span> f <span style=color:#f92672>=</span> <span style=color:#66d9ef>match</span> f {
+        Ok(file) <span style=color:#f92672>=&gt;</span> file,
+        Err(e) <span style=color:#f92672>=&gt;</span> <span style=color:#66d9ef>return</span> Err(e),
+    };
+
+    <span style=color:#66d9ef>let</span> <span style=color:#66d9ef>mut</span> s <span style=color:#f92672>=</span> String::new();
+
+    <span style=color:#66d9ef>match</span> f.read_to_string(<span style=color:#f92672>&amp;</span><span style=color:#66d9ef>mut</span> s) {
+        Ok(_) <span style=color:#f92672>=&gt;</span> Ok(s),
+        Err(e) <span style=color:#f92672>=&gt;</span> Err(e),
+    }
+}
+</code></pre></div><p>在上面的代码中，程序会尝试打开一个名为 <code>hello.txt</code> 的文件，如果失败将会提前返回一个包含 <code>Err</code> 的 <code>Result</code>；如果成功，则将会尝试读取 <code>hello.txt</code> 中的信息，如果成功则会返回包含储存了被读取信息的 <code>String</code> 的 <code>Result</code>，否则返回包含 <code>Err</code> 的 <code>Result</code>。</p><p>也可以使用 <code>?</code> 简写：</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-rust data-lang=rust><span style=color:#66d9ef>use</span> std::io;
+<span style=color:#66d9ef>use</span> std::io::Read;
+<span style=color:#66d9ef>use</span> std::fs::File;
+
+<span style=color:#66d9ef>fn</span> <span style=color:#a6e22e>read_username_from_file</span>() -&gt; Result<span style=color:#f92672>&lt;</span>String, io::Error<span style=color:#f92672>&gt;</span> {
+    <span style=color:#66d9ef>let</span> <span style=color:#66d9ef>mut</span> s <span style=color:#f92672>=</span> String::new();
+
+    File::open(<span style=color:#e6db74>&#34;hello.txt&#34;</span>)<span style=color:#f92672>?</span>.read_to_string(<span style=color:#f92672>&amp;</span><span style=color:#66d9ef>mut</span> s)<span style=color:#f92672>?</span>;
+
+    Ok(s)
+}
+</code></pre></div><p>这段代码与上一段代码的作用相同：打开文件 -> 读取文件；但是这一段代码更简洁。<code>File::open</code> 调用结尾的 <code>?</code> 将会返回 <code>Ok</code> 中的值，也就是文件 <code>hello.txt</code> 的文件句柄。如果出现了错误，<code>?</code> 会提早返回整个函数并将一些 <code>Err</code> 值传播给调用者。同理也适用于 <code>read_to_string</code> 调用结尾的 <code>?</code>。</p><p><code>match</code> 表达式与问号运算符所做的有一点不同：<code>?</code> 所使用的错误值被传递给了 <code>from</code> 函数，它定义于标准库的 <code>From</code> trait 中，其用来将错误从一种类型转换为另一种类型。当 <code>?</code> 调用 <code>from</code> 函数时，收到的错误类型被转换为定义为当前函数返回的错误类型。这在当一个函数返回一个错误类型来代表所有可能失败的方式时很有用，即使其可能会因很多种原因失败。只要每一个错误类型都实现了 <code>from</code> 函数来定义如将其转换为返回的错误类型，<code>?</code> 会自动处理这些转换。</p><p><strong><code>?</code> 只能被用于返回 <code>Result</code> 的函数</strong></p><br><center>·End·</center></div><div class=post-copyright><p class=copyright-item><span>Author:</span>
+<span>Mogeko</span></p><p class=copyright-item><span>Link:</span>
+<a href=https://mogeko.me/2019/044/>https://mogeko.me/2019/044/</span></p><p class="copyright-item lincese">本文采用<a rel=license href=http://creativecommons.org/licenses/by-nc/4.0/ target=_blank>知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p></div><div class=post-tags><section><i class="iconfont icon-tag"></i>Tag(s):
+<span class=tag><a href=https://mogeko.me/tags/rust/>#Rust</a></span></section><section><a href=javascript:window.history.back();>back</a></span> ·
+<span><a href=https://mogeko.me>home</a></span></section></div><div class=post-nav><a href=https://mogeko.me/2019/043/ class=prev rel=prev title="The Little Printf"><i class="iconfont icon-left"></i>&nbsp;The Little Printf</a>
+<a href=https://mogeko.me/2019/045/ class=next rel=next title=扁平宝箱插画>扁平宝箱插画&nbsp;<i class="iconfont icon-right"></i></a></div><div class=post-comment><div id=utteranc-container><script src=https://utteranc.es/client.js repo=Mogeko/blog-commits issue-term=title theme=preferred-color-scheme crossorigin=anonymous async></script></div></div></article></div></main><footer class=footer><div class=copyright>&copy;
+<span itemprop=copyrightYear>2017 - 2020</span>
+<span class=with-love><i class="iconfont icon-love"></i></span><span class=author itemprop=copyrightHolder><a href=https://mogeko.me>Mogeko</a> |</span>
+<span>Powered by <a href=https://gohugo.io/ target=_blank rel="external nofollow">Hugo</a> & <a href=https://github.com/Mogeko/Mogege target=_blank rel="external nofollow">Mogege</a></span></div></footer><script defer src=/js/vendor_main.min.js></script><script src=https://cdn.jsdelivr.net/npm/pangu@4.0.7/dist/browser/pangu.min.js integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin=anonymous></script><script>pangu.spacingPage();</script></div></body></html>

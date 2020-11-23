@@ -1,0 +1,65 @@
+<!doctype html><html lang=zh-cn><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="chrome=1"><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><meta name=author content="Mogeko"><meta name=description content="Mogeko 的个人博客"><meta name=keywords content="blog,KMS,Hugo,GNU/Linux,Linux,Ubuntu,Rusty Lake: Roots,Hollow Knight,空洞骑士"><link rel=prev href=https://mogeko.me/2018/029/><link rel=next href=https://mogeko.me/2018/031/><link rel=canonical href=https://mogeko.me/2018/030/><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=manifest href=/site.webmanifest><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><meta name=msapplication-TileColor content="#da532c"><meta name=theme-color content="#ffffff"><title>subliminal | 电影字幕下载神器 | Mogeko`s Blog</title><meta name=title content="subliminal | 电影字幕下载神器 | Mogeko`s Blog"><link rel=stylesheet href=/css/main.min.css><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/mogeko.me"},"articleSection":"posts","name":"subliminal | 电影字幕下载神器","headline":"subliminal | 电影字幕下载神器","description":"-- subliminal 是一个基于 Python 的强大的命令行字幕搜索和下载工具。 最先知道 subliminal 是因为 MPV 播放器。配合插件 find_subtitles.lua 使用，在载入视频的同时搜索并下载中文字幕，简直天衣无缝","inLanguage":"zh-cn","author":"Mogeko","creator":"Mogeko","publisher":"Mogeko","accountablePerson":"Mogeko","copyrightHolder":"Mogeko","copyrightYear":"2018","datePublished":"2018-11-21 09:39:26 \u002b0800 \u002b0800","dateModified":"2018-11-21 09:39:26 \u002b0800 \u002b0800","url":"https:\/\/mogeko.me\/2018\/030\/","wordCount":"665","keywords":["Tools","Mogeko`s Blog"]}</script></head><body><div class=wrapper><nav class=navbar><progress class=content_progress max=0 value=0></progress><div class=container><div class="navbar-header header-back2home-logo"><span class=logo_mark>>$</span>
+<a href=https://mogeko.me><span class=logo_text>cd /home/</span>
+<span class=logo_cursor></span></a></div><div class=navbar-right><span class=menu><a class=menu-item href=/tools/>Tools</a>
+<a class=menu-item href=/posts/>Blog</a>
+<a class=menu-item href=/categories/>Categories</a>
+<a class=menu-item href=/tags/>Tags</a>
+<a class=menu-item href=/about/>About</a>
+<a class=menu-item href=/tools/></a><a class=menu-item href=/about/ title=Mogeko>Mogeko</a>
+<span class=divide></span><a href=javascript:void(0); class=theme-switch><i class="iconfont icon-dark-mode"></i></a></span></div></div></nav><nav class=navbar-mobile id=nav-mobile style=display:none><progress class=content_progress max=0 value=0></progress><div class=container><div class=navbar><div class="navbar-header header-logo"><a href=https://mogeko.me>Mogeko`s Blog</a></div><div class=navbar-right><div><a href=javascript:void(0); class=theme-switch><i class="iconfont icon-dark-mode"></i></a></div><div class=menu-toggle><span></span><span></span><span></span></div></div></div><div class=menu id=mobile-menu><nav class=mb-md><a class=menu-item href=/tools/><h3>Tools</h3><div class=menu-active></div></a><a class=menu-item href=/posts/><h3>Blog</h3><div class=menu-active></div></a><a class=menu-item href=/categories/><h3>Categories</h3><div class=menu-active></div></a><a class=menu-item href=/tags/><h3>Tags</h3><div class=menu-active></div></a><a class=menu-item href=/about/><h3>About</h3><div class=menu-active></div></a><a class=menu-item href=/tools/><h3></h3><div class=menu-active></div></a><a class=menu-item href=/about/ title=Mogeko><h3>Mogeko</h3><div class=menu-active></div></a></nav></div></div></nav><main class=main><div class=container><article class=post-warp itemscope itemtype=http://schema.org/Article><header class=post-header><h1 class=post-title itemprop="name headline">subliminal | 电影字幕下载神器</h1><div class=post-meta>Written by <a itemprop=name href=https://mogeko.me rel=author>Mogeko</a> with ♥
+<span class=post-time>on <time datetime=2018-11-21 itemprop=datePublished>November 21, 2018</time></span>
+in
+<i class="iconfont icon-folder"></i><span class=post-category><a href=https://mogeko.me/categories/%E5%85%B3%E4%BA%8E%E8%BD%AF%E4%BB%B6/>关于软件,</a></span>
+<span class=post-word-count>665 words</span></div></header><div class=post-content><p><a href=https://github.com/Diaoul/subliminal><strong>subliminal</strong></a> 是一个基于 Python 的强大的命令行字幕搜索和下载工具。</p><p>最先知道 <strong>subliminal</strong> 是因为 <strong>MPV</strong> 播放器。配合插件 <a href=https://github.com/directorscut82/find_subtitles/blob/master/find_subtitles.lua><strong>find_subtitles.lua</strong></a> 使用，在载入视频的同时搜索并下载中文字幕，简直天衣无缝。不过有的视频的文件名不是那么标准的话，就不一定能匹配得到合适的字幕。解决方法除了改文件名以外，还可以用 <strong>subliminal</strong> 手动搜索。</p><p><strong>subliminal</strong> 使用多个字幕网站做为数据源，包括世界上最大的开放式字幕库 <a href=http://opus.nlpl.eu/OpenSubtitles.php>opensubtitles</a></p><span class=spoiler>不幸的是，有几个字幕站被墙了，比如 podnapisi, legendastv, shooter…</span><br><p>GitHub 地址：<a href=https://github.com/Diaoul/subliminal>https://github.com/Diaoul/subliminal</a></p><br><p><img src=https://mogeko.github.io/blog-images/r/030/subliminal.png alt=subliminal loading=lazy></p><h2 id=依赖>依赖</h2><ul><li>python2</li></ul><h2 id=安装>安装</h2><p>首先安装 <code>python2</code> 和 <code>pip</code></p><p>然后在终端中输入：</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext>pip install subliminal
+</code></pre></div><h2 id=使用>使用</h2><p>在终端中输入：</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext>subliminal download -l zh [电影名称]
+</code></pre></div><p>例如，如果要下载「低俗小说」的字幕：</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext>subliminal download -l zh Pulp.Fiction.1994.720p.BluRay.DTS.x264-ESiR
+</code></pre></div><p><img src=https://mogeko.github.io/blog-images/r/030/return.png alt=return loading=lazy></p><p>部分字幕文件：</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-txt data-lang=txt>2
+00:00:14,480 --&gt; 00:00:18,850
+柔軟潮濕的物體
+
+3
+00:00:18,980 --&gt; 00:00:24,610
+低級趣味、印刷簡陋的書刊
+
+4
+00:00:27,620 --&gt; 00:00:31,590
+算了  太冒險了  我不幹
+
+5
+00:00:31,590 --&gt; 00:00:34,080
+你每次都這樣說
+
+6
+00:00:34,460 --&gt; 00:00:36,890
+太危險了…我不幹了…
+
+7
+00:00:37,060 --&gt; 00:00:39,530
+我哪一次說錯?
+</code></pre></div><p>居然是繁体，不过我一般遇到的都是简体中文的，而且繁体也不是不能看🤔</p><br><p>命令中的 <code>-l</code> 指定下载的字幕语言，例如要下载英语字幕：</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext>subliminal download -l cn Pulp.Fiction.1994.720p.BluRay.DTS.x264-ESiR
+</code></pre></div><h2 id=脚本>脚本</h2><p>除了手动输入命令行外，还可以使用脚本 Python 脚本。例如下面这个脚本就可以自动下载目录中视频文件对应的字幕：</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#f92672>from</span> datetime <span style=color:#f92672>import</span> timedelta
+ 
+<span style=color:#f92672>from</span> babelfish <span style=color:#f92672>import</span> Language
+<span style=color:#f92672>from</span> subliminal <span style=color:#f92672>import</span> download_best_subtitles, region, save_subtitles, scan_videos
+ 
+<span style=color:#75715e># configure the cache</span>
+region<span style=color:#f92672>.</span>configure(<span style=color:#e6db74>&#39;dogpile.cache.dbm&#39;</span>, arguments<span style=color:#f92672>=</span>{<span style=color:#e6db74>&#39;filename&#39;</span>: <span style=color:#e6db74>&#39;cachefile.dbm&#39;</span>})
+ 
+<span style=color:#75715e># scan for videos newer than 2 weeks and their existing subtitles in a folder</span>
+videos <span style=color:#f92672>=</span> scan_videos(<span style=color:#e6db74>&#39;/video/folder&#39;</span>, age<span style=color:#f92672>=</span>timedelta(weeks<span style=color:#f92672>=</span><span style=color:#ae81ff>2</span>))
+ 
+<span style=color:#75715e># download best subtitles</span>
+subtitles <span style=color:#f92672>=</span> download_best_subtitles(videos, {Language(<span style=color:#e6db74>&#39;eng&#39;</span>), Language(<span style=color:#e6db74>&#39;fra&#39;</span>)})
+ 
+<span style=color:#75715e># save them to disk, next to the video</span>
+<span style=color:#66d9ef>for</span> v <span style=color:#f92672>in</span> videos:
+    save_subtitles(v, subtitles[v])
+</code></pre></div><p>还有配合 <strong>MPV</strong> / <strong>GNOME MPV</strong> 播放器使用的脚本：<a href=https://github.com/directorscut82/find_subtitles/blob/master/find_subtitles.lua><strong>find_subtitles.lua</strong></a>  <a href=https://mogeko.github.io/2018/029>关于 GNOME MPV 播放器</a></p><p>需要注意的是 <strong>find_subtitles.lua 默认下载的是英文字幕，下载中午字幕需要在脚本中将 38 行的 <code>en</code> 替换换成 <code>zh</code></strong>。如果你觉得麻烦的话，可以使用我<a href=https://github.com/Mogeko/blog-commits/releases/download/029/find_subtitles.lua>修改过的版本</a>。</p><br><center>·End·</center></div><div class=post-copyright><p class=copyright-item><span>Author:</span>
+<span>Mogeko</span></p><p class=copyright-item><span>Link:</span>
+<a href=https://mogeko.me/2018/030/>https://mogeko.me/2018/030/</span></p><p class="copyright-item lincese">本文采用<a rel=license href=http://creativecommons.org/licenses/by-nc/4.0/ target=_blank>知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p></div><div class=post-tags><section><i class="iconfont icon-tag"></i>Tag(s):
+<span class=tag><a href=https://mogeko.me/tags/tools/>#Tools</a></span></section><section><a href=javascript:window.history.back();>back</a></span> ·
+<span><a href=https://mogeko.me>home</a></span></section></div><div class=post-nav><a href=https://mogeko.me/2018/029/ class=prev rel=prev title="GNOME MPV | GNU/Linux 下一个不错的流媒体播放器"><i class="iconfont icon-left"></i>&nbsp;GNOME MPV | GNU/Linux 下一个不错的流媒体播放器</a>
+<a href=https://mogeko.me/2018/031/ class=next rel=next title="GNU/Linux 输入法折腾笔记 (RIME)">GNU/Linux 输入法折腾笔记 (RIME)&nbsp;<i class="iconfont icon-right"></i></a></div><div class=post-comment><div id=utteranc-container><script src=https://utteranc.es/client.js repo=Mogeko/blog-commits issue-term=title theme=preferred-color-scheme crossorigin=anonymous async></script></div></div></article></div></main><footer class=footer><div class=copyright>&copy;
+<span itemprop=copyrightYear>2017 - 2020</span>
+<span class=with-love><i class="iconfont icon-love"></i></span><span class=author itemprop=copyrightHolder><a href=https://mogeko.me>Mogeko</a> |</span>
+<span>Powered by <a href=https://gohugo.io/ target=_blank rel="external nofollow">Hugo</a> & <a href=https://github.com/Mogeko/Mogege target=_blank rel="external nofollow">Mogege</a></span></div></footer><script defer src=/js/vendor_main.min.js></script><script src=https://cdn.jsdelivr.net/npm/pangu@4.0.7/dist/browser/pangu.min.js integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin=anonymous></script><script>pangu.spacingPage();</script></div></body></html>

@@ -1,0 +1,173 @@
+<!doctype html><html lang=zh-cn><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="chrome=1"><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><meta name=author content="Mogeko"><meta name=description content="Mogeko 的个人博客"><meta name=keywords content="blog,KMS,Hugo,GNU/Linux,Linux,Ubuntu,Rusty Lake: Roots,Hollow Knight,空洞骑士"><link rel=prev href=https://mogeko.me/2018/030/><link rel=next href=https://mogeko.me/2018/032/><link rel=canonical href=https://mogeko.me/2018/031/><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=manifest href=/site.webmanifest><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><meta name=msapplication-TileColor content="#da532c"><meta name=theme-color content="#ffffff"><title>GNU/Linux 输入法折腾笔记 (RIME) | Mogeko`s Blog</title><meta name=title content="GNU/Linux 输入法折腾笔记 (RIME) | Mogeko`s Blog"><link rel=stylesheet href=/css/main.min.css><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/mogeko.me"},"articleSection":"posts","name":"GNU\/Linux 输入法折腾笔记 (RIME)","headline":"GNU\/Linux 输入法折腾笔记 (RIME)","description":"-- 终于，我在也忍受不了 Ubuntu 18.04 自带的 ibus-libpinyin 了。决定好好配置以下输入法，本来以为最多半个小时就能搞定的事情，结果整整花了半天 _(:з」∠)_ 网上一搜发","inLanguage":"zh-cn","author":"Mogeko","creator":"Mogeko","publisher":"Mogeko","accountablePerson":"Mogeko","copyrightHolder":"Mogeko","copyrightYear":"2018","datePublished":"2018-11-21 12:38:05 \u002b0800 \u002b0800","dateModified":"2018-11-21 12:38:05 \u002b0800 \u002b0800","url":"https:\/\/mogeko.me\/2018\/031\/","wordCount":"3306","keywords":["GNU\/Linux","Ubuntu","Mogeko`s Blog"]}</script></head><body><div class=wrapper><nav class=navbar><progress class=content_progress max=0 value=0></progress><div class=container><div class="navbar-header header-back2home-logo"><span class=logo_mark>>$</span>
+<a href=https://mogeko.me><span class=logo_text>cd /home/</span>
+<span class=logo_cursor></span></a></div><div class=navbar-right><span class=menu><a class=menu-item href=/tools/>Tools</a>
+<a class=menu-item href=/posts/>Blog</a>
+<a class=menu-item href=/categories/>Categories</a>
+<a class=menu-item href=/tags/>Tags</a>
+<a class=menu-item href=/about/>About</a>
+<a class=menu-item href=/tools/></a><a class=menu-item href=/about/ title=Mogeko>Mogeko</a>
+<span class=divide></span><a href=javascript:void(0); class=theme-switch><i class="iconfont icon-dark-mode"></i></a></span></div></div></nav><nav class=navbar-mobile id=nav-mobile style=display:none><progress class=content_progress max=0 value=0></progress><div class=container><div class=navbar><div class="navbar-header header-logo"><a href=https://mogeko.me>Mogeko`s Blog</a></div><div class=navbar-right><div><a href=javascript:void(0); class=theme-switch><i class="iconfont icon-dark-mode"></i></a></div><div class=menu-toggle><span></span><span></span><span></span></div></div></div><div class=menu id=mobile-menu><nav class=mb-md><a class=menu-item href=/tools/><h3>Tools</h3><div class=menu-active></div></a><a class=menu-item href=/posts/><h3>Blog</h3><div class=menu-active></div></a><a class=menu-item href=/categories/><h3>Categories</h3><div class=menu-active></div></a><a class=menu-item href=/tags/><h3>Tags</h3><div class=menu-active></div></a><a class=menu-item href=/about/><h3>About</h3><div class=menu-active></div></a><a class=menu-item href=/tools/><h3></h3><div class=menu-active></div></a><a class=menu-item href=/about/ title=Mogeko><h3>Mogeko</h3><div class=menu-active></div></a></nav></div></div></nav><main class=main><div class=container><article class=post-warp itemscope itemtype=http://schema.org/Article><header class=post-header><h1 class=post-title itemprop="name headline">GNU/Linux 输入法折腾笔记 (RIME)</h1><div class=post-meta>Written by <a itemprop=name href=https://mogeko.me rel=author>Mogeko</a> with ♥
+<span class=post-time>on <time datetime=2018-11-21 itemprop=datePublished>November 21, 2018</time></span>
+in
+<i class="iconfont icon-folder"></i><span class=post-category><a href=https://mogeko.me/categories/%E5%85%B3%E4%BA%8E%E8%BD%AF%E4%BB%B6/>关于软件,</a></span>
+<span class=post-word-count>3306 words</span></div></header><div class=post-content><p>终于，我在也忍受不了 <strong>Ubuntu 18.04</strong> 自带的 <strong>ibus-libpinyin</strong> 了。决定好好配置以下输入法，本来以为最多半个小时就能搞定的事情，结果整整花了半天 _(:з」∠)_</p><p>网上一搜发现 <strong>搜狗拼音</strong> 有 GNU/Linux 版的，于是去官网下载了 <strong>搜狗拼音</strong> 的 deb 包，安装，全局终…</p><p>才怪 | ・ω・’）</p><p>当我看到 <strong>搜狗拼音</strong> 只能支持 <strong>fcitx 框架</strong> 时瞬间就放弃了。不是说 <strong>fcitx 框架</strong> 不好，只是觉得要换输入法框架太折腾了 (<strong>Ubuntu 18.4</strong> 预装了 <strong>ibus 框架</strong>)；后来事实证明，<strong>ibus 框架</strong> 不仅折腾，bug 还多…</p><span class=spoiler>早晓得就换 **fcitx 框架** 了 \_(:з」∠)\_</span><br><p>放弃 <strong>搜狗拼音</strong> 后，我又将目光投向了一款开源的跨平台输入法：<a href=https://rime.im><strong>RIME</strong></a></p><blockquote><p><strong>中州韵输入法引擎</strong>（英语：<strong>Rime Input Method Engine</strong>，又称<strong>Rime 输入法</strong>）是由佛振编写的<a href=https://zh.wikipedia.org/wiki/%E5%BC%80%E6%BA%90>开源</a><a href=https://zh.wikipedia.org/wiki/%E4%B8%AD%E6%96%87%E8%BC%B8%E5%85%A5%E6%B3%95>中文输入法</a>，目前项目网站、源代码均托管在<a href=https://zh.wikipedia.org/wiki/GitHub>GitHub</a>[<a href=https://zh.wikipedia.org/wiki/%E4%B8%AD%E5%B7%9E%E9%9F%BB%E8%BC%B8%E5%85%A5%E6%B3%95%E5%BC%95%E6%93%8E#cite_note-1>注 1]</a>。基于同一个核心架构，该输入法分为三个官方发行版：<a href=https://zh.wikipedia.org/wiki/Linux>Linux</a> 发行版<strong>中州韵</strong>（<a href=https://zh.wikipedia.org/wiki/Ibus>ibus</a>-rime）、<a href=https://zh.wikipedia.org/wiki/Microsoft_Windows>Windows</a>发行版<strong>小狼毫</strong>（Weasel）、<a href=https://zh.wikipedia.org/wiki/MacOS>macOS</a> 发行版<strong>鼠须管</strong>（Squirrel）。另有数个第三方发行版：<a href=https://zh.wikipedia.org/wiki/Linux>Linux</a> 发行版<strong>fcitx-rime</strong>、<a href=https://zh.wikipedia.org/wiki/Microsoft_Windows>Windows</a>发行版<strong>PRIME</strong>、<a href=https://zh.wikipedia.org/wiki/MacOS>macOS</a> 发行版<strong>XIME</strong>、<a href=https://zh.wikipedia.org/wiki/Android>Android</a>发行版<strong>同文输入法</strong>（Trime）、<a href=https://zh.wikipedia.org/wiki/IOS>iOS</a>发行版<strong>iRime</strong>。</p></blockquote><p>哇！开源输入法呢！！✪ω✪</p><p>去 TM 的资本主义 <strong>搜狗拼音</strong>，<del>开源输入法才配在睾贵的 GNU/Linux 上打字</del></p><p>于是便上了 <strong>RIME</strong> 的贼船 _(:з」∠)_</p><h2 id=关于输入法与输入法框架>关于输入法与输入法框架</h2><p>与 Windows 不同的是，GNU/Linux 下的中文输入法都是需要依赖于输入法框架的，这里的框架有 <strong>ibus</strong>、<strong>fcitx</strong> 等。<strong>输入法框架</strong> 可以通过 <strong>im-config</strong> 来进行配置。然后在 <strong>输入法框架</strong> 的配置中选择 <strong>输入法</strong>。</p><ul><li><p><strong>RIME</strong> 同时支持 <strong>ibus 框架</strong> 和 <strong>fcitx 框架</strong></p></li><li><p><strong>搜狗拼音</strong> 只支持 <strong>fcitx 框架</strong></p></li></ul><p><strong>提到 ibus 框架我就多说两句，我在使用基于 ibus 框架的输入法时 (ibus-libpinyin 和 ibus-rime)，偶尔会遇到打不出字的情况；调查后发现是因为 ibus 框架对于使用 Qt 编写的应用程序兼容性不好。没用过 fcitx，不知道兼容性这一方面会不会好一点</strong></p><h2 id=安装-rime>安装 RIME</h2><p>安装 <strong>RIME</strong> 很简单，大多数软件仓库都是收录了 <strong>RIME</strong> 的，所以只需要使用各自系统的包管理器安装即可</p><h3 id=archlinux>Archlinux</h3><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext>pacman -S ibus-rime
+</code></pre></div><h3 id=ubuntu--debian>Ubuntu / Debian</h3><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext>sudo apt-get install ibus-rime
+</code></pre></div><p><strong>Ubuntu PPA:</strong></p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext>sudo add-apt-repository ppa:lotem/rime
+sudo apt-get update
+sudo apt-get install ibus-rime
+</code></pre></div><h3 id=fedora--centos>Fedora / CentOS</h3><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext>sudo yum install ibus-rime
+</code></pre></div><p>更多发行版请参考：<a href=https://github.com/rime/home/wiki/RimeWithIBus><strong>ibus-rime</strong> 各发行版安装说明</a></p><br><p><strong>fcitx 框架</strong> 版本请参考：<a href=https://github.com/fcitx/fcitx-rime><strong>fcitx-rime</strong></a></p><h2 id=配置-rime>配置 RIME</h2><p>最让人头疼的配置环节来了，我在这里就因为没好好看<a href=https://github.com/rime/home/wiki/CustomizationGuide>说明书 (Rime 定制指南)</a> <span class=spoiler>繁体中文看得我眼睛痛 °(°ˊДˋ°) °</span> 走了很多弯路。</p><p><strong>RIME</strong> 的配置文件在 <code>~/.config/ibus/rime</code> 中。</p><p>文件夹中的 <code>*.yaml</code> 就是配置文件了。简单介绍一下各个配置文件的作用：</p><ul><li><p><code>default.yaml</code>: 全局配置文件</p></li><li><p><code>weasel.yaml</code>: 发行版的配置文件 (<a href=https://github.com/rime/weasel><strong>weasel</strong></a> 是 Windows 下的 RIME 发行版)</p></li><li><p><code>installation.yaml</code>: 安装信息 (可以用来配置同步目录)</p></li><li><p><code>*.schema.yaml</code>: 各输入方案的配置文件</p></li><li><p><code>*.dict.yaml</code>: 输入方案配套的词典源文件</p></li><li><p><code>*.custom.yaml</code>: 用户对 <code>default.yaml</code>、<code>*.schema.yaml</code> 等配置文件进行修改的配置文件</p></li></ul><p>直接修改配置文件 -> 保存 -> 部署就可以使用了，不过这样做会有一个问题——<strong>升级时，RIME 会覆盖配置文件</strong>。也就是说一旦升级就要重新配置！这显然是不合理的，因此 <strong>RIME</strong> 采用了一种用 <code>*.custom.yaml</code> 去部署 <code>*.yaml</code> 的方式进行配置。</p><p>需要改哪个文件就按照 <code>[文件名].custom.yaml</code> 的格式新建一个文件 (例如修改 <code>default.yaml</code> 就新建一个 <code>default.custom.yaml</code>)，将需要修改的内容<strong>按特定格式</strong>写在 <code>*.custom.yaml</code> 文件中 -> 保存 -> 部署就 OK 了。升级时不会覆盖 <code>*.custom.yaml</code> 文件，所以也不用担心配置文件被覆盖的问题。</p><p>需要注意的是 <strong><code>*.custom.yaml</code> 使用的语法与 <code>*.yaml</code> 不同，一定要按照规定的语法来写，不然会出错</strong> <span class=spoiler>我就被坑了  \_(:з」∠)\_</span></p><h4 id=customyaml-的写法>*.custom.yaml 的写法</h4><p>例如想修改无论中文模式或者英文模式，按键 <code>/</code> 输入 <code>/</code> (中文模式中默认是让你自己选择)</p><p>在 <code>default.yaml</code> 中有如下配置：</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=color:#f92672>punctuator</span>:
+  <span style=color:#f92672>full_shape</span>:
+    <span style=color:#f92672>&#34;/&#34;: </span>[<span style=color:#e6db74>&#34;／&#34;</span>, <span style=color:#e6db74>&#34;÷&#34;</span>]
+  <span style=color:#f92672>half_shape</span>:
+    <span style=color:#e6db74>&#34;/&#34;</span> : [<span style=color:#e6db74>&#34;、&#34;</span>, <span style=color:#e6db74>&#34;/&#34;</span>, <span style=color:#e6db74>&#34;／&#34;</span>, <span style=color:#e6db74>&#34;÷&#34;</span>]
+</code></pre></div><p>我们需要在 <code>default.custom.yaml</code> 中配置：</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=color:#f92672>patch</span>:
+  <span style=color:#f92672>punctuator/full_shape</span>:
+    <span style=color:#e6db74>&#34;/&#34;</span> : <span style=color:#e6db74>&#34;/&#34;</span>
+  <span style=color:#f92672>punctuator/half_shape</span>:
+    <span style=color:#e6db74>&#34;/&#34;</span> : <span style=color:#e6db74>&#34;/&#34;</span>
+</code></pre></div><p>看出其中的区别了吗？</p><p><strong>在 <code>default.custom.yaml</code> 使用<code>[语句]/[语句]</code> 匹配 <code>default.yaml</code> 中的缩进</strong></p><br><p>如果没看清楚的话来看看下面这个例子：</p><p>很多时候我们想输入英文，但现在的输入模式是中文，并且用户并不知道现在的输入模式是中文。我们可能会在「中文模式」下打出一段“英文”，然后按 <code>Shift</code> 切换到「英文模式」那么已经输入的那段“英文”应当如何处理呢？<strong>RIME</strong> 提供了五种策略：</p><ul><li><strong>inline_ascii</strong>: 在输入法的临时英文编辑区内输入字母、数字、符号、空格等，回车上屏后自动复位到中文</li><li><strong>commit_text</strong>: 已输入的候选文字上屏并切换至西文输入模式</li><li><strong>commit_code</strong>: 已输入的编码字符上屏并切换至西文输入模式</li><li><strong>clear</strong>: 丢弃已输入的内容并切换至西文输入模式</li><li><strong>noop</strong>: 屏蔽该切换键</li></ul><p>想要修改 <code>Shift</code> 的上词方式为 <strong>commit_code</strong></p><p>在 <code>default.yaml</code> 中有如下配置：</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=color:#f92672>ascii_composer</span>:
+  <span style=color:#f92672>good_old_caps_lock</span>: <span style=color:#66d9ef>true</span>
+  <span style=color:#f92672>switch_key</span>:
+    <span style=color:#f92672>Shift_L</span>: <span style=color:#ae81ff>commit_text</span>
+</code></pre></div><p>按照<code>[语句]/[语句]</code> 匹配缩进的原则，我们在 <code>default.custom.yaml</code> 中配置：</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=color:#f92672>patch</span>:
+	<span style=color:#f92672>&#34;ascii_composer/switch_key/Shift_L&#34;: </span><span style=color:#ae81ff>commit_code</span>
+</code></pre></div><h3 id=我的配置文件>我的配置文件</h3><p><strong>default.custom.yaml:</strong></p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=color:#f92672>patch</span>:
+    <span style=color:#75715e># 横向显示候选词（并没有什么卵用，ibus-rime 的候选词是由 ibus 控制的）</span>
+    <span style=color:#f92672>&#34;style/horizontal&#34;: </span><span style=color:#66d9ef>true</span>
+    <span style=color:#75715e># 左/右 Shift 的上词方式</span>
+    <span style=color:#f92672>&#34;ascii_composer/switch_key/Shift_L&#34;: </span><span style=color:#ae81ff>commit_code</span>
+    <span style=color:#f92672>&#34;ascii_composer/switch_key/Shift_R&#34;: </span><span style=color:#ae81ff>inline_ascii</span>
+    <span style=color:#75715e># 绑定 &#34;/&#34; 为 &#34;/&#34;</span>
+    <span style=color:#e6db74>&#34;punctuator/full_shape&#34;</span>:
+        <span style=color:#f92672>&#34;/&#34;: </span><span style=color:#e6db74>&#34;/&#34;</span>
+    <span style=color:#e6db74>&#34;punctuator/half_shape&#34;</span>:
+        <span style=color:#f92672>&#34;/&#34;: </span><span style=color:#e6db74>&#34;/&#34;</span>
+
+    <span style=color:#75715e># 针对以下应用使用英文模式 (好像只在 Mac OS 和 Windows 下有用)</span>
+    <span style=color:#75715e># &#34;app_options/code-url-handler&#34;:</span>
+    <span style=color:#75715e>#     ascii_mode: true</span>
+    <span style=color:#75715e># &#34;app_options/org.gnome.Terminal&#34;:</span>
+    <span style=color:#75715e>#     ascii_mode: true</span>
+    <span style=color:#75715e># &#34;app_options/org.gnome.Shell&#34;:</span>
+    <span style=color:#75715e>#     ascii_mode: true</span>
+    <span style=color:#75715e># &#34;app_options/google-chrome&#34;:</span>
+    <span style=color:#75715e>#     ascii_mode: true</span>
+    <span style=color:#75715e># &#34;app_options/vim&#34;:</span>
+    <span style=color:#75715e>#     ascii_mode: true</span>
+
+</code></pre></div><p><strong>installation.yaml:</strong></p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=color:#f92672>distribution_code_name</span>: <span style=color:#e6db74>&#34;ibus-rime&#34;</span>                                             
+<span style=color:#f92672>distribution_name</span>: <span style=color:#ae81ff>Rime</span>
+<span style=color:#f92672>distribution_version</span>: <span style=color:#ae81ff>1.2</span> 
+<span style=color:#f92672>install_time</span>: <span style=color:#e6db74>&#34;Sat Nov 17 08:39:26 2018&#34;</span>
+<span style=color:#f92672>installation_id</span>: <span style=color:#e6db74>&#34;Ubuntu&#34;</span>
+<span style=color:#f92672>rime_version</span>: <span style=color:#ae81ff>1.2.9</span>
+
+<span style=color:#f92672>sync_dir</span>: <span style=color:#e6db74>&#34;/home/mogeko/Dropbox/sync/Rime&#34;</span> <span style=color:#75715e># 存放同步文件的地址</span>
+</code></pre></div><p>因为配置了 <strong>模糊音</strong> 和 <strong>扩充词库</strong>，<code>luna_pinyin.custom.yaml</code> 里面的配置过于复杂，我就不贴出来了，后面会给大家讲解 <a href=#%E6%A8%A1%E7%B3%8A%E6%8B%BC%E9%9F%B3><strong>如何配置模糊音</strong></a> 以及<a href=#%E6%89%A9%E5%B1%95%E8%AF%8D%E5%BA%93> <strong>如何配置扩充词库</strong></a> 的。</p><h3 id=模糊拼音>模糊拼音</h3><p>配置模糊拼音需要配置各 (某) 输入方案的配置文件</p><p>这里是官方给的一个模板 (朙月拼音) -> <a href=https://gist.github.com/lotem/2320943>【朙月拼音】模糊音定製模板</a></p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=color:#75715e># luna_pinyin.custom.yaml</span>
+<span style=color:#75715e>#</span>
+<span style=color:#75715e># 【朙月拼音】模糊音定製模板</span>
+<span style=color:#75715e>#   佛振配製 :-)</span>
+<span style=color:#75715e>#</span>
+<span style=color:#75715e># 位置：</span>
+<span style=color:#75715e># ~/.config/ibus/rime  (Linux)</span>
+<span style=color:#75715e># ~/Library/Rime  (Mac OS)</span>
+<span style=color:#75715e># %APPDATA%\Rime  (Windows)</span>
+<span style=color:#75715e>#</span>
+<span style=color:#75715e># 於重新部署後生效</span>
+<span style=color:#75715e>#</span>
+
+<span style=color:#f92672>patch</span>:
+  <span style=color:#f92672>&#39;speller/algebra&#39;</span>:
+    - <span style=color:#ae81ff>erase/^xx$/                     </span> <span style=color:#75715e># 第一行保留</span>
+
+    <span style=color:#75715e># 模糊音定義</span>
+    <span style=color:#75715e># 需要哪組就刪去行首的 # 號，單雙向任選</span>
+    <span style=color:#75715e>#- derive/^([zcs])h/$1/             # zh, ch, sh =&gt; z, c, s</span>
+    <span style=color:#75715e>#- derive/^([zcs])([^h])/$1h$2/     # z, c, s =&gt; zh, ch, sh</span>
+
+    <span style=color:#75715e>#- derive/^n/l/                     # n =&gt; l</span>
+    <span style=color:#75715e>#- derive/^l/n/                     # l =&gt; n</span>
+
+    <span style=color:#75715e># 這兩組一般是單向的</span>
+    <span style=color:#75715e>#- derive/^r/l/                     # r =&gt; l</span>
+
+    <span style=color:#75715e>#- derive/^ren/yin/                 # ren =&gt; yin, reng =&gt; ying</span>
+    <span style=color:#75715e>#- derive/^r/y/                     # r =&gt; y</span>
+
+    <span style=color:#75715e># 下面 hu &lt;=&gt; f 這組寫法複雜一些，分情況討論</span>
+    <span style=color:#75715e>#- derive/^hu$/fu/                  # hu =&gt; fu</span>
+    <span style=color:#75715e>#- derive/^hong$/feng/              # hong =&gt; feng</span>
+    <span style=color:#75715e>#- derive/^hu([in])$/fe$1/          # hui =&gt; fei, hun =&gt; fen</span>
+    <span style=color:#75715e>#- derive/^hu([ao])/f$1/            # hua =&gt; fa, ...</span>
+
+    <span style=color:#75715e>#- derive/^fu$/hu/                  # fu =&gt; hu</span>
+    <span style=color:#75715e>#- derive/^feng$/hong/              # feng =&gt; hong</span>
+    <span style=color:#75715e>#- derive/^fe([in])$/hu$1/          # fei =&gt; hui, fen =&gt; hun</span>
+    <span style=color:#75715e>#- derive/^f([ao])/hu$1/            # fa =&gt; hua, ...</span>
+
+    <span style=color:#75715e># 韻母部份</span>
+    <span style=color:#75715e>#- derive/^([bpmf])eng$/$1ong/      # meng = mong, ...</span>
+    <span style=color:#75715e>#- derive/([ei])n$/$1ng/            # en =&gt; eng, in =&gt; ing</span>
+    <span style=color:#75715e>#- derive/([ei])ng$/$1n/            # eng =&gt; en, ing =&gt; in</span>
+
+    <span style=color:#75715e># 樣例足夠了，其他請自己總結……</span>
+
+    <span style=color:#75715e># 反模糊音？</span>
+    <span style=color:#75715e># 誰說方言沒有普通話精確、有模糊音，就能有反模糊音。</span>
+    <span style=color:#75715e># 示例爲分尖團的中原官話：</span>
+    <span style=color:#75715e>#- derive/^ji$/zii/   # 在設計者安排下鳩佔鵲巢，尖音i只好雙寫了</span>
+    <span style=color:#75715e>#- derive/^qi$/cii/</span>
+    <span style=color:#75715e>#- derive/^xi$/sii/</span>
+    <span style=color:#75715e>#- derive/^ji/zi/</span>
+    <span style=color:#75715e>#- derive/^qi/ci/</span>
+    <span style=color:#75715e>#- derive/^xi/si/</span>
+    <span style=color:#75715e>#- derive/^ju/zv/</span>
+    <span style=color:#75715e>#- derive/^qu/cv/</span>
+    <span style=color:#75715e>#- derive/^xu/sv/</span>
+    <span style=color:#75715e># 韻母部份，只能從大面上覆蓋</span>
+    <span style=color:#75715e>#- derive/^([bpm])o$/$1eh/          # bo =&gt; beh, ...</span>
+    <span style=color:#75715e>#- derive/(^|[dtnlgkhzcs]h?)e$/$1eh/  # ge =&gt; geh, se =&gt; sheh, ...</span>
+    <span style=color:#75715e>#- derive/^([gkh])uo$/$1ue/         # guo =&gt; gue, ...</span>
+    <span style=color:#75715e>#- derive/^([gkh])e$/$1uo/          # he =&gt; huo, ...</span>
+    <span style=color:#75715e>#- derive/([uv])e$/$1o/             # jue =&gt; juo, lve =&gt; lvo, ...</span>
+    <span style=color:#75715e>#- derive/^fei$/fi/                 # fei =&gt; fi</span>
+    <span style=color:#75715e>#- derive/^wei$/vi/                 # wei =&gt; vi</span>
+    <span style=color:#75715e>#- derive/^([nl])ei$/$1ui/          # nei =&gt; nui, lei =&gt; lui</span>
+    <span style=color:#75715e>#- derive/^([nlzcs])un$/$1vn/       # lun =&gt; lvn, zun =&gt; zvn, ... </span>
+    <span style=color:#75715e>#- derive/^([nlzcs])ong$/$1iong/    # long =&gt; liong, song =&gt; siong, ...</span>
+    <span style=color:#75715e># 這個辦法雖從拼寫上做出了區分，然而受詞典制約，候選字仍是混的。</span>
+    <span style=color:#75715e># 只有真正的方音輸入方案纔能做到！但「反模糊音」這個玩法快速而有效！</span>
+
+    <span style=color:#75715e># 模糊音定義先於簡拼定義，方可令簡拼支持以上模糊音</span>
+    - <span style=color:#ae81ff>abbrev/^([a-z]).+$/$1/          </span> <span style=color:#75715e># 簡拼（首字母）</span>
+    - <span style=color:#ae81ff>abbrev/^([zcs]h).+$/$1/         </span> <span style=color:#75715e># 簡拼（zh, ch, sh）</span>
+
+    <span style=color:#75715e># 以下是一組容錯拼寫，《漢語拼音》方案以前者爲正</span>
+    - <span style=color:#ae81ff>derive/^([nl])ve$/$1ue/         </span> <span style=color:#75715e># nve = nue, lve = lue</span>
+    - <span style=color:#ae81ff>derive/^([jqxy])u/$1v/          </span> <span style=color:#75715e># ju = jv,</span>
+    - <span style=color:#ae81ff>derive/un$/uen/                 </span> <span style=color:#75715e># gun = guen,</span>
+    - <span style=color:#ae81ff>derive/ui$/uei/                 </span> <span style=color:#75715e># gui = guei,</span>
+    - <span style=color:#ae81ff>derive/iu$/iou/                 </span> <span style=color:#75715e># jiu = jiou,</span>
+
+    <span style=color:#75715e># 自動糾正一些常見的按鍵錯誤</span>
+    - <span style=color:#ae81ff>derive/([aeiou])ng$/$1gn/       </span> <span style=color:#75715e># dagn =&gt; dang </span>
+    - <span style=color:#ae81ff>derive/([dtngkhrzcs])o(u|ng)$/$1o/ </span> <span style=color:#75715e># zho =&gt; zhong|zhou</span>
+    - <span style=color:#ae81ff>derive/ong$/on/                 </span> <span style=color:#75715e># zhonguo =&gt; zhong guo</span>
+    - <span style=color:#ae81ff>derive/ao$/oa/                  </span> <span style=color:#75715e># hoa =&gt; hao</span>
+    - <span style=color:#ae81ff>derive/([iu])a(o|ng?)$/a$1$2/   </span> <span style=color:#75715e># tain =&gt; tian</span>
+
+  <span style=color:#75715e># 分尖團後 v =&gt; ü 的改寫條件也要相應地擴充：</span>
+  <span style=color:#75715e>#&#39;translator/preedit_format&#39;:</span>
+  <span style=color:#75715e>#  - &#34;xform/([nljqxyzcs])v/$1ü/&#34;</span>
+</code></pre></div><p>将模板剪贴进 <code>~/.config/ibus/rime/luna_pinyin.custom.yaml</code> 文件中，然后需要哪组就去掉那一行前面的 <code>#</code> 即可</p><h3 id=扩展词库>扩展词库</h3><p><strong>RIME</strong> 的默认词库并没有多大，因为作者希望用户在与 <strong>RIME</strong> 磨合的过程中自己积累用户词库，确实自己养起来的词库更顺手，但养词库的过程多少还是有点痛苦的，好在 <strong>RIME</strong> 支持 <strong>扩展词库</strong></p><p>这里使用的是 <a href=https://github.com/xiaoTaoist>xiaoTaoist</a> 制作的词库扩展包</p><p><a href=https://github.com/xiaoTaoist/rime-dict>GitHub 地址</a>  <a href=https://github.com/Mogeko/blog-commits/releases/download/031/rime-dict.zip>下载地址</a></p><h4 id=使用方法>使用方法</h4><p>将解压出来的所以文件复制到 <code>~/.config/ibus/rime</code> 文件夹下即可</p><br><p><code>luna_pinyin.custom.yaml</code> 要被覆盖？！那<strong>模糊拼音</strong>的配置岂不是…</p><p>不用担心。这个扩展词库的 <code>luna_pinyin.custom.yaml</code> 中也包含了<strong>模糊拼音</strong>的功能，按相同方法开启即可</p><h2 id=同步>同步</h2><p>众所周知，<strong>RIME</strong> 是一个跨平台的输入法，那么每个平台都这么配置一遍岂不是很麻烦？</p><p>不用担心。这个问题可以通过<strong>同步</strong>来解决 (顺便还解决了不同平台共享词库的需求)</p><br><p>只需要在 <code>~/.config/ibus/installation.yaml</code> 文件中添加：</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=color:#f92672>sync_dir</span>: <span style=color:#e6db74>&#34;[用来存放同步文件的地址]&#34;</span>
+</code></pre></div><p>然后，<strong>部署</strong> -> <strong>同步</strong>，你的<strong>用户配置</strong>、<strong>用户词库</strong> 等都会被放在你配置的同步文件地址里。</p><p>如果你换了新的电脑，只需要将同步文件拷贝过去，然后配置一下 <code>installation.yaml</code> 文件，执行 <strong>部署</strong> -> <strong>同步</strong> -> <strong>部署</strong> ，你的 <strong>用户配置</strong>、<strong>用户词库</strong> 都回来了。</p><br><center>·End·</center></div><div class=post-copyright><p class=copyright-item><span>Author:</span>
+<span>Mogeko</span></p><p class=copyright-item><span>Link:</span>
+<a href=https://mogeko.me/2018/031/>https://mogeko.me/2018/031/</span></p><p class="copyright-item lincese">本文采用<a rel=license href=http://creativecommons.org/licenses/by-nc/4.0/ target=_blank>知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p></div><div class=post-tags><section><i class="iconfont icon-tag"></i>Tag(s):
+<span class=tag><a href=https://mogeko.me/tags/gnu/linux/>#GNU/Linux</a></span>
+<span class=tag><a href=https://mogeko.me/tags/ubuntu/>#Ubuntu</a></span></section><section><a href=javascript:window.history.back();>back</a></span> ·
+<span><a href=https://mogeko.me>home</a></span></section></div><div class=post-nav><a href=https://mogeko.me/2018/030/ class=prev rel=prev title="subliminal | 电影字幕下载神器"><i class="iconfont icon-left"></i>&nbsp;subliminal | 电影字幕下载神器</a>
+<a href=https://mogeko.me/2018/032/ class=next rel=next title="GNU/Linux 技巧：如何快速的找到一个文件">GNU/Linux 技巧：如何快速的找到一个文件&nbsp;<i class="iconfont icon-right"></i></a></div><div class=post-comment><div id=utteranc-container><script src=https://utteranc.es/client.js repo=Mogeko/blog-commits issue-term=title theme=preferred-color-scheme crossorigin=anonymous async></script></div></div></article></div></main><footer class=footer><div class=copyright>&copy;
+<span itemprop=copyrightYear>2017 - 2020</span>
+<span class=with-love><i class="iconfont icon-love"></i></span><span class=author itemprop=copyrightHolder><a href=https://mogeko.me>Mogeko</a> |</span>
+<span>Powered by <a href=https://gohugo.io/ target=_blank rel="external nofollow">Hugo</a> & <a href=https://github.com/Mogeko/Mogege target=_blank rel="external nofollow">Mogege</a></span></div></footer><script defer src=/js/vendor_main.min.js></script><script src=https://cdn.jsdelivr.net/npm/pangu@4.0.7/dist/browser/pangu.min.js integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin=anonymous></script><script>pangu.spacingPage();</script></div></body></html>

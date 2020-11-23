@@ -1,0 +1,57 @@
+<!doctype html><html lang=zh-cn><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="chrome=1"><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><meta name=author content="Mogeko"><meta name=description content="Mogeko 的个人博客"><meta name=keywords content="blog,KMS,Hugo,GNU/Linux,Linux,Ubuntu,Rusty Lake: Roots,Hollow Knight,空洞骑士"><link rel=prev href=https://mogeko.me/2019/050/><link rel=next href=https://mogeko.me/2019/052/><link rel=canonical href=https://mogeko.me/2019/051/><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=manifest href=/site.webmanifest><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><meta name=msapplication-TileColor content="#da532c"><meta name=theme-color content="#ffffff"><title>Rust 生命周期中的一些坑 | Mogeko`s Blog</title><meta name=title content="Rust 生命周期中的一些坑 | Mogeko`s Blog"><link rel=stylesheet href=/css/main.min.css><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/mogeko.me"},"articleSection":"posts","name":"Rust 生命周期中的一些坑","headline":"Rust 生命周期中的一些坑","description":"\u0026emsp;\u0026emsp; -- 前面有一篇文章介绍了什么是 Rust 的生命周期？这里补充一些关于 Rust 的生命周期不容易被注意到的细节。 因为我水平有限，有的概念可能不是很全面，甚至可","inLanguage":"zh-cn","author":"Mogeko","creator":"Mogeko","publisher":"Mogeko","accountablePerson":"Mogeko","copyrightHolder":"Mogeko","copyrightYear":"2019","datePublished":"2019-04-04 21:17:33 \u002b0800 \u002b0800","dateModified":"2019-04-04 21:17:33 \u002b0800 \u002b0800","url":"https:\/\/mogeko.me\/2019\/051\/","wordCount":"973","keywords":["Rust","Mogeko`s Blog"]}</script></head><body><div class=wrapper><nav class=navbar><progress class=content_progress max=0 value=0></progress><div class=container><div class="navbar-header header-back2home-logo"><span class=logo_mark>>$</span>
+<a href=https://mogeko.me><span class=logo_text>cd /home/</span>
+<span class=logo_cursor></span></a></div><div class=navbar-right><span class=menu><a class=menu-item href=/tools/>Tools</a>
+<a class=menu-item href=/posts/>Blog</a>
+<a class=menu-item href=/categories/>Categories</a>
+<a class=menu-item href=/tags/>Tags</a>
+<a class=menu-item href=/about/>About</a>
+<a class=menu-item href=/tools/></a><a class=menu-item href=/about/ title=Mogeko>Mogeko</a>
+<span class=divide></span><a href=javascript:void(0); class=theme-switch><i class="iconfont icon-dark-mode"></i></a></span></div></div></nav><nav class=navbar-mobile id=nav-mobile style=display:none><progress class=content_progress max=0 value=0></progress><div class=container><div class=navbar><div class="navbar-header header-logo"><a href=https://mogeko.me>Mogeko`s Blog</a></div><div class=navbar-right><div><a href=javascript:void(0); class=theme-switch><i class="iconfont icon-dark-mode"></i></a></div><div class=menu-toggle><span></span><span></span><span></span></div></div></div><div class=menu id=mobile-menu><nav class=mb-md><a class=menu-item href=/tools/><h3>Tools</h3><div class=menu-active></div></a><a class=menu-item href=/posts/><h3>Blog</h3><div class=menu-active></div></a><a class=menu-item href=/categories/><h3>Categories</h3><div class=menu-active></div></a><a class=menu-item href=/tags/><h3>Tags</h3><div class=menu-active></div></a><a class=menu-item href=/about/><h3>About</h3><div class=menu-active></div></a><a class=menu-item href=/tools/><h3></h3><div class=menu-active></div></a><a class=menu-item href=/about/ title=Mogeko><h3>Mogeko</h3><div class=menu-active></div></a></nav></div></div></nav><main class=main><div class=container><article class=post-warp itemscope itemtype=http://schema.org/Article><header class=post-header><h1 class=post-title itemprop="name headline">Rust 生命周期中的一些坑</h1><div class=post-meta>Written by <a itemprop=name href=https://mogeko.me rel=author>Mogeko</a> with ♥
+<span class=post-time>on <time datetime=2019-04-04 itemprop=datePublished>April 4, 2019</time></span>
+in
+<i class="iconfont icon-folder"></i><span class=post-category></span><span class=post-word-count>973 words</span></div></header><div class=post-content><p>前面有一篇文章介绍了<a href=https://mogeko.github.io/2019/050/>什么是 Rust 的生命周期？</a>这里补充一些关于 Rust 的生命周期不容易被注意到的细节。</p><p>因为我水平有限，有的概念可能不是很全面，甚至可能有偏差，还请多多指点。</p><h2 id=生命周期是完全静态的>生命周期是完全静态的</h2><p>Rust 的看家本领就是静态检测，所有实例的生命周期都是在编译时就被确定好的。</p><p>所以不要问：“为什么生命周期不能根据实际情况自动确定？”因为真的做不到！</p><h2 id=let-可以绑定所有权><code>let</code> 可以绑定所有权</h2><p>除了绑定所有者和数据外，<code>let</code> 还可以绑定所有者和数据之间的所有权。绑定了所有权，也就绑定了生命周期。</p><p>这是理所当然的事实，但是经常被人忽略。</p><h2 id=形参与实参的生命周期是相互绑定的>形参与实参的生命周期是相互绑定的</h2><p>与 <code>let</code> 相似，函数中的形式参数与实际参数的生命周期是相互绑定的。同样的，函数返回值和函数实体的拥有者的生命周期也是相互绑定的，因为返回值的生命周期与函数实体相互绑定，而函数实体与拥有者相互绑定。</p><p>举个例子：</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-rust data-lang=rust><span style=color:#66d9ef>fn</span> <span style=color:#a6e22e>sum</span>(x: <span style=color:#66d9ef>u32</span>, y: <span style=color:#66d9ef>u32</span>) -&gt; <span style=color:#66d9ef>u32</span> {
+      x <span style=color:#f92672>+</span> y
+ }
+
+ <span style=color:#66d9ef>fn</span> <span style=color:#a6e22e>main</span>(){
+     <span style=color:#66d9ef>let</span> a <span style=color:#f92672>=</span> <span style=color:#ae81ff>1</span>;
+     <span style=color:#66d9ef>let</span> b <span style=color:#f92672>=</span> <span style=color:#ae81ff>2</span>;
+     <span style=color:#66d9ef>let</span> c <span style=color:#f92672>=</span> sum(a, b);
+ }
+</code></pre></div><p><code>x</code> 与<code>a</code> 相互绑定，<code>c</code> 与 <code>sum()</code> 与 <code>a + b</code> 相互绑定。</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext>a -&gt; x
+x + y -&gt; sum() -&gt; c
+</code></pre></div><p>结构体中也是类似的：</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-rust data-lang=rust><span style=color:#66d9ef>struct</span> <span style=color:#a6e22e>Foo</span> {
+    x: <span style=color:#66d9ef>i32</span>,
+}
+
+<span style=color:#66d9ef>fn</span> <span style=color:#a6e22e>main</span>() {
+    <span style=color:#66d9ef>let</span> y <span style=color:#f92672>=</span> <span style=color:#ae81ff>5</span>; 
+    <span style=color:#66d9ef>let</span> f <span style=color:#f92672>=</span> Foo { x: <span style=color:#a6e22e>y</span> };
+}
+</code></pre></div><p><code>x</code> 与 <code>y</code> 相互绑定，结构体 <code>Foo</code> 与 <code>f</code> 相互绑定。</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext>x -&gt; a
+Foo -&gt; f
+</code></pre></div><p>这同样也是理所当然但容易被人忽视的事实，这里提出来也是为了给下一条做铺垫。</p><h2 id=生命周期标记的影响不仅仅是函数-结构体-内部>生命周期标记的影响不仅仅是函数 (结构体) 内部</h2><p>准确的说应该是生命周期标记可以通过影响函数 (结构体) 内部来对函数实体的拥有者和传入的实际参数产生影响。具体原因就是上面提到的形式参数与实际参数的生命周期相互绑定，函数返回值和函数实体的拥有者的生命周期相互绑定。</p><p>举个例子：</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-rust data-lang=rust><span style=color:#66d9ef>fn</span> <span style=color:#a6e22e>foo</span><span style=color:#f92672>&lt;</span><span style=color:#a6e22e>&#39;a</span><span style=color:#f92672>&gt;</span>(x: <span style=color:#66d9ef>&amp;</span><span style=color:#a6e22e>&#39;a</span> <span style=color:#66d9ef>str</span>, y: <span style=color:#66d9ef>&amp;</span><span style=color:#66d9ef>str</span>) -&gt; Vec<span style=color:#f92672>&lt;&amp;</span><span style=color:#a6e22e>&#39;a</span> <span style=color:#66d9ef>str</span><span style=color:#f92672>&gt;</span> {
+    <span style=color:#66d9ef>let</span> <span style=color:#66d9ef>mut</span> results <span style=color:#f92672>=</span> Vec::new();
+
+    <span style=color:#66d9ef>if</span> x.contains(y) {
+        results.push(x);
+    }
+
+    results
+}
+
+<span style=color:#66d9ef>fn</span> <span style=color:#a6e22e>main</span>() {
+    <span style=color:#66d9ef>let</span> a <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;I&#39;m foo&#34;</span>;
+    <span style=color:#66d9ef>let</span> b <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;foo&#34;</span>;
+    <span style=color:#66d9ef>let</span> c <span style=color:#f92672>=</span> foo(a, b);
+}
+</code></pre></div><p>生命周期参数将 <code>x</code> 的生命周期与 <code>results</code> 相互绑定，而 <code>x</code> 与 <code>a</code> 相互绑定，<code>results</code> 与 <code>c</code> 相互绑定，所以 <code>c</code> 的生命周期与 <code>a</code> 是相互绑定的！！<span class=spoiler>就像三国杀中的“铁索连环”一样</span></p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext>a -&gt; [x =&gt; results -&gt; foo] -&gt; c 
+</code></pre></div><p>根据关系我们可以很容易发现，<code>a</code> 必须活得比 <code>c</code> 长，不然就会报错。</p><p>从整体来考虑生命周期，显然更容易理解什么时候应该使用生命周期标注，什么时候不应该使用。</p><h2 id=生命周期标注的作用不是续命>生命周期标注的作用不是“续命”</h2><p>生命周期标注只是注释出：“谁应该比谁活得更长 (或者相等)”，如果实际情况与标注不相符，编译器会报错。</p><h2 id=长生命周期是短生命周期的子类型>长生命周期是短生命周期的子类型</h2><p>与直觉有所不同。显式生命周期标注是泛型参数一种，但是有<strong>协变</strong>的概念。</p><h2 id=相关文章>相关文章</h2><ul><li><a href=https://mogeko.github.io/2019/042/><strong>Rust 中的所有权</strong></a></li><li><a href=https://mogeko.github.io/2019/050/><strong>Rust 中的生命周期</strong></a></li></ul><br><center>·End·</center></div><div class=post-copyright><p class=copyright-item><span>Author:</span>
+<span>Mogeko</span></p><p class=copyright-item><span>Link:</span>
+<a href=https://mogeko.me/2019/051/>https://mogeko.me/2019/051/</span></p><p class="copyright-item lincese">本文采用<a rel=license href=http://creativecommons.org/licenses/by-nc/4.0/ target=_blank>知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p></div><div class=post-tags><section><i class="iconfont icon-tag"></i>Tag(s):
+<span class=tag><a href=https://mogeko.me/tags/rust/>#Rust</a></span></section><section><a href=javascript:window.history.back();>back</a></span> ·
+<span><a href=https://mogeko.me>home</a></span></section></div><div class=post-nav><a href=https://mogeko.me/2019/050/ class=prev rel=prev title="Rust 中的生命周期"><i class="iconfont icon-left"></i>&nbsp;Rust 中的生命周期</a>
+<a href=https://mogeko.me/2019/052/ class=next rel=next title=纪念一位英雄的落幕>纪念一位英雄的落幕&nbsp;<i class="iconfont icon-right"></i></a></div><div class=post-comment><div id=utteranc-container><script src=https://utteranc.es/client.js repo=Mogeko/blog-commits issue-term=title theme=preferred-color-scheme crossorigin=anonymous async></script></div></div></article></div></main><footer class=footer><div class=copyright>&copy;
+<span itemprop=copyrightYear>2017 - 2020</span>
+<span class=with-love><i class="iconfont icon-love"></i></span><span class=author itemprop=copyrightHolder><a href=https://mogeko.me>Mogeko</a> |</span>
+<span>Powered by <a href=https://gohugo.io/ target=_blank rel="external nofollow">Hugo</a> & <a href=https://github.com/Mogeko/Mogege target=_blank rel="external nofollow">Mogege</a></span></div></footer><script defer src=/js/vendor_main.min.js></script><script src=https://cdn.jsdelivr.net/npm/pangu@4.0.7/dist/browser/pangu.min.js integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin=anonymous></script><script>pangu.spacingPage();</script></div></body></html>

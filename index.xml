@@ -1,0 +1,317 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Mogeko`s Blog on Mogeko`s Blog</title><link>https://mogeko.me/</link><description>Recent content in Mogeko`s Blog on Mogeko`s Blog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Mon, 23 Nov 2020 20:35:03 +0100</lastBuildDate><atom:link href="https://mogeko.me/" rel="self" type="application/rss+xml"/><item><title>Posts</title><link>https://mogeko.me/posts/</link><pubDate>Mon, 23 Nov 2020 20:35:03 +0100</pubDate><guid>https://mogeko.me/posts/</guid><description/></item><item><title>Mogeko</title><link>https://mogeko.me/about/</link><pubDate>Sat, 12 Aug 2017 00:00:00 +0000</pubDate><guid>https://mogeko.me/about/</guid><description>&lt;style>
+@import url('https://fonts.googleapis.com/css?family=Katibeh&amp;display=swap');
+.about-info {
+display: flex;
+justify-content: space-between;
+align-items: flex-start;
+}
+.about-info-left li {
+list-style-type: none;
+}
+.about-info-right {
+margin: .5em 1.25em;
+}
+.about-info-right img {
+width: 130px;
+}
+.about-info-right .left-ear,
+.about-info-right .left-hand,
+.about-info-right .right-ear,
+.about-info-right .right-hand {
+display: none;
+}
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
+.about-info {
+flex-direction: column-reverse;
+align-items: center;
+}
+.about-info-right {
+margin: auto auto 2em;
+display: flex;
+flex-direction: row;
+justify-content: center;
+align-items: center;
+}
+.about-info-right img {
+border-radius: 50%;
+-webkit-border-radius: 50%;
+}
+.about-info-right .left-hand {
+font-family: 'Katibeh';
+display: inline;
+font-size: 5em;
+transform: translate(20px);
+-moz-transform: translate(20px);
+-webkit-transform: translate(20px);
+-o-transform: translate(20px);
+}
+.about-info-right .right-hand {
+font-family: 'Katibeh';
+display: inline;
+font-size: 5em;
+transform: translate(-18px);
+-moz-transform: translate(-18px);
+-webkit-transform: translate(-18px);
+-o-transform: translate(-18px);
+}
+.about-info-right .left-ear {
+display: inline;
+font-size: 1.2em;
+align-self: flex-start;
+transform: rotate(-40deg) translate(20px, 15px);
+-moz-transform: rotate(-40deg) translate(20px, 15px);
+-webkit-transform: rotate(-40deg) translate(20px, 15px);
+-o-transform: rotate(-40deg) translate(20px, 15px);
+}
+.about-info-right .right-ear {
+display: inline;
+font-size: 1.2em;
+align-self: flex-start;
+transform: rotate(45deg) translate(-13px, 15px);
+-moz-transform: rotate(45deg) translate(-13px, 15px);
+-webkit-transform: rotate(45deg) translate(-13px, 15px);
+-o-transform: rotate(45deg) translate(-13px, 15px);
+}
+}
+&lt;/style>
+&lt;div class="about-info">
+&lt;div class="about-info-left">
+&lt;p>A madman who wants to devoting his life to the free software movement.&lt;/p>
+&lt;p>Contact me:&lt;/p>
+&lt;ul>
+&lt;li>&lt;p>&lt;span class="iconfont icon-mail">&lt;/span> Email: &lt;a href="mailto:zhengjunyi@live.com"
+rel="nofollow noreferrer" target="_blank">zhengjunyi@live.com&lt;/a>&lt;/p>&lt;/li>
+&lt;li>&lt;p>&lt;span class="iconfont icon-github">&lt;/span> GitHub: &lt;a href="https://github.com/Mogeko"
+rel="nofollow noreferrer" target="_blank">Mogeko&lt;/a>&lt;/p>&lt;/li>
+&lt;/ul>
+&lt;/div>
+&lt;div class="about-info-right">
+&lt;div class="left-hand">&lt;span style="font-size: 0.5em">&amp;ensp;&lt;/span>٩&lt;/div>
+&lt;div class="left-ear">▲&lt;/div>
+&lt;img alt="Mogeko" src="https://mogeko.me/blog-images/r/me/avatar.jpg">
+&lt;div class="right-ear">▲&lt;/div>
+&lt;div class="right-hand">و&lt;span style="font-size: 0.5em">✧&lt;/span>&lt;/div>
+&lt;/div>
+&lt;/div>
+&lt;p>My Github chart:&lt;/p>
+&lt;p>&lt;img src="https://ghchart.rshah.org/mogeko" alt="Mogeko's Github chart" style="width: 100%;">&lt;/p></description></item><item><title/><link>https://mogeko.me/tools/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://mogeko.me/tools/</guid><description>&lt;h1 id="几只住在本站的工具酱">几只住在本站的工具酱&amp;hellip;&lt;/h1>
+&lt;!-- #39b54a -->
+&lt;h2 id="临时邮箱-sup-stylecolorred-sup">临时邮箱 &lt;sup style="color:red" >●&lt;/sup>&lt;/h2>
+&lt;p>地址：&lt;a href="http://mail.mogeko.me">mail.mogeko.me&lt;/a>&lt;/p>
+&lt;p>用来临时接收邮件的一次性邮箱服务&lt;/p>
+&lt;p>&lt;a href="https://mogeko.github.io/2019/047/">README&lt;/a>&lt;/p>
+&lt;h2 id="kms-激活服务-sup-stylecolor39b54a-betasup">KMS 激活服务 &lt;sup style="color:#39b54a" >beta&lt;/sup>&lt;/h2>
+&lt;p>KMS 服务器地址：&lt;input type="text" name="url" value="kms.mogeko.me" style="font-family: 'Fira Code', Consolas, Monaco, Menlo, Consolas, monospace;" >&lt;/p>
+&lt;p>用来激活 VoL 版的 Microsoft Windows 和 Microsoft Office&lt;/p>
+&lt;p>&lt;a href="https://mogeko.github.io/2019/054/">README&lt;/a>&lt;/p>
+&lt;h2 id="android-toolchain">android-toolchain&lt;/h2>
+&lt;!-- &lt;img alt="Build Status" src="https://travis-ci.org/Mogeko/android-toolchain.svg?branch=master" style="float: left">&lt;br> -->
+&lt;p>GitHub 地址: &lt;a href="https://github.com/Mogeko/android-toolchain">Mogeko/android-toolchain&lt;/a>&lt;/p>
+&lt;p>从 Android NDK 中提取的独立交叉编译工具链，可以用来在 x86_64 架构的 PC 上编译在 Android 中运行的程序和库&lt;/p>
+&lt;p>支持的系统 (x86_64): Linux/MacOS/Windows&lt;/p>
+&lt;p>支持的目标平台: arm/arm64/mips/mips64/x86/x86_64&lt;/p>
+&lt;p>&lt;a href="https://github.com/Mogeko/android-toolchain/blob/master/README.md">README&lt;/a>  &lt;a href="https://github.com/Mogeko/android-toolchain/releases/latest">下载地址&lt;/a>&lt;/p>
+&lt;br>
+&lt;center> ·End· &lt;/center></description></item><item><title>TEST</title><link>https://mogeko.me/test/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://mogeko.me/test/</guid><description>&lt;!--
+&lt;img alt="shields" src="" style="float: left; margin: 5px 1em 0px 0px" >
+&lt;img alt="" src="https://mogeko.github.io/blog-images/r/test/" >
+&lt;span class="spoiler" >&lt;/span>
+&amp;emsp;&amp;emsp;
+```plaintext
+-->
+&lt;p>这是一个隐藏的页面，仅用于测试本博客的各项新特性。&lt;/p>
+&lt;h1 id="test-1">Test 1&lt;/h1>
+&lt;p>&lt;img alt="shields" src="https://img.shields.io/badge/%E9%9A%90%E8%97%8F%E6%96%87%E5%AD%97%20-pass-green.svg" style="float: left; margin: 5px 1em 0px 0px" >&lt;br>&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-html" data-lang="html">{{&amp;lt; &lt;span style="color:#f92672">spoiler&lt;/span> &amp;gt;}} 隐藏文字 {{&amp;lt; /&lt;span style="color:#f92672">spoiler&lt;/span> &amp;gt;}}
+&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="测试组">测试组&lt;/h2>
+&lt;span class="spoiler" > 隐藏文字 &lt;/span>
+&lt;h1 id="test-2">Test 2&lt;/h1>
+&lt;p>&lt;img alt="shields" src="https://img.shields.io/badge/%E6%96%B0%C2%B7%E5%BC%95%E7%94%A8%E6%A0%87%E7%AD%BE-pass-green.svg" style="float: left; margin: 5px 1em 0px 0px" >&lt;img alt="shields" src="https://img.shields.io/badge/%E5%A4%9C%E6%99%9A%E6%A8%A1%E5%BC%8F%20-pass-green.svg" style="float: left; margin: 5px 1em 0px 0px" >&lt;br>&lt;/p>
+&lt;h2 id="测试组-1">测试组&lt;/h2>
+&lt;blockquote>
+&lt;p>这是一段被引用的文字&lt;/p>
+&lt;/blockquote>
+&lt;h1 id="test-3">Test 3&lt;/h1>
+&lt;p>webp 图片兼容性测试&lt;/p>
+&lt;div style="overflow:auto">
+&lt;table>
+&lt;tbody>&lt;tr style="text-align:center;line-height:1.5em">
+&lt;th>IE&lt;/th>
+&lt;th>Edge&lt;/th>
+&lt;th>Firefox&lt;/th>
+&lt;th>Chrome&lt;/th>
+&lt;th>Safari&lt;/th>
+&lt;th>Opera&lt;/th>
+&lt;th nowrap="nowrap">iOS Safari&lt;/th>
+&lt;th nowrap="nowrap">Opera Mini&lt;/th>
+&lt;th nowrap="nowrap">Android Browser&lt;/th>
+&lt;th>Blackberry Browser&lt;/th>
+&lt;th nowrap="nowrap">Opera Mobile&lt;/th>
+&lt;th nowrap="nowrap">Chrome for&lt;br>Android&lt;/th>
+&lt;th nowrap="nowrap">Firefox for&lt;br>Android&lt;/th>
+&lt;th nowrap="nowrap">IE Mobile&lt;/th>
+&lt;th nowrap="nowrap">UC Browser&lt;br>for Android&lt;/th>
+&lt;th>Samsung Internet&lt;/th>
+&lt;th nowrap="nowrap">QQ Browser&lt;/th>
+&lt;th>Baidu Browser&lt;/th>
+&lt;/tr>
+&lt;tr style="color:#ffffff;text-align:center">
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;td style="background-color:#c44230;">4-8&lt;/td>
+&lt;td>&lt;/td>
+&lt;td style="background-color:#c44230;">10.1&lt;/td>
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;td style="background-color:#c44230;">2.1-3&lt;/td>
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;/tr>
+&lt;tr style="color:#ffffff;text-align:center">
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;td style="background-color:#A8BD04;">9-22&lt;/td>
+&lt;td>&lt;/td>
+&lt;td style="background-color:#A8BD04;">11.5&lt;/td>
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;td style="background-color:#A8BD04;">4-4.1&lt;/td>
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;/tr>
+&lt;tr style="color:#ffffff;text-align:center">
+&lt;td style="background-color:#c44230;" nowrap="nowrap">6-10&lt;/td>
+&lt;td style="background-color:#c44230;" nowrap="nowrap">12-17&lt;/td>
+&lt;td style="background-color:#c44230;" nowrap="nowrap">2-63&lt;/td>
+&lt;td style="background-color:#39b54a;" nowrap="nowrap">23-70&lt;/td>
+&lt;td style="background-color:#c44230;" nowrap="nowrap">3.1-11.1&lt;/td>
+&lt;td style="background-color:#39b54a;" nowrap="nowrap">12.1-56&lt;/td>
+&lt;td style="background-color:#c44230;" nowrap="nowrap">3.2-11.4&lt;/td>
+&lt;td>&lt;/td>
+&lt;td style="background-color:#39b54a;" nowrap="nowrap">4.2-4.4.4&lt;/td>
+&lt;td style="background-color:#c44230;" nowrap="nowrap">7&lt;/td>
+&lt;td style="background-color:#39b54a;" nowrap="nowrap">12-12.1&lt;/td>
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;td style="background-color:#c44230;" nowrap="nowrap">10&lt;/td>
+&lt;td>&lt;/td>
+&lt;td style="background-color:#39b54a;" nowrap="nowrap">4-6.2&lt;/td>
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;/tr>
+&lt;tr style="color:#ffffff;text-align:center;font-weight:bold">
+&lt;td style="background-color:#c44230;border:2px solid #000000">11&lt;/td>
+&lt;td style="background-color:#39b54a;border:2px solid #000000">18&lt;/td>
+&lt;td style="background-color:#c44230;border:2px solid #000000">64&lt;/td>
+&lt;td style="background-color:#39b54a;border:2px solid #000000">71&lt;/td>
+&lt;td style="background-color:#c44230;border:2px solid #000000">12&lt;/td>
+&lt;td style="background-color:#39b54a;border:2px solid #000000">57&lt;/td>
+&lt;td style="background-color:#c44230;border:2px solid #000000">12.1&lt;/td>
+&lt;td style="background-color:#39b54a;border:2px solid #000000">all&lt;/td>
+&lt;td style="background-color:#39b54a;border:2px solid #000000">67&lt;/td>
+&lt;td style="background-color:#c44230;border:2px solid #000000">10&lt;/td>
+&lt;td style="background-color:#39b54a;border:2px solid #000000">46&lt;/td>
+&lt;td style="background-color:#39b54a;border:2px solid #000000">70&lt;/td>
+&lt;td style="background-color:#c44230;border:2px solid #000000">63&lt;/td>
+&lt;td style="background-color:#c44230;border:2px solid #000000">11&lt;/td>
+&lt;td style="background-color:#39b54a;border:2px solid #000000">11.8&lt;/td>
+&lt;td style="background-color:#39b54a;border:2px solid #000000">7.2&lt;/td>
+&lt;td style="background-color:#39b54a;border:2px solid #000000">1.2&lt;/td>
+&lt;td style="background-color:#39b54a;border:2px solid #000000">7.12&lt;/td>
+&lt;/tr>
+&lt;tr style="color:#ffffff;text-align:center;opacity:0.7">
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;td style="background-color:#39b54a;">65-66&lt;/td>
+&lt;td style="background-color:#39b54a;">72-74&lt;/td>
+&lt;td style="background-color:#c44230;">TP&lt;/td>
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;td>&lt;/td>
+&lt;/tr>
+&lt;/tbody>&lt;/table>
+&lt;/div>
+&lt;div style="position: absolute;right: 0px;">
+&lt;span style="color:#39b54a">▋&lt;/span>支持&amp;emsp;
+&lt;span style="color:#c44230">▋&lt;/span>不支持&amp;emsp;
+&lt;span style="color:#A8BD04">▋&lt;/span>部分支持 (不支持无损格式)
+&lt;/div>
+&lt;br>
+&lt;h2 id="对比组">对比组&lt;/h2>
+&lt;h3 id="原图-enspemspemspemsp-大小8045-kb">原图      大小：804.5 KB&lt;/h3>
+&lt;p>&lt;img alt="" src="https://mogeko.github.io/blog-images/r/test/webp_comparison.png" >&lt;/p>
+&lt;h2 id="测试组-2">测试组&lt;/h2>
+&lt;h3 id="无损-enspemspemspemsp-大小5556-kbemsp-体积减少31-">无损      大小：555.6 KB  体积减少：31 %&lt;/h3>
+&lt;p>&lt;img alt="" src="https://mogeko.github.io/blog-images/r/test/webp_test1.webp" >&lt;/p>
+&lt;h3 id="有损--q-100emsp大小190-kb-enspemsp-体积减少764-">有损 -q 100 大小：190 KB    体积减少：76.4 %&lt;/h3>
+&lt;p>&lt;img alt="" src="https://mogeko.github.io/blog-images/r/test/webp_test2.webp" >&lt;/p>
+&lt;h3 id="有损--q-80enspemsp大小493-kbenspemsp-体积减少939-">有损 -q 80  大小：49.3 KB   体积减少：93.9 %&lt;/h3>
+&lt;p>&lt;img alt="" src="https://mogeko.github.io/blog-images/r/test/webp_test3.webp" >&lt;/p>
+&lt;h3 id="有损--q-50enspemsp大小296-kbenspemsp-体积减少963-">有损 -q 50  大小：29.6 KB   体积减少：96.3 %&lt;/h3>
+&lt;p>&lt;img alt="" src="https://mogeko.github.io/blog-images/r/test/webp_test4.webp" >&lt;/p>
+&lt;h3 id="有损--q-30enspemsp大小218-kb-enspemsp-体积减少973-">有损 -q 30  大小：21.8 KB    体积减少：97.3 %&lt;/h3>
+&lt;p>&lt;img alt="" src="https://mogeko.github.io/blog-images/r/test/webp_test5.webp" >&lt;/p>
+&lt;h3 id="有损--q-0enspenspemsp大小79-kbenspenspemsp-体积减少99-">有损 -q 0   大小：7.9 KB    体积减少：99 %&lt;/h3>
+&lt;p>&lt;img alt="" src="https://mogeko.github.io/blog-images/r/test/webp_test6.webp" >&lt;/p>
+&lt;h1 id="test-4">Test 4&lt;/h1>
+&lt;p>测试 FiraCode&lt;/p>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-plaintext" data-lang="plaintext">take = (n, [x, ...xs]:list) --&amp;gt;
+| n &amp;lt;= 0 =&amp;gt; []
+| empty list =&amp;gt; []
+| otherwise =&amp;gt; [x] ++ take n-1, xs
+last3 = reverse &amp;gt;&amp;gt; take 3 &amp;gt;&amp;gt; reverse
+&lt;/code>&lt;/pre>&lt;/div>&lt;h1 id="test-4-1">Test 4&lt;/h1>
+&lt;h2 id="katex">KaTeX&lt;/h2>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-latex" data-lang="latex">&lt;span style="color:#75715e">% Inline math:
+&lt;/span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#e6db74">$$&lt;/span> \varphi &lt;span style="color:#f92672">=&lt;/span> \dfrac{&lt;span style="color:#ae81ff">1&lt;/span>&lt;span style="color:#f92672">+&lt;/span>\sqrt&lt;span style="color:#ae81ff">5&lt;/span>}{&lt;span style="color:#ae81ff">2&lt;/span>}&lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#ae81ff">1&lt;/span>.&lt;span style="color:#ae81ff">6180339887&lt;/span>… &lt;span style="color:#e6db74">$$&lt;/span>
+&lt;span style="color:#75715e">% or
+&lt;/span>&lt;span style="color:#75715e">% Block math:
+&lt;/span>&lt;span style="color:#75715e">&lt;/span>&lt;span style="color:#e6db74">$$&lt;/span>
+\varphi &lt;span style="color:#f92672">=&lt;/span> &lt;span style="color:#ae81ff">1&lt;/span>&lt;span style="color:#f92672">+&lt;/span>\frac{&lt;span style="color:#ae81ff">1&lt;/span>} {&lt;span style="color:#ae81ff">1&lt;/span>&lt;span style="color:#f92672">+&lt;/span>\frac{&lt;span style="color:#ae81ff">1&lt;/span>} {&lt;span style="color:#ae81ff">1&lt;/span>&lt;span style="color:#f92672">+&lt;/span>\frac{&lt;span style="color:#ae81ff">1&lt;/span>} {&lt;span style="color:#ae81ff">1&lt;/span>&lt;span style="color:#f92672">+&lt;/span>\cdots} } }
+&lt;span style="color:#e6db74">$$&lt;/span>
+&lt;/code>&lt;/pre>&lt;/div>&lt;p>Inline math: $$ \varphi = \dfrac{1+\sqrt5}{2}= 1.6180339887… $$&lt;/p>
+&lt;p>Block math:&lt;/p>
+&lt;p>$$
+\varphi = 1+\frac{1} {1+\frac{1} {1+\frac{1} {1+\cdots} } }
+$$&lt;/p>
+&lt;h1 id="test-5">Test 5&lt;/h1>
+&lt;h2 id="plantuml">PlantUML&lt;/h2>
+&lt;div class="highlight">&lt;pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">&lt;code class="language-plaintext" data-lang="plaintext">@startuml
+Alice -&amp;gt; Bob: Authentication Request
+Bob --&amp;gt; Alice: Authentication Response
+Alice -&amp;gt; Bob: Another authentication Request
+Alice &amp;lt;-- Bob: Another authentication Response
+@enduml
+&lt;/code>&lt;/pre>&lt;/div>&lt;pre>&lt;code class="language-plantuml" data-lang="plantuml">@startuml
+Alice -&amp;gt; Bob: Authentication Request
+Bob --&amp;gt; Alice: Authentication Response
+Alice -&amp;gt; Bob: Another authentication Request
+Alice &amp;lt;-- Bob: Another authentication Response
+@enduml
+&lt;/code>&lt;/pre></description></item></channel></rss>

@@ -1,0 +1,120 @@
+<!doctype html><html lang=zh-cn><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="chrome=1"><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><meta name=author content="Mogeko"><meta name=description content="Mogeko 的个人博客"><meta name=keywords content="blog,KMS,Hugo,GNU/Linux,Linux,Ubuntu,Rusty Lake: Roots,Hollow Knight,空洞骑士"><link rel=prev href=https://mogeko.me/2019/045/><link rel=next href=https://mogeko.me/2019/047/><link rel=canonical href=https://mogeko.me/2019/046/><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=manifest href=/site.webmanifest><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><meta name=msapplication-TileColor content="#da532c"><meta name=theme-color content="#ffffff"><title>使用 Homebrew 维护自己的软件仓库 | Mogeko`s Blog</title><meta name=title content="使用 Homebrew 维护自己的软件仓库 | Mogeko`s Blog"><link rel=stylesheet href=/css/main.min.css><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/mogeko.me"},"articleSection":"posts","name":"使用 Homebrew 维护自己的软件仓库","headline":"使用 Homebrew 维护自己的软件仓库","description":"\u0026emsp;\u0026emsp; -- Homebrew 是最初是 Max Howell 自己写来管理 MacOS 软件的一个小工具，没想到后来直接火了。不仅成为了 Github 上拥有贡献者最多的一个项目，还是 MacOS 系统中事实上的包管理器。","inLanguage":"zh-cn","author":"Mogeko","creator":"Mogeko","publisher":"Mogeko","accountablePerson":"Mogeko","copyrightHolder":"Mogeko","copyrightYear":"2019","datePublished":"2019-03-23 17:47:42 \u002b0800 \u002b0800","dateModified":"2019-03-23 17:47:42 \u002b0800 \u002b0800","url":"https:\/\/mogeko.me\/2019\/046\/","wordCount":"2924","keywords":["MacOS","Homebrew","Mogeko`s Blog"]}</script></head><body><div class=wrapper><nav class=navbar><progress class=content_progress max=0 value=0></progress><div class=container><div class="navbar-header header-back2home-logo"><span class=logo_mark>>$</span>
+<a href=https://mogeko.me><span class=logo_text>cd /home/</span>
+<span class=logo_cursor></span></a></div><div class=navbar-right><span class=menu><a class=menu-item href=/tools/>Tools</a>
+<a class=menu-item href=/posts/>Blog</a>
+<a class=menu-item href=/categories/>Categories</a>
+<a class=menu-item href=/tags/>Tags</a>
+<a class=menu-item href=/about/>About</a>
+<a class=menu-item href=/tools/></a><a class=menu-item href=/about/ title=Mogeko>Mogeko</a>
+<span class=divide></span><a href=javascript:void(0); class=theme-switch><i class="iconfont icon-dark-mode"></i></a></span></div></div></nav><nav class=navbar-mobile id=nav-mobile style=display:none><progress class=content_progress max=0 value=0></progress><div class=container><div class=navbar><div class="navbar-header header-logo"><a href=https://mogeko.me>Mogeko`s Blog</a></div><div class=navbar-right><div><a href=javascript:void(0); class=theme-switch><i class="iconfont icon-dark-mode"></i></a></div><div class=menu-toggle><span></span><span></span><span></span></div></div></div><div class=menu id=mobile-menu><nav class=mb-md><a class=menu-item href=/tools/><h3>Tools</h3><div class=menu-active></div></a><a class=menu-item href=/posts/><h3>Blog</h3><div class=menu-active></div></a><a class=menu-item href=/categories/><h3>Categories</h3><div class=menu-active></div></a><a class=menu-item href=/tags/><h3>Tags</h3><div class=menu-active></div></a><a class=menu-item href=/about/><h3>About</h3><div class=menu-active></div></a><a class=menu-item href=/tools/><h3></h3><div class=menu-active></div></a><a class=menu-item href=/about/ title=Mogeko><h3>Mogeko</h3><div class=menu-active></div></a></nav></div></div></nav><main class=main><div class=container><article class=post-warp itemscope itemtype=http://schema.org/Article><header class=post-header><h1 class=post-title itemprop="name headline">使用 Homebrew 维护自己的软件仓库</h1><div class=post-meta>Written by <a itemprop=name href=https://mogeko.me rel=author>Mogeko</a> with ♥
+<span class=post-time>on <time datetime=2019-03-23 itemprop=datePublished>March 23, 2019</time></span>
+in
+<i class="iconfont icon-folder"></i><span class=post-category><a href=https://mogeko.me/categories/%E5%85%B3%E4%BA%8E%E8%BD%AF%E4%BB%B6/>关于软件,</a></span>
+<span class=post-word-count>2924 words</span></div></header><div class=post-content><p><a href=nrew.sh>Homebrew</a> 是最初是 Max Howell 自己写来管理 MacOS 软件的一个小工具，没想到后来直接火了。不仅成为了 <a href=https://github.com/Homebrew/brew>Github</a> 上拥有贡献者最多的一个项目，还是 MacOS 系统中事实上的包管理器。</p><p>所以 Homebrew 到底又什么过人之处，能够得到这么多人的爱戴？其实并没有什么特别的地方，究其原理 Homebrew 并不比 apt / yum 高明，甚至 Homebrew (从源码) 安装软件的方式还可能存在安全性的问题。Homebrew 可能确实不是一个好的包管理器，但确实能解决问题，虽然原理丑陋了一点，但总比手动管理依赖舒服吧！</p><p>除了官方包管理器的缺失外，Homebrew 能上位的另一个重要原因是它天生的“平民属性”。说白了，其实 Homebrew 就是一堆用 Git 管理起来的安装脚本，这大大降低了发布软件的门槛——人人都能编写脚本，发布软件——这也是为什么 Homebrew 会成为 Github 上拥有贡献者最多的项目(永远不要低估人们对于管理自己的软件的热情，想想又多少人是为了 AUR 选择 Arch Linux 的)。这也是为什么我要写这篇文章，教大家如何通过 Homebrew 维护属于自己的软件仓库。</p><h2 id=基本概念>基本概念</h2><p>在 Homebrew 的体系中，<strong>至少</strong>有这么 4 层 ：</p><ul><li>Tap：软件仓库 (Git 仓库)</li><li>Formula (配方)：定义如何下载、编译和安装脚本或软件的 Ruby 脚本；是 Homebrew 的灵魂</li><li>Cellar (酒窖)：所有用 Homebrew 安装在本地的脚本或软件组成的集合</li><li>Keg (酒桶)：安装好的脚本、软件等</li></ul><span class=spoiler>怎么都是酒？Homebrew 本身就是“家酿”的意思，它的基本工作原理也是将源码下载下载本地编译；自己体会吧~~</span><p>我们从上到下来看一下，Tap 实际上就是一个 Git 仓库，也是软件仓库，但与别的包管理器不同的是，Tap 存放的不是已经编译好的二进制文件，而是 Formula，也就是<strong>用来下载、编译和安装脚本或软件的 Ruby 脚本</strong>。举个例子，假如我们想要安装软件 <code>foo</code>，我们输入命令 <code>brew install foo</code>，Homebrew 就会在 Tap 在中寻找与软件 <code>foo</code> 对应的 Ruby 脚本，然后按照该脚本定义的方法将 Keg (<code>foo</code>) 下载、编译、安装到 Cellar 中。</p><p>是不是有点绕？没关系，这些概念没必要记得这么清楚，了解个大概，看到了知道是什么东西就可以了。</p><p>Homebrew 的官方为我们提供了两个官方 Tap，<code>homebrew/homebrew-core</code> 和 <code>homebrew/homebrew-cask</code>。Homebrew Cask 是用来管理二进制包的，一般用来安装较为大型的软件，已经超出本文的范围了，暂且不谈。而作为官方仓库 <code>homebrew/homebrew-core</code> 是肯定不会允许你随随便便上传 Formula 的。所以你需要另起炉灶，建立一个自己的 Tap 来存放 Formula。</p><h2 id=创建-tap>创建 Tap</h2><p>前面已经提到过了，Tap 实际上就是 Git 仓库 (一般部署在 Github 上面)。不过这个仓库稍微有点特殊，它需要以 <code>homebrew-xxx</code> 的形式进行命名。就例如我的 Tap 仓库就叫作 <code>Mogeko/homebrew-taps</code>。</p><p>我们先在 Github 上创建相应的仓库，然后我们运行以下命令让 Homebrew 可以跟踪我们的 Tap：</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext>$ brew tap Mogeko/taps
+</code></pre></div><p>或者</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext>$ brew tap github.com/Mogeko/homebrew-taps
+</code></pre></div><p>这也就是为什么要让大家以 <code>homebrew-xxx</code> 的形式命名的原因了，因为只有这种以这种形式命名的仓库可以直接使用 <code>[Owner]/xxx</code> 这样比较短小好记的命令追踪 Tap，如果不已这样的方式命名或者部署到别的代码托管平台就只能用第二个比较长的命令了。</p><h2 id=创建-formula>创建 Formula</h2><p>有了仓库，是时候酿点酒了 (～o￣▽￣)～[ ]</p><p>首先，在 Tap 的根目录下创建一个名为 <code>Formula</code> 的文件夹，我们所以的 Formula (Ruby 脚本) 都要放在这里。</p><p>然后创建 Formula，我们这里以 <strong>frp</strong> 为例。<a href=https://github.com/fatedier/frp><strong>frp</strong></a> 是一款用来做内网穿透的代理程序，选它当例子主要是因为它比较好编译。</p><p>首先去 <a href=https://github.com/fatedier/frp/releases>frp 的 releases 页面</a>，找到最新版的 <strong>frp</strong>，右键 <code>Source code.tar.gz</code> -> 复制链接地址。</p><p><img src=https://mogeko.github.io/blog-images/r/046/get_source.png alt=Get_Source loading=lazy></p><p>然后打开终端，输入：</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext>$ brew create https://github.com/fatedier/frp/archive/v0.25.1.tar.gz
+</code></pre></div><p>Homebrew 会在 <code>/usr/local/Library/Formula/</code> 下创建一个名为 <code>frp.rb</code> 的文件，将这个文件放入 Tap 的 <code>Formula</code> 文件夹中，然后打开它。</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-ruby data-lang=ruby><span style=color:#75715e># Documentation: https://docs.brew.sh/Formula-Cookbook</span>
+<span style=color:#75715e>#                https://www.rubydoc.info/github/Homebrew/brew/master/Formula</span>
+<span style=color:#75715e># PLEASE REMOVE ALL GENERATED COMMENTS BEFORE SUBMITTING YOUR PULL REQUEST!</span>
+<span style=color:#66d9ef>class</span> <span style=color:#a6e22e>Frp</span> <span style=color:#f92672>&lt;</span> <span style=color:#66d9ef>Formula</span>
+  desc <span style=color:#e6db74>&#34;A fast reverse proxy to help you expose a local server behind a NAT or firewall to the internet.&#34;</span>
+  homepage <span style=color:#e6db74>&#34;&#34;</span>
+  url <span style=color:#e6db74>&#34;https://github.com/fatedier/frp/archive/v0.25.1.tar.gz&#34;</span>
+  sha256 <span style=color:#e6db74>&#34;33bda2e559f072e8423d8ef84a66b150c4a5fe986c892cbdd8b5bebe2f7956be&#34;</span>
+  <span style=color:#75715e># depends_on &#34;cmake&#34; =&gt; :build</span>
+
+  <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>install</span>
+    <span style=color:#75715e># ENV.deparallelize  # if your formula fails when building in parallel</span>
+    <span style=color:#75715e># Remove unrecognized options if warned by configure</span>
+    system <span style=color:#e6db74>&#34;./configure&#34;</span>, <span style=color:#e6db74>&#34;--disable-debug&#34;</span>,
+                          <span style=color:#e6db74>&#34;--disable-dependency-tracking&#34;</span>,
+                          <span style=color:#e6db74>&#34;--disable-silent-rules&#34;</span>,
+                          <span style=color:#e6db74>&#34;--prefix=</span><span style=color:#e6db74>#{</span>prefix<span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span>
+    <span style=color:#75715e># system &#34;cmake&#34;, &#34;.&#34;, *std_cmake_args</span>
+    system <span style=color:#e6db74>&#34;make&#34;</span>, <span style=color:#e6db74>&#34;install&#34;</span> <span style=color:#75715e># if this fails, try separate make/make install steps</span>
+  <span style=color:#66d9ef>end</span>
+
+  test <span style=color:#66d9ef>do</span>
+    <span style=color:#75715e># `test do` will create, run in and delete a temporary directory.</span>
+    <span style=color:#75715e>#</span>
+    <span style=color:#75715e># This test will fail and we won&#39;t accept that! For Homebrew/homebrew-core</span>
+    <span style=color:#75715e># this will need to be a test that verifies the functionality of the</span>
+    <span style=color:#75715e># software. Run the test with `brew test frp`. Options passed</span>
+    <span style=color:#75715e># to `brew install` such as `--HEAD` also need to be provided to `brew test`.</span>
+    <span style=color:#75715e>#</span>
+    <span style=color:#75715e># The installed folder is not in the path, so use the entire path to any</span>
+    <span style=color:#75715e># executables being tested: `system &#34;#{bin}/program&#34;, &#34;do&#34;, &#34;something&#34;`.</span>
+    system <span style=color:#e6db74>&#34;false&#34;</span>
+  <span style=color:#66d9ef>end</span>
+<span style=color:#66d9ef>end</span>
+</code></pre></div><p>让我们一条一条的分析。</p><h3 id=基本信息>基本信息</h3><p>我们可以看到类的头部有 4 个变量：</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-ruby data-lang=ruby>desc <span style=color:#e6db74>&#34;A fast reverse proxy to help you expose a local server behind a NAT or firewall to the internet.&#34;</span>
+homepage <span style=color:#e6db74>&#34;&#34;</span>
+url <span style=color:#e6db74>&#34;https://github.com/fatedier/frp/archive/v0.25.1.tar.gz&#34;</span>
+sha256 <span style=color:#e6db74>&#34;33bda2e559f072e8423d8ef84a66b150c4a5fe986c892cbdd8b5bebe2f7956be&#34;</span>
+</code></pre></div><p>他们分别表示 <strong>简介 (decs)</strong>、<strong>主页地址 (homepage)</strong>、<strong>源码地址 (url)<strong>和</strong>源码的哈希特征码 (sha256)</strong></p><p>其中三项 Homebrew 已经帮你填好了，剩下的一项主页地址按照实际情况填写就可以了。</p><h3 id=依赖>依赖</h3><p>然后是依赖部分，<strong>frp</strong> 使用 Golang 开发，所以在编译时需要依赖 Golang，我们添加上</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-ruby data-lang=ruby>depends_on <span style=color:#e6db74>&#34;go&#34;</span> <span style=color:#f92672>=&gt;</span> <span style=color:#e6db74>:build</span>
+</code></pre></div><p>然后 Homebrew 就可以自动帮我们处理依赖了。其中 <code>:build</code> 表示在编译时依赖，相似的还有</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-ruby data-lang=ruby><span style=color:#e6db74>:test</span> <span style=color:#75715e># 在运行 brew test 时依赖</span>
+<span style=color:#e6db74>:option</span> <span style=color:#75715e># 没用过，不知道有啥用</span>
+<span style=color:#e6db74>:recommended</span> <span style=color:#75715e># 也没用过</span>
+<span style=color:#e6db74>:xcode</span> <span style=color:#75715e># 需要依赖 Xcode</span>
+</code></pre></div><p>更多信息请参考 <a href=https://docs.brew.sh/Formula-Cookbook>Homebrew 官方文档: Formula Cookbook</a></p><h3 id=编译-安装>编译 (安装)</h3><p>终于到了最激动人心的编译环节了。首先将<code>install</code> 中的东西全部删光。它给的示例只是一个参考，并不适用于我们的项目。</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-ruby data-lang=ruby><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>install</span>
+  <span style=color:#66d9ef>ENV</span><span style=color:#f92672>[</span><span style=color:#e6db74>&#34;GOPROXY&#34;</span><span style=color:#f92672>]</span> <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;https://goproxy.io&#34;</span>
+  system <span style=color:#e6db74>&#34;make&#34;</span>
+  bin<span style=color:#f92672>.</span>install <span style=color:#e6db74>&#34;bin/frps&#34;</span>
+  bin<span style=color:#f92672>.</span>install <span style=color:#e6db74>&#34;bin/frpc&#34;</span>
+<span style=color:#66d9ef>end</span>
+</code></pre></div><p><strong>frp</strong> 的根目录中有一个 <code>go.mod</code> 文件，说明这个项目是支持 Go Module 的。同时，考虑到国内糟糕的网络环境，我们可以考虑通过环境变量 <code>GOPROXY</code> 设置一个代理。同时 <strong>frp</strong> 提供了 <code>makefile</code> 文件，所以我们直接运行 <code>make</code> 即可编译。编译好后得到两个二进制文件 <code>bin/frps</code> 和 <code>bin/frpc</code> 他们分别是 <strong>frp</strong> 的服务端和客户端。通过 <code>bin.instal</code> 将编译好的二进制文件安装到 <code>/usr/local/bin/</code> 中。</p><p>此时，在终端中执行便可开始安装</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext>$ brew install frp
+==&gt; Downloading https://github.com/fatedier/frp/archive/v0.25.1.tar.gz
+Already downloaded: /Library/Caches/Homebrew/downloads/232cf62ed11cd378e4be4ff49e5469fa3d62b69ab11668bba02af2db080669f6--v0.25.1.tar.gz
+==&gt; make
+......
+</code></pre></div><p>如果没报什么错的话就说明安装成功了。</p><h3 id=测试-可选>测试 (可选)</h3><p>有时候安装成功了，但功能不一定完备。我们还可以写两个测试用例来测试一下功能是否完整。</p><p>例如，我这里测试了安装的版本是否正确。</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-ruby data-lang=ruby>test <span style=color:#66d9ef>do</span>
+  output_s <span style=color:#f92672>=</span> shell_output(<span style=color:#e6db74>&#34;</span><span style=color:#e6db74>#{</span>bin<span style=color:#e6db74>}</span><span style=color:#e6db74>/frps -v&#34;</span>)
+  assert_match <span style=color:#e6db74>&#34;</span><span style=color:#e6db74>#{</span>version<span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span>, <span style=color:#e6db74>&#34;v&#34;</span><span style=color:#f92672>+</span>output_s
+  output_c <span style=color:#f92672>=</span> shell_output(<span style=color:#e6db74>&#34;</span><span style=color:#e6db74>#{</span>bin<span style=color:#e6db74>}</span><span style=color:#e6db74>/frpc -v&#34;</span>)
+  assert_match <span style=color:#e6db74>&#34;</span><span style=color:#e6db74>#{</span>version<span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span>, <span style=color:#e6db74>&#34;v&#34;</span><span style=color:#f92672>+</span>output_c
+<span style=color:#66d9ef>end</span>
+</code></pre></div><p>在终端中输入</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext>$ brew test frp
+Testing mogeko/taps/frp
+==&gt; /usr/local/Cellar/frp/v0.25.1/bin/frps -v
+==&gt; /usr/local/Cellar/frp/v0.25.1/bin/frpc -v
+</code></pre></div><p>没有报错就说明测试成功。</p><br><p>至此我们的 Formula 就已经完成了，此时的 <code>frp.rb</code>：</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-ruby data-lang=ruby><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>Frp</span> <span style=color:#f92672>&lt;</span> <span style=color:#66d9ef>Formula</span>
+  desc <span style=color:#e6db74>&#34;A fast reverse proxy to help you expose a local server behind a NAT or firewall to the internet.&#34;</span>
+  homepage <span style=color:#e6db74>&#34;https://github.com/fatedier/frp&#34;</span>
+  version <span style=color:#e6db74>&#34;v0.25.1&#34;</span>
+  url <span style=color:#e6db74>&#34;https://github.com/fatedier/frp/archive/</span><span style=color:#e6db74>#{</span>version<span style=color:#e6db74>}</span><span style=color:#e6db74>.tar.gz&#34;</span>
+  sha256 <span style=color:#e6db74>&#34;33bda2e559f072e8423d8ef84a66b150c4a5fe986c892cbdd8b5bebe2f7956be&#34;</span>
+
+  depends_on <span style=color:#e6db74>&#34;go&#34;</span> <span style=color:#f92672>=&gt;</span> <span style=color:#e6db74>:build</span>
+
+  <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>install</span>
+    <span style=color:#75715e># ENV[&#34;GO111MODULE&#34;] = &#34;on&#34;</span>
+    <span style=color:#66d9ef>ENV</span><span style=color:#f92672>[</span><span style=color:#e6db74>&#34;GOPROXY&#34;</span><span style=color:#f92672>]</span> <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;https://goproxy.io&#34;</span>
+    system <span style=color:#e6db74>&#34;make&#34;</span>
+    bin<span style=color:#f92672>.</span>install <span style=color:#e6db74>&#34;bin/frps&#34;</span>
+    bin<span style=color:#f92672>.</span>install <span style=color:#e6db74>&#34;bin/frpc&#34;</span>
+  <span style=color:#66d9ef>end</span>
+
+  test <span style=color:#66d9ef>do</span>
+    output_s <span style=color:#f92672>=</span> shell_output(<span style=color:#e6db74>&#34;</span><span style=color:#e6db74>#{</span>bin<span style=color:#e6db74>}</span><span style=color:#e6db74>/frps -v&#34;</span>)
+    assert_match <span style=color:#e6db74>&#34;</span><span style=color:#e6db74>#{</span>version<span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span>, <span style=color:#e6db74>&#34;v&#34;</span><span style=color:#f92672>+</span>output_s
+    output_c <span style=color:#f92672>=</span> shell_output(<span style=color:#e6db74>&#34;</span><span style=color:#e6db74>#{</span>bin<span style=color:#e6db74>}</span><span style=color:#e6db74>/frpc -v&#34;</span>)
+    assert_match <span style=color:#e6db74>&#34;</span><span style=color:#e6db74>#{</span>version<span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span>, <span style=color:#e6db74>&#34;v&#34;</span><span style=color:#f92672>+</span>output_c
+  <span style=color:#66d9ef>end</span>
+<span style=color:#66d9ef>end</span>
+</code></pre></div><h2 id=创建-bottle-可选>创建 Bottle (可选)</h2><p>虽说 Homebrew 的基本使用方式是<strong>下载源码</strong> -> <strong>本地编译</strong> -> <strong>安装</strong>。但实际生活中使用得更多的却是已经编译好的二进制包，也就是 Bottle。一个 Formula 如果有 Bottle 的话 Homebrew 会默认使用 Bottle，这样除了安装更快以外，也更安全。<code>homebrew/homebrew-core</code> 中的 Formula 一般都提供了 Bottle。如果条件允许的话，最好为自己的项目添加 Bottle，但二进制文件的分发又成了新的问题。</p><p>Bottle 在 Ruby 脚本中长这样：</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-ruby data-lang=ruby>bottle <span style=color:#66d9ef>do</span>
+  sha256 <span style=color:#e6db74>&#34;4921af80137af9cc3d38fd17c9120da882448a090b0a8a3a19af3199b415bfca&#34;</span> <span style=color:#f92672>=&gt;</span> <span style=color:#e6db74>:sierra</span>
+  sha256 <span style=color:#e6db74>&#34;c71db15326ee9196cd98602e38d0b7fb2b818cdd48eede4ee8eb827d809e09ba&#34;</span> <span style=color:#f92672>=&gt;</span> <span style=color:#e6db74>:el_capitan</span>
+  sha256 <span style=color:#e6db74>&#34;85cc828a96735bdafcf29eb6291ca91bac846579bcef7308536e0c875d6c81d7&#34;</span> <span style=color:#f92672>=&gt;</span> <span style=color:#e6db74>:yosemite</span>
+<span style=color:#66d9ef>end</span>
+</code></pre></div><p>中间 3 行的 sha256 是二进制文件的哈哈希特征码，后面的 <code>:sierra</code>、<code>:el_capitan</code> 和 <code>:yosemite</code> 是二进制文件对应的系统版本。</p><p>Bottle 还可以定义 <code>root_url</code> 等，具体可以参考：<a href=https://docs.brew.sh/Bottles>Homebrew 官方文档: Bottle</a></p><h3 id=制作-bottle>制作 Bottle</h3><p>通过一下两行命令就可以轻松的制作 Bottle 了 (如果已经安装过 <strong>frp</strong> 的话使用 <code>reinstall</code>)：</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext>$ brew (re)install --build-bottle frp
+$ brew bottle --json frp
+</code></pre></div><p>不出意外的话会在当前目录下生成两个新文件：<code>frp--v0.25.1.x86_64_linux.bottle.json</code> 和 <code>frp--v0.25.1.x86_64_linux.bottle.tar.gz</code>。<code>frp--v0.25.1.x86_64_linux.bottle.tar.gz</code> 就是打包好的二进制文件。配置好 <code>frp.rb</code>，然后将其上传到 Github Releases 等分发平台就可以了。</p><p>可以用 Travis CI 等持续集成平台来制作与发布 Bottle，我没试过，有兴趣的同学可以自己研究一下。</p><h2 id=相关文章>相关文章</h2><ul><li><a href=https://mogeko.github.io/2019/049/><strong>使用 Travis CI 自动维护软件仓库 (Homebrew)</strong></a></li></ul><br><center>·End·</center></div><div class=post-copyright><p class=copyright-item><span>Author:</span>
+<span>Mogeko</span></p><p class=copyright-item><span>Link:</span>
+<a href=https://mogeko.me/2019/046/>https://mogeko.me/2019/046/</span></p><p class="copyright-item lincese">本文采用<a rel=license href=http://creativecommons.org/licenses/by-nc/4.0/ target=_blank>知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p></div><div class=post-tags><section><i class="iconfont icon-tag"></i>Tag(s):
+<span class=tag><a href=https://mogeko.me/tags/macos/>#MacOS</a></span>
+<span class=tag><a href=https://mogeko.me/tags/homebrew/>#Homebrew</a></span></section><section><a href=javascript:window.history.back();>back</a></span> ·
+<span><a href=https://mogeko.me>home</a></span></section></div><div class=post-nav><a href=https://mogeko.me/2019/045/ class=prev rel=prev title=扁平宝箱插画><i class="iconfont icon-left"></i>&nbsp;扁平宝箱插画</a>
+<a href=https://mogeko.me/2019/047/ class=next rel=next title=本站上线临时邮箱服务了！！>本站上线临时邮箱服务了！！&nbsp;<i class="iconfont icon-right"></i></a></div><div class=post-comment><div id=utteranc-container><script src=https://utteranc.es/client.js repo=Mogeko/blog-commits issue-term=title theme=preferred-color-scheme crossorigin=anonymous async></script></div></div></article></div></main><footer class=footer><div class=copyright>&copy;
+<span itemprop=copyrightYear>2017 - 2020</span>
+<span class=with-love><i class="iconfont icon-love"></i></span><span class=author itemprop=copyrightHolder><a href=https://mogeko.me>Mogeko</a> |</span>
+<span>Powered by <a href=https://gohugo.io/ target=_blank rel="external nofollow">Hugo</a> & <a href=https://github.com/Mogeko/Mogege target=_blank rel="external nofollow">Mogege</a></span></div></footer><script defer src=/js/vendor_main.min.js></script><script src=https://cdn.jsdelivr.net/npm/pangu@4.0.7/dist/browser/pangu.min.js integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin=anonymous></script><script>pangu.spacingPage();</script></div></body></html>

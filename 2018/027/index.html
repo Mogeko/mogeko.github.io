@@ -1,0 +1,147 @@
+<!doctype html><html lang=zh-cn><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="chrome=1"><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><meta name=author content="Mogeko"><meta name=description content="Mogeko 的个人博客"><meta name=keywords content="blog,KMS,Hugo,GNU/Linux,Linux,Ubuntu,Rusty Lake: Roots,Hollow Knight,空洞骑士"><link rel=prev href=https://mogeko.me/2018/026/><link rel=next href=https://mogeko.me/2018/028/><link rel=canonical href=https://mogeko.me/2018/027/><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=manifest href=/site.webmanifest><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><meta name=msapplication-TileColor content="#da532c"><meta name=theme-color content="#ffffff"><title>Bottom-up to development a Loan Calculator | Mogeko`s Blog</title><meta name=title content="Bottom-up  to development a Loan Calculator | Mogeko`s Blog"><link rel=stylesheet href=/css/main.min.css><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/mogeko.me"},"articleSection":"posts","name":"Bottom-up  to development a Loan Calculator","headline":"Bottom-up  to development a Loan Calculator","description":"About the bottom-up development Bottom-up development is a style of developing programs. With the bottom-up development, we develop in the reverse inside-out fashion; that is, we develop the service classes first. To test the service classes, we write a temporary dummy main class. After the service classes are done, we complete the top-level class that uses these service classes. The bottom-up development for this program implements the Loanclass first fully","inLanguage":"zh-cn","author":"Mogeko","creator":"Mogeko","publisher":"Mogeko","accountablePerson":"Mogeko","copyrightHolder":"Mogeko","copyrightYear":"2018","datePublished":"2018-11-18 18:30:52 \u002b0800 \u002b0800","dateModified":"2018-11-18 18:30:52 \u002b0800 \u002b0800","url":"https:\/\/mogeko.me\/2018\/027\/","wordCount":"866","keywords":["Java","Mogeko`s Blog"]}</script></head><body><div class=wrapper><nav class=navbar><progress class=content_progress max=0 value=0></progress><div class=container><div class="navbar-header header-back2home-logo"><span class=logo_mark>>$</span>
+<a href=https://mogeko.me><span class=logo_text>cd /home/</span>
+<span class=logo_cursor></span></a></div><div class=navbar-right><span class=menu><a class=menu-item href=/tools/>Tools</a>
+<a class=menu-item href=/posts/>Blog</a>
+<a class=menu-item href=/categories/>Categories</a>
+<a class=menu-item href=/tags/>Tags</a>
+<a class=menu-item href=/about/>About</a>
+<a class=menu-item href=/tools/></a><a class=menu-item href=/about/ title=Mogeko>Mogeko</a>
+<span class=divide></span><a href=javascript:void(0); class=theme-switch><i class="iconfont icon-dark-mode"></i></a></span></div></div></nav><nav class=navbar-mobile id=nav-mobile style=display:none><progress class=content_progress max=0 value=0></progress><div class=container><div class=navbar><div class="navbar-header header-logo"><a href=https://mogeko.me>Mogeko`s Blog</a></div><div class=navbar-right><div><a href=javascript:void(0); class=theme-switch><i class="iconfont icon-dark-mode"></i></a></div><div class=menu-toggle><span></span><span></span><span></span></div></div></div><div class=menu id=mobile-menu><nav class=mb-md><a class=menu-item href=/tools/><h3>Tools</h3><div class=menu-active></div></a><a class=menu-item href=/posts/><h3>Blog</h3><div class=menu-active></div></a><a class=menu-item href=/categories/><h3>Categories</h3><div class=menu-active></div></a><a class=menu-item href=/tags/><h3>Tags</h3><div class=menu-active></div></a><a class=menu-item href=/about/><h3>About</h3><div class=menu-active></div></a><a class=menu-item href=/tools/><h3></h3><div class=menu-active></div></a><a class=menu-item href=/about/ title=Mogeko><h3>Mogeko</h3><div class=menu-active></div></a></nav></div></div></nav><main class=main><div class=container><article class=post-warp itemscope itemtype=http://schema.org/Article><header class=post-header><h1 class=post-title itemprop="name headline">Bottom-up to development a Loan Calculator</h1><div class=post-meta>Written by <a itemprop=name href=https://mogeko.me rel=author>Mogeko</a> with ♥
+<span class=post-time>on <time datetime=2018-11-18 itemprop=datePublished>November 18, 2018</time></span>
+in
+<i class="iconfont icon-folder"></i><span class=post-category></span><span class=post-word-count>866 words</span></div></header><div class=post-content><h1 id=about-the-bottom-up-development>About the bottom-up development</h1><p><strong>Bottom-up development</strong> is a style of developing programs. With the bottom-up development, we develop in the reverse inside-out fashion; that is, we develop the service classes first. To test the service classes, we write a temporary dummy main class. After the service classes are done, we complete the top-level class that uses these service classes. The bottom-up development for this program implements the <code>Loanclass</code> first fully and then the <code>LoanCalculatorclass</code>.</p><h1 id=development-steps>Development steps</h1><p>In this example, we write the <strong>service class</strong> (<code>Loanclass</code>) and write the <strong>main</strong> function in the <code>Loanclass</code> to test the <code>Loanclass</code>. Next, we create a <code>LoanCalculatorclass</code> to <strong>handle the user&rsquo;s input and output</strong>, and compute the monthly and total payments by calling the member method (<code>getLoan()</code>) of <code>Loanclass</code>.</p><h1 id=loan-class>Loan class</h1><h2 id=step-1>Step 1</h2><p>First, we write a <strong>constructor</strong> (<code>Loan()</code>) to receive three <strong>form parameters</strong> (<code>double amount</code>, <code>double rate</code> and <code>int period</code>), and assign them to <strong>member variables</strong> (<code>double amount</code>, <code>double rate</code> and <code>int period</code>).</p><p>Second, we write two <strong>dummy function</strong> (<code>double getMonPay()</code> and <code>double getTotalPay()</code>) .</p><p>Third, we write a <code>main</code> function to test the <code>Loanclass</code>.</p><p><strong>Source code:</strong></p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>Loan</span> <span style=color:#f92672>{</span>
+    <span style=color:#66d9ef>private</span> <span style=color:#66d9ef>final</span> <span style=color:#66d9ef>int</span> MONTHS_IN_YEAR <span style=color:#f92672>=</span> 12<span style=color:#f92672>;</span>
+    <span style=color:#66d9ef>private</span> <span style=color:#66d9ef>double</span> amount<span style=color:#f92672>;</span> <span style=color:#75715e>// Loan amount
+</span><span style=color:#75715e></span>    <span style=color:#66d9ef>private</span> <span style=color:#66d9ef>double</span> rate<span style=color:#f92672>;</span> <span style=color:#75715e>// Lnterest rate
+</span><span style=color:#75715e></span>    <span style=color:#66d9ef>private</span> <span style=color:#66d9ef>int</span> period<span style=color:#f92672>;</span> <span style=color:#75715e>// Loan period
+</span><span style=color:#75715e></span>
+    <span style=color:#75715e>// Constructor
+</span><span style=color:#75715e></span>    <span style=color:#66d9ef>public</span> <span style=color:#a6e22e>Loan</span><span style=color:#f92672>(</span><span style=color:#66d9ef>double</span> amount<span style=color:#f92672>,</span> <span style=color:#66d9ef>double</span> rate<span style=color:#f92672>,</span> <span style=color:#66d9ef>int</span> period<span style=color:#f92672>){</span>
+        <span style=color:#66d9ef>this</span><span style=color:#f92672>.</span><span style=color:#a6e22e>amount</span> <span style=color:#f92672>=</span> amount<span style=color:#f92672>;</span>
+        <span style=color:#66d9ef>this</span><span style=color:#f92672>.</span><span style=color:#a6e22e>rate</span> <span style=color:#f92672>=</span> rate<span style=color:#f92672>;</span>
+        <span style=color:#66d9ef>this</span><span style=color:#f92672>.</span><span style=color:#a6e22e>period</span> <span style=color:#f92672>=</span> period<span style=color:#f92672>;</span>
+    <span style=color:#f92672>}</span>
+
+    <span style=color:#75715e>// Calculating monthly payments
+</span><span style=color:#75715e></span>    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>double</span> <span style=color:#a6e22e>getMonPay</span><span style=color:#f92672>(){</span>
+        <span style=color:#66d9ef>return</span> 100<span style=color:#f92672>.</span><span style=color:#a6e22e>1</span><span style=color:#f92672>;</span>
+    <span style=color:#f92672>}</span>
+
+    <span style=color:#75715e>// Calculating the total payments
+</span><span style=color:#75715e></span>    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>double</span> <span style=color:#a6e22e>getTotalPay</span><span style=color:#f92672>(){</span>
+        <span style=color:#66d9ef>return</span> 112312<span style=color:#f92672>.</span><span style=color:#a6e22e>1212</span><span style=color:#f92672>;</span>
+    <span style=color:#f92672>}</span>
+
+
+    <span style=color:#75715e>// TEST
+</span><span style=color:#75715e></span>    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>static</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>main</span><span style=color:#f92672>(</span>String<span style=color:#f92672>[]</span> args<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+        <span style=color:#66d9ef>double</span> amount <span style=color:#f92672>=</span> 100<span style=color:#f92672>.</span><span style=color:#a6e22e>3</span><span style=color:#f92672>;</span>
+        <span style=color:#66d9ef>double</span> rate <span style=color:#f92672>=</span> 22<span style=color:#f92672>;</span>
+        <span style=color:#66d9ef>int</span> period <span style=color:#f92672>=</span> 12<span style=color:#f92672>;</span>
+
+        Loan loan <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> Loan<span style=color:#f92672>(</span>amount<span style=color:#f92672>,</span> rate<span style=color:#f92672>,</span> period<span style=color:#f92672>);</span>
+
+        System<span style=color:#f92672>.</span><span style=color:#a6e22e>out</span><span style=color:#f92672>.</span><span style=color:#a6e22e>println</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;Expected value: &#34;</span> <span style=color:#f92672>+</span> amount <span style=color:#f92672>+</span> <span style=color:#e6db74>&#34; Actual value： &#34;</span> <span style=color:#f92672>+</span> loan<span style=color:#f92672>.</span><span style=color:#a6e22e>amount</span><span style=color:#f92672>);</span>
+        System<span style=color:#f92672>.</span><span style=color:#a6e22e>out</span><span style=color:#f92672>.</span><span style=color:#a6e22e>println</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;Expected value: &#34;</span> <span style=color:#f92672>+</span> rate <span style=color:#f92672>+</span> <span style=color:#e6db74>&#34; Actual value： &#34;</span> <span style=color:#f92672>+</span> loan<span style=color:#f92672>.</span><span style=color:#a6e22e>rate</span><span style=color:#f92672>);</span>
+        System<span style=color:#f92672>.</span><span style=color:#a6e22e>out</span><span style=color:#f92672>.</span><span style=color:#a6e22e>println</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;Expected value: &#34;</span> <span style=color:#f92672>+</span> period <span style=color:#f92672>+</span> <span style=color:#e6db74>&#34; Actual value： &#34;</span> <span style=color:#f92672>+</span> loan<span style=color:#f92672>.</span><span style=color:#a6e22e>period</span><span style=color:#f92672>);</span>
+
+        System<span style=color:#f92672>.</span><span style=color:#a6e22e>out</span><span style=color:#f92672>.</span><span style=color:#a6e22e>println</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;Expected value: &#34;</span> <span style=color:#f92672>+</span> 100<span style=color:#f92672>.</span><span style=color:#a6e22e>1</span> <span style=color:#f92672>+</span> <span style=color:#e6db74>&#34; Actual value： &#34;</span> <span style=color:#f92672>+</span> loan<span style=color:#f92672>.</span><span style=color:#a6e22e>getMonPay</span><span style=color:#f92672>());</span>
+
+        System<span style=color:#f92672>.</span><span style=color:#a6e22e>out</span><span style=color:#f92672>.</span><span style=color:#a6e22e>println</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;Expected value: &#34;</span> <span style=color:#f92672>+</span> 112312<span style=color:#f92672>.</span><span style=color:#a6e22e>1212</span> <span style=color:#f92672>+</span> <span style=color:#e6db74>&#34; Actual value： &#34;</span> <span style=color:#f92672>+</span> loan<span style=color:#f92672>.</span><span style=color:#a6e22e>getTotalPay</span><span style=color:#f92672>());</span>
+    <span style=color:#f92672>}</span>   
+<span style=color:#f92672>}</span>
+</code></pre></div><p><strong>operation result:</strong></p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext>Expected value: 100.3 Actual value： 100.3
+Expected value: 22.0 Actual value： 22.0
+Expected value: 12 Actual value： 12
+Expected value: 100.1 Actual value： 100.1
+Expected value: 112312.1212 Actual value： 112312.1212
+</code></pre></div><h2 id=step-2>Step 2</h2><p>Complete the logic in the <strong>dummy function</strong> to make it a true <strong>member method</strong>.</p><p>Use the <strong>real value</strong> in the <strong>main function</strong> to test whether the logic of the <strong>member method</strong> (<code>double getMonPay()</code> and <code>double getTotalPay()</code>) is correct.</p><p><strong>Source code:</strong></p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#75715e>// Calculating monthly payments
+</span><span style=color:#75715e></span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>double</span> <span style=color:#a6e22e>getMonPay</span><span style=color:#f92672>(){</span>
+    <span style=color:#66d9ef>return</span> <span style=color:#f92672>(</span>amount <span style=color:#f92672>*</span> <span style=color:#f92672>(</span>rate <span style=color:#f92672>/</span> 100<span style=color:#f92672>.</span><span style=color:#a6e22e>0</span><span style=color:#f92672>))</span> <span style=color:#f92672>/</span> MONTHS_IN_YEAR<span style=color:#f92672>;</span>
+<span style=color:#f92672>}</span>
+
+<span style=color:#75715e>// Calculating the total payments
+</span><span style=color:#75715e></span><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>double</span> <span style=color:#a6e22e>getTotalPay</span><span style=color:#f92672>(){</span>
+    <span style=color:#66d9ef>return</span> amount <span style=color:#f92672>+</span> <span style=color:#f92672>((</span>amount <span style=color:#f92672>*</span> <span style=color:#f92672>(</span>rate <span style=color:#f92672>/</span> 100<span style=color:#f92672>.</span><span style=color:#a6e22e>0</span><span style=color:#f92672>))</span> <span style=color:#f92672>*</span> period<span style=color:#f92672>);</span>
+<span style=color:#f92672>}</span>
+</code></pre></div><p><strong>operation result:</strong></p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext>Expected value: 100.3 Actual value： 100.3
+Expected value: 22.0 Actual value： 22.0
+Expected value: 12 Actual value： 12
+Expected value: 1.838833 Actual value： 1.8388333333333333
+Expected value: 365.092 Actual value： 365.092
+</code></pre></div><p>So far, the <code>Loanclass</code> has been completed.</p><h1 id=loan-calculator-class>Loan Calculator class</h1><h2 id=step-1-1>Step 1</h2><p>First, we write a <strong>member method</strong> (<code>void getInput()</code>) to handle <strong>input</strong> and another <strong>member method</strong> (<code>void getOutput()</code>) to handle <strong>output</strong>.</p><p>Sexond, we write a <strong>fake main function</strong> to test the input and output.</p><p><strong>Source code:</strong></p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#f92672>import</span> java.util.Scanner<span style=color:#f92672>;</span>
+
+<span style=color:#66d9ef>class</span> <span style=color:#a6e22e>LoanCalculator</span> <span style=color:#f92672>{</span>
+    <span style=color:#66d9ef>private</span> <span style=color:#66d9ef>double</span> amount<span style=color:#f92672>;</span> <span style=color:#75715e>// Loan amount
+</span><span style=color:#75715e></span>    <span style=color:#66d9ef>private</span> <span style=color:#66d9ef>double</span> rate<span style=color:#f92672>;</span> <span style=color:#75715e>// Lnterest rate
+</span><span style=color:#75715e></span>    <span style=color:#66d9ef>private</span> <span style=color:#66d9ef>int</span> period<span style=color:#f92672>;</span> <span style=color:#75715e>// Loan period
+</span><span style=color:#75715e></span>    <span style=color:#66d9ef>private</span> <span style=color:#66d9ef>double</span> monPayment<span style=color:#f92672>;</span> <span style=color:#75715e>// Monthly payment
+</span><span style=color:#75715e></span>    <span style=color:#66d9ef>private</span> <span style=color:#66d9ef>double</span> totalPayment<span style=color:#f92672>;</span> <span style=color:#75715e>// Total payment
+</span><span style=color:#75715e></span>
+    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>static</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>main</span><span style=color:#f92672>(</span>String<span style=color:#f92672>[]</span> args<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+        LoanCalculator loanCalculator <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> LoanCalculator<span style=color:#f92672>();</span>
+
+        loanCalculator<span style=color:#f92672>.</span><span style=color:#a6e22e>getInput</span><span style=color:#f92672>();</span>
+        System<span style=color:#f92672>.</span><span style=color:#a6e22e>out</span><span style=color:#f92672>.</span><span style=color:#a6e22e>println</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;Input: &#34;</span> <span style=color:#f92672>+</span> loanCalculator<span style=color:#f92672>.</span><span style=color:#a6e22e>amount</span> <span style=color:#f92672>+</span> <span style=color:#e6db74>&#34; &#34;</span> <span style=color:#f92672>+</span> loanCalculator<span style=color:#f92672>.</span><span style=color:#a6e22e>rate</span> <span style=color:#f92672>+</span> <span style=color:#e6db74>&#34; &#34;</span> <span style=color:#f92672>+</span> loanCalculator<span style=color:#f92672>.</span><span style=color:#a6e22e>period</span><span style=color:#f92672>);</span>
+
+        System<span style=color:#f92672>.</span><span style=color:#a6e22e>out</span><span style=color:#f92672>.</span><span style=color:#a6e22e>println</span><span style=color:#f92672>();</span>
+
+        loanCalculator<span style=color:#f92672>.</span><span style=color:#a6e22e>monPayment</span> <span style=color:#f92672>=</span> 100<span style=color:#f92672>.</span><span style=color:#a6e22e>1</span><span style=color:#f92672>;</span>
+        loanCalculator<span style=color:#f92672>.</span><span style=color:#a6e22e>totalPayment</span> <span style=color:#f92672>=</span> 200<span style=color:#f92672>.</span><span style=color:#a6e22e>2</span><span style=color:#f92672>;</span>
+        loanCalculator<span style=color:#f92672>.</span><span style=color:#a6e22e>getOutput</span><span style=color:#f92672>();</span>
+    <span style=color:#f92672>}</span>
+
+    <span style=color:#75715e>// Processing input
+</span><span style=color:#75715e></span>    <span style=color:#66d9ef>private</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>getInput</span><span style=color:#f92672>(){</span>
+        Scanner sc <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> Scanner<span style=color:#f92672>(</span>System<span style=color:#f92672>.</span><span style=color:#a6e22e>in</span><span style=color:#f92672>);</span>
+
+        System<span style=color:#f92672>.</span><span style=color:#a6e22e>out</span><span style=color:#f92672>.</span><span style=color:#a6e22e>print</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;Your loan amount: $&#34;</span><span style=color:#f92672>);</span>
+        amount <span style=color:#f92672>=</span> sc<span style=color:#f92672>.</span><span style=color:#a6e22e>nextDouble</span><span style=color:#f92672>();</span>
+        System<span style=color:#f92672>.</span><span style=color:#a6e22e>out</span><span style=color:#f92672>.</span><span style=color:#a6e22e>print</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;Your loan interest rate (%): &#34;</span><span style=color:#f92672>);</span>
+        rate <span style=color:#f92672>=</span> sc<span style=color:#f92672>.</span><span style=color:#a6e22e>nextDouble</span><span style=color:#f92672>();</span>
+        System<span style=color:#f92672>.</span><span style=color:#a6e22e>out</span><span style=color:#f92672>.</span><span style=color:#a6e22e>print</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;Your loan period (year): &#34;</span><span style=color:#f92672>);</span>
+        period <span style=color:#f92672>=</span> sc<span style=color:#f92672>.</span><span style=color:#a6e22e>nextInt</span><span style=color:#f92672>();</span>
+
+        sc<span style=color:#f92672>.</span><span style=color:#a6e22e>close</span><span style=color:#f92672>();</span>
+    <span style=color:#f92672>}</span>
+
+    <span style=color:#75715e>// Processing output
+</span><span style=color:#75715e></span>    <span style=color:#66d9ef>private</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>getOutput</span><span style=color:#f92672>(){</span>
+        System<span style=color:#f92672>.</span><span style=color:#a6e22e>out</span><span style=color:#f92672>.</span><span style=color:#a6e22e>println</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;Your monthly payment is $&#34;</span> <span style=color:#f92672>+</span> monPayment<span style=color:#f92672>);</span>
+        System<span style=color:#f92672>.</span><span style=color:#a6e22e>out</span><span style=color:#f92672>.</span><span style=color:#a6e22e>println</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;Your total payment is $&#34;</span> <span style=color:#f92672>+</span> totalPayment<span style=color:#f92672>);</span>
+    <span style=color:#f92672>}</span>
+<span style=color:#f92672>}</span>
+</code></pre></div><p><strong>operation result:</strong></p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext>Your loan amount: $100.1
+Your loan interest rate (%): 33.2
+Your loan period (year): 12
+Input: 100.1 33.2 12
+
+Your monthly payment is $100.1
+Your total payment is $200.2
+</code></pre></div><h2 id=step-2-1>Step 2</h2><p>Rewrite the <strong>main function</strong>, call the <code>getMonPay()</code> method of the <code>Loan</code> class to calculating the monthly payments, and call the <code>getTotalPay()</code> method of the <code>Loan</code> class to calculating the total payments.</p><p><strong>Source code:</strong></p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>static</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>main</span><span style=color:#f92672>(</span>String<span style=color:#f92672>[]</span> args<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+    LoanCalculator loanCalculator <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> LoanCalculator<span style=color:#f92672>();</span>
+
+    loanCalculator<span style=color:#f92672>.</span><span style=color:#a6e22e>getInput</span><span style=color:#f92672>();</span>
+
+    Loan loan <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> Loan<span style=color:#f92672>(</span>loanCalculator<span style=color:#f92672>.</span><span style=color:#a6e22e>amount</span><span style=color:#f92672>,</span> loanCalculator<span style=color:#f92672>.</span><span style=color:#a6e22e>rate</span><span style=color:#f92672>,</span> loanCalculator<span style=color:#f92672>.</span><span style=color:#a6e22e>period</span><span style=color:#f92672>);</span>
+    System<span style=color:#f92672>.</span><span style=color:#a6e22e>out</span><span style=color:#f92672>.</span><span style=color:#a6e22e>println</span><span style=color:#f92672>();</span>
+
+    loanCalculator<span style=color:#f92672>.</span><span style=color:#a6e22e>monPayment</span> <span style=color:#f92672>=</span> loan<span style=color:#f92672>.</span><span style=color:#a6e22e>getMonPay</span><span style=color:#f92672>();</span>
+    loanCalculator<span style=color:#f92672>.</span><span style=color:#a6e22e>totalPayment</span> <span style=color:#f92672>=</span> loan<span style=color:#f92672>.</span><span style=color:#a6e22e>getTotalPay</span><span style=color:#f92672>();</span>
+    loanCalculator<span style=color:#f92672>.</span><span style=color:#a6e22e>getOutput</span><span style=color:#f92672>();</span>
+<span style=color:#f92672>}</span>
+</code></pre></div><p><strong>operation result:</strong></p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext>Your loan amount: $100
+Your loan interest rate (%): 22
+Your loan period (year): 10
+
+Your monthly payment is $1.8333333333333333
+Your total payment is $320.0
+</code></pre></div><p>Completed!!! ヾ(<em>´▽'</em>)ﾉ.</p><br><center>·End·</center></div><div class=post-copyright><p class=copyright-item><span>Author:</span>
+<span>Mogeko</span></p><p class=copyright-item><span>Link:</span>
+<a href=https://mogeko.me/2018/027/>https://mogeko.me/2018/027/</span></p><p class="copyright-item lincese">本文采用<a rel=license href=http://creativecommons.org/licenses/by-nc/4.0/ target=_blank>知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p></div><div class=post-tags><section><i class="iconfont icon-tag"></i>Tag(s):
+<span class=tag><a href=https://mogeko.me/tags/java/>#Java</a></span></section><section><a href=javascript:window.history.back();>back</a></span> ·
+<span><a href=https://mogeko.me>home</a></span></section></div><div class=post-nav><a href=https://mogeko.me/2018/026/ class=prev rel=prev title="Windows / Office 激活脚本 (使用 KMS)"><i class="iconfont icon-left"></i>&nbsp;Windows / Office 激活脚本 (使用 KMS)</a>
+<a href=https://mogeko.me/2018/028/ class=next rel=next title="使用 Travis CI 自动部署 Hugo 博客">使用 Travis CI 自动部署 Hugo 博客&nbsp;<i class="iconfont icon-right"></i></a></div><div class=post-comment><div id=utteranc-container><script src=https://utteranc.es/client.js repo=Mogeko/blog-commits issue-term=title theme=preferred-color-scheme crossorigin=anonymous async></script></div></div></article></div></main><footer class=footer><div class=copyright>&copy;
+<span itemprop=copyrightYear>2017 - 2020</span>
+<span class=with-love><i class="iconfont icon-love"></i></span><span class=author itemprop=copyrightHolder><a href=https://mogeko.me>Mogeko</a> |</span>
+<span>Powered by <a href=https://gohugo.io/ target=_blank rel="external nofollow">Hugo</a> & <a href=https://github.com/Mogeko/Mogege target=_blank rel="external nofollow">Mogege</a></span></div></footer><script defer src=/js/vendor_main.min.js></script><script src=https://cdn.jsdelivr.net/npm/pangu@4.0.7/dist/browser/pangu.min.js integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin=anonymous></script><script>pangu.spacingPage();</script></div></body></html>

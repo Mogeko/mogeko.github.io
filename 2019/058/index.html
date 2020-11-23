@@ -1,0 +1,184 @@
+<!doctype html><html lang=zh-cn><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="chrome=1"><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><meta name=author content="Mogeko"><meta name=description content="Mogeko 的个人博客"><meta name=keywords content="blog,KMS,Hugo,GNU/Linux,Linux,Ubuntu,Rusty Lake: Roots,Hollow Knight,空洞骑士"><link rel=prev href=https://mogeko.me/2019/057/><link rel=next href=https://mogeko.me/2019/059/><link rel=canonical href=https://mogeko.me/2019/058/><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=manifest href=/site.webmanifest><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><meta name=msapplication-TileColor content="#da532c"><meta name=theme-color content="#ffffff"><title>各种包管理器的镜像源汇总 | Mogeko`s Blog</title><meta name=title content="各种包管理器的镜像源汇总 | Mogeko`s Blog"><link rel=stylesheet href=/css/main.min.css><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/mogeko.me"},"articleSection":"posts","name":"各种包管理器的镜像源汇总","headline":"各种包管理器的镜像源汇总","description":"\u0026emsp;\u0026emsp; -- 众所周知，国内的程序员想要从各大包管理器的官方源上下载软件或者程序依赖是很痛苦的一件事，因为几乎所以的官方源都架设在国外，国内的 IP 从这些","inLanguage":"zh-cn","author":"Mogeko","creator":"Mogeko","publisher":"Mogeko","accountablePerson":"Mogeko","copyrightHolder":"Mogeko","copyrightYear":"2019","datePublished":"2019-04-26 01:26:39 \u002b0800 \u002b0800","dateModified":"2019-04-26 01:26:39 \u002b0800 \u002b0800","url":"https:\/\/mogeko.me\/2019\/058\/","wordCount":"2356","keywords":["GNU\/Linux","MacOS","Android","Rust","Golang","JavaScript","Ruby","Python","Mogeko`s Blog"]}</script></head><body><div class=wrapper><nav class=navbar><progress class=content_progress max=0 value=0></progress><div class=container><div class="navbar-header header-back2home-logo"><span class=logo_mark>>$</span>
+<a href=https://mogeko.me><span class=logo_text>cd /home/</span>
+<span class=logo_cursor></span></a></div><div class=navbar-right><span class=menu><a class=menu-item href=/tools/>Tools</a>
+<a class=menu-item href=/posts/>Blog</a>
+<a class=menu-item href=/categories/>Categories</a>
+<a class=menu-item href=/tags/>Tags</a>
+<a class=menu-item href=/about/>About</a>
+<a class=menu-item href=/tools/></a><a class=menu-item href=/about/ title=Mogeko>Mogeko</a>
+<span class=divide></span><a href=javascript:void(0); class=theme-switch><i class="iconfont icon-dark-mode"></i></a></span></div></div></nav><nav class=navbar-mobile id=nav-mobile style=display:none><progress class=content_progress max=0 value=0></progress><div class=container><div class=navbar><div class="navbar-header header-logo"><a href=https://mogeko.me>Mogeko`s Blog</a></div><div class=navbar-right><div><a href=javascript:void(0); class=theme-switch><i class="iconfont icon-dark-mode"></i></a></div><div class=menu-toggle><span></span><span></span><span></span></div></div></div><div class=menu id=mobile-menu><nav class=mb-md><a class=menu-item href=/tools/><h3>Tools</h3><div class=menu-active></div></a><a class=menu-item href=/posts/><h3>Blog</h3><div class=menu-active></div></a><a class=menu-item href=/categories/><h3>Categories</h3><div class=menu-active></div></a><a class=menu-item href=/tags/><h3>Tags</h3><div class=menu-active></div></a><a class=menu-item href=/about/><h3>About</h3><div class=menu-active></div></a><a class=menu-item href=/tools/><h3></h3><div class=menu-active></div></a><a class=menu-item href=/about/ title=Mogeko><h3>Mogeko</h3><div class=menu-active></div></a></nav></div></div></nav><main class=main><div class=container><article class=post-warp itemscope itemtype=http://schema.org/Article><header class=post-header><h1 class=post-title itemprop="name headline">各种包管理器的镜像源汇总</h1><div class=post-meta>Written by <a itemprop=name href=https://mogeko.me rel=author>Mogeko</a> with ♥
+<span class=post-time>on <time datetime=2019-04-26 itemprop=datePublished>April 26, 2019</time></span>
+in
+<i class="iconfont icon-folder"></i><span class=post-category></span><span class=post-word-count>2356 words</span></div></header><div class=post-content><p>众所周知，国内的程序员想要从各大包管理器的官方源上下载软件或者程序依赖是很痛苦的一件事，因为几乎所以的官方源都架设在国外，国内的 IP 从这些源上下东西就算不被墙那速度也是慢得令人发指。</p><p>不过好在我们有镜像源。今天我就来写一篇文章汇总一下各个包管理器的镜像源的设置方法。</p><p><strong>感谢各大镜像站对开源做出的贡献！！！</strong></p><h2 id=operating-system>Operating System</h2><h3 id=archlinux>Archlinux</h3><blockquote><p>镜像源：<a href=https://mirror.tuna.tsinghua.edu.cn/help/archlinux/>清华大学开源软件镜像站</a></p></blockquote><p>编辑 <code>/etc/pacman.d/mirrorlist</code>， 在文件的最顶端添加：</p><pre><code class=language-conf data-lang=conf>Server = https://mirrors.tuna.tsinghua.edu.cn/archlinux/$repo/os/$arch 
+</code></pre><p>更新软件包缓存：</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext>$ sudo pacman -Syy
+</code></pre></div><h4 id=archlinuxcn>ArchlinuxCN</h4><blockquote><p>镜像源：<a href=https://mirror.tuna.tsinghua.edu.cn/help/archlinuxcn/>清华大学开源软件镜像站</a></p></blockquote><p>Arch Linux 中文社区仓库 是由 Arch Linux 中文社区驱动的非官方用户仓库。包含中文用户常用软件、工具、字体/美化包等。</p><p>完整的包信息列表（包名称/架构/维护者/状态）请 <a href=https://github.com/archlinuxcn/repo>点击这里</a> 查看。</p><ul><li>官方仓库地址：<a href=http://repo.archlinuxcn.org>http://repo.archlinuxcn.org</a></li><li>镜像地址: <a href=https://mirrors.tuna.tsinghua.edu.cn/archlinuxcn/>https://mirrors.tuna.tsinghua.edu.cn/archlinuxcn/</a></li></ul><p>使用方法：在 <code>/etc/pacman.conf</code> 文件末尾添加以下两行：</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext>[archlinuxcn]
+Server = https://mirrors.tuna.tsinghua.edu.cn/archlinuxcn/$arch
+</code></pre></div><p>之后安装 <code>archlinuxcn-keyring</code> 包导入 GPG key。</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext>$ sudo pacman -Sy archlinuxcn-keyring
+</code></pre></div><h3 id=centos>CentOS</h3><blockquote><p>镜像源：<a href=https://mirror.tuna.tsinghua.edu.cn/help/centos/>清华大学开源软件镜像站</a></p></blockquote><p><strong><a href=https://mirror.tuna.tsinghua.edu.cn/help/centos/>清华大学开源软件镜像站</a>针对不同的 CentOS 版本提供了不同的镜像源，这里仅以 CentOS 7 为例</strong></p><p>首先备份 CentOS-Base.repo</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext>$ sudo mv /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.bak
+</code></pre></div><p>之后启用 TUNA 软件仓库， 将以下内容写入 /etc/yum.repos.d/CentOS-Base.repo</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext># CentOS-Base.repo
+#
+# The mirror system uses the connecting IP address of the client and the
+# update status of each mirror to pick mirrors that are updated to and
+# geographically close to the client.  You should use this for CentOS updates
+# unless you are manually picking other mirrors.
+#
+# If the mirrorlist= does not work for you, as a fall back you can try the
+# remarked out baseurl= line instead.
+#
+#
+
+[base]
+name=CentOS-$releasever - Base
+baseurl=https://mirrors.tuna.tsinghua.edu.cn/centos/$releasever/os/$basearch/
+#mirrorlist=http://mirrorlist.centos.org/?release=$releasever&amp;arch=$basearch&amp;repo=os
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7
+
+#released updates
+[updates]
+name=CentOS-$releasever - Updates
+baseurl=https://mirrors.tuna.tsinghua.edu.cn/centos/$releasever/updates/$basearch/
+#mirrorlist=http://mirrorlist.centos.org/?release=$releasever&amp;arch=$basearch&amp;repo=updates
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7
+
+#additional packages that may be useful
+[extras]
+name=CentOS-$releasever - Extras
+baseurl=https://mirrors.tuna.tsinghua.edu.cn/centos/$releasever/extras/$basearch/
+#mirrorlist=http://mirrorlist.centos.org/?release=$releasever&amp;arch=$basearch&amp;repo=extras
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7
+
+#additional packages that extend functionality of existing packages
+[centosplus]
+name=CentOS-$releasever - Plus
+baseurl=https://mirrors.tuna.tsinghua.edu.cn/centos/$releasever/centosplus/$basearch/
+#mirrorlist=http://mirrorlist.centos.org/?release=$releasever&amp;arch=$basearch&amp;repo=centosplus
+gpgcheck=1
+enabled=0
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7
+</code></pre></div><p>更新软件包缓存</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext>$ sudo yum makecache
+</code></pre></div><h3 id=debian>Debian</h3><blockquote><p>镜像源：<a href=https://mirror.tuna.tsinghua.edu.cn/help/debian/>清华大学开源软件镜像站</a></p></blockquote><p><strong><a href=https://mirror.tuna.tsinghua.edu.cn/help/debian/>清华大学开源软件镜像站</a>针对不同的 Debian 版本提供了不同的镜像源，这里仅以 Debian stretch 为例</strong></p><p>备份 <code>/etc/apt/sources.list</code>：</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext>$ sudo mv /etc/apt/sources.list /etc/apt/sources.list.bak
+</code></pre></div><p>然后将 <code>/etc/apt/sources.list</code> 替换为下面内容：</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext># 默认注释了源码镜像以提高 apt update 速度，如有需要可自行取消注释
+deb https://mirrors.tuna.tsinghua.edu.cn/debian/ stretch main contrib non-free
+# deb-src https://mirrors.tuna.tsinghua.edu.cn/debian/ stretch main contrib non-free
+deb https://mirrors.tuna.tsinghua.edu.cn/debian/ stretch-updates main contrib non-free
+# deb-src https://mirrors.tuna.tsinghua.edu.cn/debian/ stretch-updates main contrib non-free
+deb https://mirrors.tuna.tsinghua.edu.cn/debian/ stretch-backports main contrib non-free
+# deb-src https://mirrors.tuna.tsinghua.edu.cn/debian/ stretch-backports main contrib non-free
+deb https://mirrors.tuna.tsinghua.edu.cn/debian-security stretch/updates main contrib non-free
+# deb-src https://mirrors.tuna.tsinghua.edu.cn/debian-security stretch/updates main contrib non-free
+</code></pre></div><p>如果遇到无法拉取 https 源的情况，请先使用 http 源并安装：</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext>$ sudo apt install apt-transport-https
+</code></pre></div><h3 id=fedora>Fedora</h3><blockquote><p>镜像源：<a href=https://mirror.tuna.tsinghua.edu.cn/help/fedora/>清华大学开源软件镜像站</a></p></blockquote><p>Fedora 默认使用 <a href=https://zh.fedoracommunity.org/2018/04/05/fedora-secures-package-delivery.html>Metalink</a> 给出推荐的镜像列表，保证用户使用的镜像仓库足够新，并且能够尽快拿到安全更新，从而提供更好的安全性。所以通常情况下使用默认配置即可，无需更改配置文件。</p><p>由于 Metalink 需要从国外的 Fedora 项目服务器上获取元信息，所以对于校园内网、无国外访问等特殊情况，metalink 并不适用，此时可以如下修改配置文件。</p><p>Fedora 的软件源配置文件可以有多个，其中： 系统默认的 <code>fedora</code> 仓库配置文件为 <code>/etc/yum.repos.d/fedora.repo</code>，系统默认的 <code>updates</code> 仓库配置文件为 <code>/etc/yum.repos.d/fedora-updates.repo</code> 。将上述两个文件先做个备份，根据 Fedora 系统版本分别替换为下面内容，之后通过 <code>sudo dnf makecache</code> 命令更新本地缓存，即可使用 TUNA 的软件源镜像。</p><h4 id=fedora-27-或更旧版本>Fedora 27 或更旧版本</h4><p><strong>fedora 仓库 (/etc/yum.repos.d/fedora.repo)</strong></p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext>[fedora]
+name=Fedora $releasever - $basearch
+failovermethod=priority
+baseurl=https://mirrors.tuna.tsinghua.edu.cn/fedora/releases/$releasever/Everything/$basearch/os/
+enabled=1
+metadata_expire=28d
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-fedora-$releasever-$basearch
+skip_if_unavailable=False
+</code></pre></div><p><strong>updates 仓库 (/etc/yum.repos.d/fedora-updates.repo)</strong></p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext>[updates]
+name=Fedora $releasever - $basearch - Updates
+failovermethod=priority
+baseurl=https://mirrors.tuna.tsinghua.edu.cn/fedora/updates/$releasever/$basearch/
+enabled=1
+gpgcheck=1
+metadata_expire=6h
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-fedora-$releasever-$basearch
+skip_if_unavailable=False
+</code></pre></div><h4 id=fedora-28-或更新版本>Fedora 28 或更新版本</h4><p><strong>fedora 仓库 (/etc/yum.repos.d/fedora.repo)</strong></p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext>[fedora]
+name=Fedora $releasever - $basearch
+failovermethod=priority
+baseurl=https://mirrors.tuna.tsinghua.edu.cn/fedora/releases/$releasever/Everything/$basearch/os/
+metadata_expire=28d
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-fedora-$releasever-$basearch
+skip_if_unavailable=False
+</code></pre></div><p><strong>updates 仓库 (/etc/yum.repos.d/fedora-updates.repo)</strong></p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext>[updates]
+name=Fedora $releasever - $basearch - Updates
+failovermethod=priority
+baseurl=https://mirrors.tuna.tsinghua.edu.cn/fedora/updates/$releasever/Everything/$basearch/
+enabled=1
+gpgcheck=1
+metadata_expire=6h
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-fedora-$releasever-$basearch
+skip_if_unavailable=False
+</code></pre></div><h3 id=homebrew>Homebrew</h3><blockquote><p>软件源：<a href=https://mirror.tuna.tsinghua.edu.cn/help/homebrew/>清华大学开源软件镜像站</a></p></blockquote><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext>$ cd &#34;$(brew --repo)&#34;
+$ git remote set-url origin https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/brew.git
+
+$ cd &#34;$(brew --repo)/Library/Taps/homebrew/homebrew-core&#34;
+$ git remote set-url origin https://mirrors.tuna.tsinghua.edu.cn/git/homebrew/homebrew-core.git
+
+$ brew update
+</code></pre></div><h4 id=homebrew-bottles>Homebrew-bottles</h4><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext>$ echo &#39;export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles&#39; &gt;&gt; ~/.bash_profile
+$ source ~/.bash_profile
+</code></pre></div><h3 id=termux>Termux</h3><blockquote><p>镜像源：<a href=https://mirror.tuna.tsinghua.edu.cn/help/termux/>清华大学开源软件镜像站</a></p></blockquote><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext>$ export EDITOR=vi
+$ apt edit-sources
+</code></pre></div><p>以 32位 ARM 平台为例，打开你常用的文本编辑器，替换成如下内容</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext># The termux repository mirror from TUNA:
+deb [arch=all,arm] https://mirrors.tuna.tsinghua.edu.cn/termux stable main
+</code></pre></div><p>或通过 http 访问（不建议）：</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext># The termux repository mirror from TUNA:
+deb [arch=all,arm] http://mirrors.tuna.tsinghua.edu.cn/termux stable main
+</code></pre></div><p>如果您用的是 64位 ARM 平台，请用 aarch64 替换 arm ；如果是 Intel 平台，则用 i686 / x86_64 分别表示 32位 和 64 位。</p><h3 id=ubuntu>Ubuntu</h3><blockquote><p>镜像源：<a href=https://mirror.tuna.tsinghua.edu.cn/help/ubuntu/>清华大学开源软件镜像站</a></p></blockquote><p><strong><a href=https://mirror.tuna.tsinghua.edu.cn/help/ubuntu/>清华大学开源软件镜像站</a>针对不同的 Ubuntu 版本提供了不同的镜像源，这里仅以 Ubuntu 18.04 LTS 为例</strong></p><p>备份 <code>/etc/apt/sources.list</code>：</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext>$ sudo mv /etc/apt/sources.list /etc/apt/sources.list.bak
+</code></pre></div><p>然后将 <code>/etc/apt/sources.list</code> 替换为下面内容：</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext># 默认注释了源码镜像以提高 apt update 速度，如有需要可自行取消注释
+deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ bionic main restricted universe multiverse
+# deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ bionic main restricted universe multiverse
+deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ bionic-updates main restricted universe multiverse
+# deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ bionic-updates main restricted universe multiverse
+deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ bionic-backports main restricted universe multiverse
+# deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ bionic-backports main restricted universe multiverse
+deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ bionic-security main restricted universe multiverse
+# deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ bionic-security main restricted universe multiverse
+
+# 预发布软件源，不建议启用
+# deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ bionic-proposed main restricted universe multiverse
+# deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ bionic-proposed main restricted universe multiverse
+</code></pre></div><h4 id=ppa>PPA</h4><blockquote><p>镜像源：<a href=http://mirrors.ustc.edu.cn/>USTC open source software mirror</a></p></blockquote><p>修改 <code>/etc/apt/sources.list.d</code> 下面需要代理的仓库地址，将 <code>ppa.launchpad.net</code> 换成 <code>launchpad.proxy.ustclug.org</code></p><p>然后更新一下软件源列表</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext>$ sudo apt update
+</code></pre></div><p>使用下面这个命令一键替换全部 <code>ppa.launchpad.net</code> 地址：</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext>$ sudo find /etc/apt/sources.list.d/ -type f -name &#34;*.list&#34; -exec  sed  -i.bak -r  &#39;s#deb(-src)?\s*http(s)?://ppa.launchpad.net#deb\1 http\2://launchpad.proxy.ustclug.org#ig&#39; {} \;
+</code></pre></div><h2 id=programming-language>Programming language</h2><h3 id=golang>Golang</h3><blockquote><p>镜像站：<a href=https://goproxy.io/>goproxy.io</a></p></blockquote><p>Golang 的镜像只能在 Go module 模式中使用。</p><p>在 <code>/etc/profile</code>、<code>$HOME/.profile</code> 或 <code>$HOME/.bash_profile</code> 中添加：</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>export GO111MODULE<span style=color:#f92672>=</span>auto
+export GOPROXY<span style=color:#f92672>=</span>https://goproxy.io
+</code></pre></div><h3 id=javascript>JavaScript</h3><blockquote><p>镜像站：<a href=https://npm.taobao.org/>TAONPM</a></p></blockquote><p>由淘宝提供的完整 <code>npmjs.org</code> 镜像，你可以用此代替官方版本(只读)。</p><p>同步频率目前为 <strong>10分钟</strong> 一次，基本可以保证与官方服务同步。</p><p>替换 npm 镜像为 TAONPM：</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext>$ npm config set registry https://registry.npm.taobao.org
+</code></pre></div><p>如果你不想替换 npm 的官方源，可以安装 cnpm：</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext>$ npm install -g cnpm --registry=https://registry.npm.taobao.org
+</code></pre></div><p>然后通过 cnpm 使用 TAONPM：</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext>$ cnpm install [name]
+</code></pre></div><h3 id=python>Python</h3><blockquote><p>镜像站：<a href=https://mirror.tuna.tsinghua.edu.cn/help/pypi/>清华大学开源软件镜像站</a></p></blockquote><p>pypi 镜像每 5 分钟同步一次。</p><p>升级 pip 到最新的版本 (>=10.0.0) 后进行配置：</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext>$ pip install pip -U
+$ pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
+</code></pre></div><p>如果您到 pip 默认源的网络连接较差，临时使用本镜像站来升级 pip：</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext>$ pip install -i https://pypi.tuna.tsinghua.edu.cn/simple pip -U
+</code></pre></div><h3 id=ruby>Ruby</h3><blockquote><p>镜像源：<a href=https://gems.ruby-china.com/>Ruby China</a></p></blockquote><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext>$ gem sources --add https://gems.ruby-china.com/ --remove https://rubygems.org/
+$ gem sources -l
+https://gems.ruby-china.com
+# 确保只有 gems.ruby-china.com
+</code></pre></div><h4 id=如果你使用-gemfile-和-bundler-例如rails-项目>如果你使用 Gemfile 和 Bundler (例如：Rails 项目)</h4><p>你可以用 Bundler 的 <a href=http://bundler.io/v1.5/bundle_config.html#gem-source-mirrors>Gem 源代码镜像命令</a>。</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext>$ bundle config mirror.https://rubygems.org https://gems.ruby-china.com
+</code></pre></div><p>这样你不用改你的 Gemfile 的 source。</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext>source &#39;https://rubygems.org/&#39;
+gem &#39;rails&#39;, &#39;4.2.5&#39;
+...
+</code></pre></div><h4 id=ssl-证书错误>SSL 证书错误</h4><p>正常情况下，你是不会遇到 SSL 证书错误的，除非你的 Ruby 安装方式不正确。</p><p>如果遇到 SSL 证书问题，你又无法解决，请修改 <code>~/.gemrc</code> 文件，增加 <code>ssl_verify_mode: 0</code> 配置，以便于 RubyGems 可以忽略 SSL 证书错误。</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext>---
+:sources:
+- https://gems.ruby-china.com
+:ssl_verify_mode: 0
+</code></pre></div><p>如果你在意 Gem 下载的安全问题，请正确安装 Ruby、OpenSSL，建议部署 Linux 服务器的时候采用 <a href=https://github.com/huacnlee/init.d/blob/master/install_rvm>这个 RVM 安装脚本</a> 的方式安装 Ruby。</p><h3 id=rust>Rust</h3><h4 id=cargo>Cargo</h4><blockquote><p>镜像源：<a href=http://mirrors.ustc.edu.cn/crates.io-index/>USTC open source software mirror</a></p></blockquote><p>在 <code>$HOME/.cargo/config</code> 中添加如下内容</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext>[registry]
+index = &#34;git://mirrors.ustc.edu.cn/crates.io-index&#34;
+</code></pre></div><p>如果所处的环境中不允许使用 git 协议, 可以把上述地址改为</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext>index = &#34;https://mirrors.ustc.edu.cn/crates.io-index&#34;
+</code></pre></div><p>同步频率为每两个小时更新一次.</p><p>如果 cargo 版本为 0.13.0 或以上, 需要更改 $HOME/.cargo/config 为以下内容:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext>[source.crates-io]
+registry = &#34;https://github.com/rust-lang/crates.io-index&#34;
+replace-with = &#39;ustc&#39;
+[source.ustc]
+registry = &#34;git://mirrors.ustc.edu.cn/crates.io-index&#34;
+</code></pre></div><h4 id=rustup>rustup</h4><p>在 <code>/etc/profile</code>、<code>$HOME/.profile</code> 或 <code>$HOME/.bash_profile</code> 中添加：</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>export RUSTUP_DIST_SERVER<span style=color:#f92672>=</span>https://mirrors.ustc.edu.cn/rust-static
+export RUSTUP_UPDATE_ROOT<span style=color:#f92672>=</span>https://mirrors.ustc.edu.cn/rust-static/rustup
+</code></pre></div><br><center>·End·</center></div><div class=post-copyright><p class=copyright-item><span>Author:</span>
+<span>Mogeko</span></p><p class=copyright-item><span>Link:</span>
+<a href=https://mogeko.me/2019/058/>https://mogeko.me/2019/058/</span></p><p class="copyright-item lincese">本文采用<a rel=license href=http://creativecommons.org/licenses/by-nc/4.0/ target=_blank>知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p></div><div class=post-tags><section><i class="iconfont icon-tag"></i>Tag(s):
+<span class=tag><a href=https://mogeko.me/tags/gnu/linux/>#GNU/Linux</a></span>
+<span class=tag><a href=https://mogeko.me/tags/macos/>#MacOS</a></span>
+<span class=tag><a href=https://mogeko.me/tags/android/>#Android</a></span>
+<span class=tag><a href=https://mogeko.me/tags/rust/>#Rust</a></span>
+<span class=tag><a href=https://mogeko.me/tags/golang/>#Golang</a></span>
+<span class=tag><a href=https://mogeko.me/tags/javascript/>#JavaScript</a></span>
+<span class=tag><a href=https://mogeko.me/tags/ruby/>#Ruby</a></span>
+<span class=tag><a href=https://mogeko.me/tags/python/>#Python</a></span></section><section><a href=javascript:window.history.back();>back</a></span> ·
+<span><a href=https://mogeko.me>home</a></span></section></div><div class=post-nav><a href=https://mogeko.me/2019/057/ class=prev rel=prev title="asciinema | 终端中的录像机"><i class="iconfont icon-left"></i>&nbsp;asciinema | 终端中的录像机</a>
+<a href=https://mogeko.me/2019/059/ class=next rel=next title="安装 Manjaro 双系统">安装 Manjaro 双系统&nbsp;<i class="iconfont icon-right"></i></a></div><div class=post-comment><div id=utteranc-container><script src=https://utteranc.es/client.js repo=Mogeko/blog-commits issue-term=title theme=preferred-color-scheme crossorigin=anonymous async></script></div></div></article></div></main><footer class=footer><div class=copyright>&copy;
+<span itemprop=copyrightYear>2017 - 2020</span>
+<span class=with-love><i class="iconfont icon-love"></i></span><span class=author itemprop=copyrightHolder><a href=https://mogeko.me>Mogeko</a> |</span>
+<span>Powered by <a href=https://gohugo.io/ target=_blank rel="external nofollow">Hugo</a> & <a href=https://github.com/Mogeko/Mogege target=_blank rel="external nofollow">Mogege</a></span></div></footer><script defer src=/js/vendor_main.min.js></script><script src=https://cdn.jsdelivr.net/npm/pangu@4.0.7/dist/browser/pangu.min.js integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin=anonymous></script><script>pangu.spacingPage();</script></div></body></html>

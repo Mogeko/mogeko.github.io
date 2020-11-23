@@ -1,0 +1,91 @@
+<!doctype html><html lang=zh-cn><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="chrome=1"><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><meta name=author content="Mogeko"><meta name=description content="Mogeko 的个人博客"><meta name=keywords content="blog,KMS,Hugo,GNU/Linux,Linux,Ubuntu,Rusty Lake: Roots,Hollow Knight,空洞骑士"><link rel=prev href=https://mogeko.me/2019/049/><link rel=next href=https://mogeko.me/2019/051/><link rel=canonical href=https://mogeko.me/2019/050/><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=manifest href=/site.webmanifest><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><meta name=msapplication-TileColor content="#da532c"><meta name=theme-color content="#ffffff"><title>Rust 中的生命周期 | Mogeko`s Blog</title><meta name=title content="Rust 中的生命周期 | Mogeko`s Blog"><link rel=stylesheet href=/css/main.min.css><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/mogeko.me"},"articleSection":"posts","name":"Rust 中的生命周期","headline":"Rust 中的生命周期","description":"\u0026emsp;\u0026emsp; -- 我们在讨论 Rust 的所有权时提到了一个非常重要的概念：生命周期 (lifetime)，也就是引用保持有效的作用域。 这个概念与所有权结合的相当紧密","inLanguage":"zh-cn","author":"Mogeko","creator":"Mogeko","publisher":"Mogeko","accountablePerson":"Mogeko","copyrightHolder":"Mogeko","copyrightYear":"2019","datePublished":"2019-04-01 19:27:29 \u002b0800 \u002b0800","dateModified":"2019-04-01 19:27:29 \u002b0800 \u002b0800","url":"https:\/\/mogeko.me\/2019\/050\/","wordCount":"1438","keywords":["Rust","Mogeko`s Blog"]}</script></head><body><div class=wrapper><nav class=navbar><progress class=content_progress max=0 value=0></progress><div class=container><div class="navbar-header header-back2home-logo"><span class=logo_mark>>$</span>
+<a href=https://mogeko.me><span class=logo_text>cd /home/</span>
+<span class=logo_cursor></span></a></div><div class=navbar-right><span class=menu><a class=menu-item href=/tools/>Tools</a>
+<a class=menu-item href=/posts/>Blog</a>
+<a class=menu-item href=/categories/>Categories</a>
+<a class=menu-item href=/tags/>Tags</a>
+<a class=menu-item href=/about/>About</a>
+<a class=menu-item href=/tools/></a><a class=menu-item href=/about/ title=Mogeko>Mogeko</a>
+<span class=divide></span><a href=javascript:void(0); class=theme-switch><i class="iconfont icon-dark-mode"></i></a></span></div></div></nav><nav class=navbar-mobile id=nav-mobile style=display:none><progress class=content_progress max=0 value=0></progress><div class=container><div class=navbar><div class="navbar-header header-logo"><a href=https://mogeko.me>Mogeko`s Blog</a></div><div class=navbar-right><div><a href=javascript:void(0); class=theme-switch><i class="iconfont icon-dark-mode"></i></a></div><div class=menu-toggle><span></span><span></span><span></span></div></div></div><div class=menu id=mobile-menu><nav class=mb-md><a class=menu-item href=/tools/><h3>Tools</h3><div class=menu-active></div></a><a class=menu-item href=/posts/><h3>Blog</h3><div class=menu-active></div></a><a class=menu-item href=/categories/><h3>Categories</h3><div class=menu-active></div></a><a class=menu-item href=/tags/><h3>Tags</h3><div class=menu-active></div></a><a class=menu-item href=/about/><h3>About</h3><div class=menu-active></div></a><a class=menu-item href=/tools/><h3></h3><div class=menu-active></div></a><a class=menu-item href=/about/ title=Mogeko><h3>Mogeko</h3><div class=menu-active></div></a></nav></div></div></nav><main class=main><div class=container><article class=post-warp itemscope itemtype=http://schema.org/Article><header class=post-header><h1 class=post-title itemprop="name headline">Rust 中的生命周期</h1><div class=post-meta>Written by <a itemprop=name href=https://mogeko.me rel=author>Mogeko</a> with ♥
+<span class=post-time>on <time datetime=2019-04-01 itemprop=datePublished>April 1, 2019</time></span>
+in
+<i class="iconfont icon-folder"></i><span class=post-category></span><span class=post-word-count>1438 words</span></div></header><div class=post-content><p>我们在讨论 Rust 的所有权时提到了一个非常重要的概念：<strong>生命周期</strong> (<em>lifetime</em>)，也就是引用保持有效的作用域。</p><p>这个概念与所有权结合的相当紧密，同时又与借用和引用关系很大，是属于又难啃又不得不啃的硬骨头。不过在理解后就会真真切切的体会到 Rust 中所有权、生命周期系统等一系列设计的精密。</p><p>在真正开始前，我们需要先了解一下 Rust 中的引用和借用。</p><h2 id=引用和借用>引用和借用</h2><p>引用和借用并不是 Rust 所发明的新概念。它在别的语言中也有：在 Java 中它也被称为引用 (有一点区别)、在 C++ 中它被称为<strong>指针</strong>，不过 Rust 的引用更安全。</p><p>我们先来看一个例子：</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-rust data-lang=rust><span style=color:#66d9ef>fn</span> <span style=color:#a6e22e>main</span>() {
+    <span style=color:#66d9ef>let</span> s1 <span style=color:#f92672>=</span> String::from(<span style=color:#e6db74>&#34;hello&#34;</span>);
+
+    <span style=color:#66d9ef>let</span> len <span style=color:#f92672>=</span> calculate_length(<span style=color:#f92672>&amp;</span>s1);
+
+    println<span style=color:#f92672>!</span>(<span style=color:#e6db74>&#34;The length of &#39;{}&#39; is {}.&#34;</span>, s1, len);
+}
+
+<span style=color:#66d9ef>fn</span> <span style=color:#a6e22e>calculate_length</span>(s: <span style=color:#66d9ef>&amp;</span>String) -&gt; <span style=color:#66d9ef>usize</span> {
+    s.len()
+} <span style=color:#75715e>// 这里，s 离开了作用域。但因为它并不拥有引用值的所有权，
+</span><span style=color:#75715e></span>  <span style=color:#75715e>// 所以什么也不会发生
+</span></code></pre></div><p>我们传递 <code>&s1</code> 给 <code>calculate_length</code>，同时在函数定义中，我们获取 <code>&String</code> 而不是 <code>String</code>。</p><p>这些 & 符号就是 <strong>引用</strong>，它们允许你使用值但不获取其所有权。</p><p><img src=https://mogeko.github.io/blog-images/r/050/trpl04-05.svg alt=References loading=lazy></p><blockquote><p>与使用 <code>&</code> 引用相反的操作是 <strong>解引用</strong> (<em>dereferencing</em>)，它使用解引用运算符，<code>*</code>。</p></blockquote><p>我们将获取引用作为函数参数称为 <strong>借用</strong> (<em>borrowing</em>)。正如现实生活中，如果一个人拥有某样东西，你可以从他那里借来。当你使用完毕，必须还回去。</p><h3 id=悬垂引用-dangling-references>悬垂引用 (Dangling References)</h3><p>在具有指针的语言中，很容易通过释放内存时保留指向它的指针而错误地生成一个 <strong>悬垂指针</strong> (<em>dangling pointer</em>)，所谓悬垂指针是其指向的内存可能已经被分配给其它持有者。相比之下，在 Rust 中编译器确保引用永远也不会变成悬垂状态：当你拥有一些数据的引用，编译器确保数据不会在其引用之前离开作用域。</p><p>让我们尝试创建一个悬垂引用：</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-rust data-lang=rust><span style=color:#66d9ef>fn</span> <span style=color:#a6e22e>main</span>() {
+    <span style=color:#66d9ef>let</span> r;
+    {
+        <span style=color:#66d9ef>let</span> a <span style=color:#f92672>=</span> <span style=color:#ae81ff>1</span>;
+        r <span style=color:#f92672>=</span> <span style=color:#f92672>&amp;</span>a;
+    }
+    println<span style=color:#f92672>!</span>(<span style=color:#e6db74>&#34;{}&#34;</span>, r);
+}
+</code></pre></div><p>这是无法通过编译的：</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext>error[E0597]: `a` does not live long enough                                     
+ --&gt; src/main.rs:5:9                                                            
+  |                                                                             
+5 |         r = &amp;a;                                                             
+  |         ^^^^^^ borrowed value does not live long enough                     
+6 |     }                                                                       
+  |     - `a` dropped here while still borrowed                                 
+7 |     println!(&#34;{}&#34;, r);                                                      
+  |                    - borrow later used here
+</code></pre></div><p>上面代码中，当 <code>a</code> 离开作用域的时候会被释放，但此时 <code>r</code> 还持有一个 <code>a</code> 的借用，编译器中的借用检查器就会告诉你：<code>`a` does not live long enough</code>。翻译过来就是：<code>a</code> 活的不够久。这代表着 <code>a</code> 的生命周期太短，而无法借用给 <code>r</code> ，否则 <code>&a</code> 就指向了一个曾经存在但现在已不再存在的对象，这就是悬垂指针，也有人将其称为野指针。</p><h2 id=生命周期>生命周期</h2><p>部分时候生命周期是隐含并可以推断的，正如大部分时候类型也是可以推断的一样。类似于当因为有多种可能类型的时候必须注明类型，也会出现引用的生命周期以一些不同方式相关联的情况，所以 Rust 需要我们使用泛型生命周期参数来注明他们的关系，这样就能确保运行时实际使用的引用绝对是有效的。如果你不指定生命周期，那么编译器会“强制”你这么做：</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-rust data-lang=rust><span style=color:#66d9ef>struct</span> <span style=color:#a6e22e>Foo</span> {
+    x: <span style=color:#66d9ef>&amp;</span><span style=color:#66d9ef>i32</span>,
+}
+
+<span style=color:#66d9ef>fn</span> <span style=color:#a6e22e>main</span>() {
+    <span style=color:#66d9ef>let</span> y <span style=color:#f92672>=</span> <span style=color:#f92672>&amp;</span><span style=color:#ae81ff>5</span>; 
+    <span style=color:#66d9ef>let</span> f <span style=color:#f92672>=</span> Foo { x: <span style=color:#a6e22e>y</span> };
+
+    println<span style=color:#f92672>!</span>(<span style=color:#e6db74>&#34;{}&#34;</span>, f.x);
+}
+</code></pre></div><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext>error[E0106]: missing lifetime specifier                                        
+ --&gt; src/main.rs:2:8                                                            
+  |                                                                             
+2 |     x: &amp;i32,                                                                
+  |        ^ expected lifetime parameter                                        
+                                                                                
+error: aborting due to previous error
+</code></pre></div><p>上面这段代码，编译器会提示你：<code>missing lifetime specifier</code>。这是因为，<code>y</code> 这个借用被传递到了 <code>let f = Foo { x: y }</code> 所在作用域中。所以需要确保借用 <code>y</code> 活得比 <code>Foo</code> 结构体实例长才行，否则，如果借用 <code>y</code> 被提前释放，<code>Foo</code> 结构体实例就会造成悬垂指针了。所以我们需要为其增加生命周期标记：</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-rust data-lang=rust><span style=color:#66d9ef>struct</span> <span style=color:#a6e22e>Foo</span><span style=color:#f92672>&lt;</span><span style=color:#a6e22e>&#39;a</span><span style=color:#f92672>&gt;</span> {
+    x: <span style=color:#66d9ef>&amp;</span><span style=color:#a6e22e>&#39;a</span> <span style=color:#66d9ef>i32</span>,
+}
+
+<span style=color:#66d9ef>fn</span> <span style=color:#a6e22e>main</span>() {
+    <span style=color:#66d9ef>let</span> y <span style=color:#f92672>=</span> <span style=color:#f92672>&amp;</span><span style=color:#ae81ff>5</span>; 
+    <span style=color:#66d9ef>let</span> f <span style=color:#f92672>=</span> Foo { x: <span style=color:#a6e22e>y</span> };
+
+    println<span style=color:#f92672>!</span>(<span style=color:#e6db74>&#34;{}&#34;</span>, f.x);
+}
+</code></pre></div><p>加上生命周期标记以后，编译器中的借用检查器就会帮助我们自动比对参数变量的作用域长度，从而确保内存安全。</p><p>再比如这个例子：</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-rust data-lang=rust><span style=color:#66d9ef>fn</span> <span style=color:#a6e22e>longest</span><span style=color:#f92672>&lt;</span><span style=color:#a6e22e>&#39;a</span><span style=color:#f92672>&gt;</span>(x: <span style=color:#66d9ef>&amp;</span><span style=color:#a6e22e>&#39;a</span> <span style=color:#66d9ef>str</span>, y: <span style=color:#66d9ef>&amp;</span><span style=color:#a6e22e>&#39;a</span> <span style=color:#66d9ef>str</span>) -&gt; <span style=color:#66d9ef>&amp;</span><span style=color:#a6e22e>&#39;a</span> <span style=color:#66d9ef>str</span> {
+    <span style=color:#66d9ef>if</span> x.len() <span style=color:#f92672>&gt;</span> y.len() {
+        x
+    } <span style=color:#66d9ef>else</span> {
+        y
+    }
+}
+
+<span style=color:#66d9ef>fn</span> <span style=color:#a6e22e>main</span>() {
+    <span style=color:#66d9ef>let</span> string1 <span style=color:#f92672>=</span> String::from(<span style=color:#e6db74>&#34;abcd&#34;</span>);
+    <span style=color:#66d9ef>let</span> string2 <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;xyz&#34;</span>;
+
+    <span style=color:#66d9ef>let</span> result <span style=color:#f92672>=</span> longest(string1.as_str(), string2);
+    println<span style=color:#f92672>!</span>(<span style=color:#e6db74>&#34;The longest string is {}&#34;</span>, result);
+}
+</code></pre></div><p>因为 <code>longest</code> 的实例返回的是一个指针， 并且这个指针与 <code>x</code> 和 <code>y</code> 都有关系。所以必须确保<code>x</code> 和 <code>y</code> 活得比 <code>result</code> 长 (或者一样长)，这便是显式生命周期注释的作用。</p><h2 id=相关文章>相关文章</h2><ul><li><a href=https://mogeko.github.io/2019/042/><strong>Rust 中的所有权</strong></a></li><li><a href=https://mogeko.github.io/2019/051/><strong>Rust 生命周期中的一些坑</strong></a></li></ul><br><center>·End·</center></div><div class=post-copyright><p class=copyright-item><span>Author:</span>
+<span>Mogeko</span></p><p class=copyright-item><span>Link:</span>
+<a href=https://mogeko.me/2019/050/>https://mogeko.me/2019/050/</span></p><p class="copyright-item lincese">本文采用<a rel=license href=http://creativecommons.org/licenses/by-nc/4.0/ target=_blank>知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p></div><div class=post-tags><section><i class="iconfont icon-tag"></i>Tag(s):
+<span class=tag><a href=https://mogeko.me/tags/rust/>#Rust</a></span></section><section><a href=javascript:window.history.back();>back</a></span> ·
+<span><a href=https://mogeko.me>home</a></span></section></div><div class=post-nav><a href=https://mogeko.me/2019/049/ class=prev rel=prev title="使用 Travis CI 自动维护软件仓库 (Homebrew)"><i class="iconfont icon-left"></i>&nbsp;使用 Travis CI 自动维护软件仓库 (Homebrew)</a>
+<a href=https://mogeko.me/2019/051/ class=next rel=next title="Rust 生命周期中的一些坑">Rust 生命周期中的一些坑&nbsp;<i class="iconfont icon-right"></i></a></div><div class=post-comment><div id=utteranc-container><script src=https://utteranc.es/client.js repo=Mogeko/blog-commits issue-term=title theme=preferred-color-scheme crossorigin=anonymous async></script></div></div></article></div></main><footer class=footer><div class=copyright>&copy;
+<span itemprop=copyrightYear>2017 - 2020</span>
+<span class=with-love><i class="iconfont icon-love"></i></span><span class=author itemprop=copyrightHolder><a href=https://mogeko.me>Mogeko</a> |</span>
+<span>Powered by <a href=https://gohugo.io/ target=_blank rel="external nofollow">Hugo</a> & <a href=https://github.com/Mogeko/Mogege target=_blank rel="external nofollow">Mogege</a></span></div></footer><script defer src=/js/vendor_main.min.js></script><script src=https://cdn.jsdelivr.net/npm/pangu@4.0.7/dist/browser/pangu.min.js integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin=anonymous></script><script>pangu.spacingPage();</script></div></body></html>

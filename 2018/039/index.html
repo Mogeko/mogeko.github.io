@@ -1,0 +1,293 @@
+<!doctype html><html lang=zh-cn><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="chrome=1"><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><meta name=author content="Mogeko"><meta name=description content="Mogeko 的个人博客"><meta name=keywords content="blog,KMS,Hugo,GNU/Linux,Linux,Ubuntu,Rusty Lake: Roots,Hollow Knight,空洞骑士"><link rel=prev href=https://mogeko.me/2018/038/><link rel=next href=https://mogeko.me/2018/040/><link rel=canonical href=https://mogeko.me/2018/039/><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=manifest href=/site.webmanifest><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><meta name=msapplication-TileColor content="#da532c"><meta name=theme-color content="#ffffff"><title>Student dormitory management | Mogeko`s Blog</title><meta name=title content="Student dormitory management | Mogeko`s Blog"><link rel=stylesheet href=/css/main.min.css><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/mogeko.me"},"articleSection":"posts","name":"Student dormitory management","headline":"Student dormitory management","description":"\u0026emsp;\u0026emsp; -- Demand analysis The system is designed to facilitate the management of student residences. Provide registration for students and teachers, check the student dormitory number, adjust the dormitory and other functions. At the same time, considering the need for maintenance and refurbishment of the dormitory, the system provides the function of submitting and accepting maintenance applications. After the student submits the repair application, the dormitory management will dispatch maintenance","inLanguage":"zh-cn","author":"Mogeko","creator":"Mogeko","publisher":"Mogeko","accountablePerson":"Mogeko","copyrightHolder":"Mogeko","copyrightYear":"2018","datePublished":"2018-12-22 23:30:01 \u002b0800 \u002b0800","dateModified":"2018-12-22 23:30:01 \u002b0800 \u002b0800","url":"https:\/\/mogeko.me\/2018\/039\/","wordCount":"1510","keywords":["SQL","Mogeko`s Blog"]}</script></head><body><div class=wrapper><nav class=navbar><progress class=content_progress max=0 value=0></progress><div class=container><div class="navbar-header header-back2home-logo"><span class=logo_mark>>$</span>
+<a href=https://mogeko.me><span class=logo_text>cd /home/</span>
+<span class=logo_cursor></span></a></div><div class=navbar-right><span class=menu><a class=menu-item href=/tools/>Tools</a>
+<a class=menu-item href=/posts/>Blog</a>
+<a class=menu-item href=/categories/>Categories</a>
+<a class=menu-item href=/tags/>Tags</a>
+<a class=menu-item href=/about/>About</a>
+<a class=menu-item href=/tools/></a><a class=menu-item href=/about/ title=Mogeko>Mogeko</a>
+<span class=divide></span><a href=javascript:void(0); class=theme-switch><i class="iconfont icon-dark-mode"></i></a></span></div></div></nav><nav class=navbar-mobile id=nav-mobile style=display:none><progress class=content_progress max=0 value=0></progress><div class=container><div class=navbar><div class="navbar-header header-logo"><a href=https://mogeko.me>Mogeko`s Blog</a></div><div class=navbar-right><div><a href=javascript:void(0); class=theme-switch><i class="iconfont icon-dark-mode"></i></a></div><div class=menu-toggle><span></span><span></span><span></span></div></div></div><div class=menu id=mobile-menu><nav class=mb-md><a class=menu-item href=/tools/><h3>Tools</h3><div class=menu-active></div></a><a class=menu-item href=/posts/><h3>Blog</h3><div class=menu-active></div></a><a class=menu-item href=/categories/><h3>Categories</h3><div class=menu-active></div></a><a class=menu-item href=/tags/><h3>Tags</h3><div class=menu-active></div></a><a class=menu-item href=/about/><h3>About</h3><div class=menu-active></div></a><a class=menu-item href=/tools/><h3></h3><div class=menu-active></div></a><a class=menu-item href=/about/ title=Mogeko><h3>Mogeko</h3><div class=menu-active></div></a></nav></div></div></nav><main class=main><div class=container><article class=post-warp itemscope itemtype=http://schema.org/Article><header class=post-header><h1 class=post-title itemprop="name headline">Student dormitory management</h1><div class=post-meta>Written by <a itemprop=name href=https://mogeko.me rel=author>Mogeko</a> with ♥
+<span class=post-time>on <time datetime=2018-12-22 itemprop=datePublished>December 22, 2018</time></span>
+in
+<i class="iconfont icon-folder"></i><span class=post-category></span><span class=post-word-count>1510 words</span></div></header><div class=post-content><h1 id=demand-analysis>Demand analysis</h1><p>The system is designed to facilitate the management of student residences.</p><p>Provide registration for students and teachers, check the student dormitory number, adjust the dormitory and other functions.</p><p>At the same time, considering the need for maintenance and refurbishment of the dormitory, the system provides the function of submitting and accepting maintenance applications. After the student submits the repair application, the dormitory management will dispatch maintenance personnel to the maintenance.</p><h2 id=user-classification>User classification</h2><ul><li><strong>Student (Male/Female)</strong>: Managed by a boarding teacher</li><li><strong>Dormitory manager</strong>: Manage all rooms and students</li><li><strong>Maintenance personnel</strong>: Including cleaning, maintenance personnel, etc&mldr;</li></ul><h2 id=functions>Functions</h2><p><strong>Dormitory manager:</strong></p><ul><li>Check student accommodation</li><li>Reasonable allocation of rooms</li><li>Adjust student dormitory allocation</li><li>Delete students who are no longer staying</li></ul><p><strong>Maintenance personnel:</strong></p><ul><li>Inquiry repair application form</li><li>Query working hours</li><li>Check the repair area (room id)</li></ul><h1 id=database-design>Database Design</h1><p>This database includes a total of 5 tables: <strong>student_db, administrator_db, dormitry_db, maintenance_personnel_db, maintenance_application_db</strong></p><ul><li><p><strong>student_db</strong>: <code>{ID, name, sex, room number (room id)}</code></p><p>This table is used to record and manage different kinds of students.</p></li><li><p><strong>administrator_db</strong>: <code>{ID, sex, managed room id}</code></p><p>This table is used to record the student’s boarding teacher and the objects they need to manage.</p></li><li><p><strong>dormitry_db</strong>: <code>{ID, types(male or female), sister teacher's id}</code></p><p>This table is used to record information about the dorms that need to be managed.</p></li><li><p><strong>maintenance_personnel_db</strong>: <code>{ID, name, sex, position (project responsible for maintenance), working time, off work time}</code></p><p>This table is used to record information about maintenance personnel, including working hours, etc.</p></li><li><p><strong>maintenance_application_db</strong>: <code>{room id, application for repair}</code></p><p>This tavle is used to record the repair application submitted by the student and is also the work content of the maintenance staff.</p></li></ul><h3 id=contact>Contact</h3><ul><li>Student accommodation: <code>{student_db, dormitry_db}</code></li><li>Dormitory management: <code>{administrator_db, dormitry_db}</code></li><li>Repair application: <code>{student_db, maintenance_application_db}</code></li><li>Dormitory maintenance: <code>{maintenance_personnel_db, maintenance_application_db}</code></li></ul><h2 id=e---r>E - R</h2><p><img src=https://mogeko.github.io/blog-images/r/039/E-R.png alt=E-R loading=lazy></p><h2 id=table-design>Table design</h2><p><strong>student_db:</strong></p><div style=overflow:auto><table style=width:100%><thead><tr><th align=center>列名</th><th align=center>数据类型</th><th align=center>允许 Null 值</th></tr></thead><tbody><tr><td align=center><u>student_id</u></td><td align=center>nchar(10)</td><td align=center>False</td></tr><tr><td align=center>student_name</td><td align=center>nchar(10)</td><td align=center>False</td></tr><tr><td align=center>student_sex</td><td align=center>nchar(10)</td><td align=center>False</td></tr><tr><td align=center>room_id</td><td align=center>nchar(10)</td><td align=center>False</td></tr></tbody></table></div><p><strong>administrator_db:</strong></p><div style=overflow:auto><table style=width:100%><thead><tr><th align=center>列名</th><th align=center>数据类型</th><th align=center>允许 Null 值</th></tr></thead><tbody><tr><td align=center><u>administrator_id</u></td><td align=center>nchar(10)</td><td align=center>False</td></tr><tr><td align=center>administrator_name</td><td align=center>nchar(10)</td><td align=center>False</td></tr><tr><td align=center>administrator_sex</td><td align=center>nchar(10)</td><td align=center>False</td></tr></tbody></table></div><p><strong>dormitry_db:</strong></p><div style=overflow:auto><table style=width:100%><thead><tr><th align=center>列名</th><th align=center>数据类型</th><th align=center>允许 Null 值</th></tr></thead><tbody><tr><td align=center><u>room_id</u></td><td align=center>nchar(10)</td><td align=center>False</td></tr><tr><td align=center>dormitry_types</td><td align=center>nchar(10)</td><td align=center>False</td></tr><tr><td align=center>administrator_id</td><td align=center>nchar(10)</td><td align=center>False</td></tr></tbody></table></div><p><strong>maintenance_personnel_db:</strong></p><div style=overflow:auto><table style=width:100%><thead><tr><th align=center>列名</th><th align=center>数据类型</th><th align=center>允许 Null 值</th></tr></thead><tbody><tr><td align=center><u>maintenance_personne_id</u></td><td align=center>nchar(10)</td><td align=center>False</td></tr><tr><td align=center>maintenance_personnel_name</td><td align=center>nchar(10)</td><td align=center>False</td></tr><tr><td align=center>maintenance_personnel_sex</td><td align=center>nchar(10)</td><td align=center>False</td></tr><tr><td align=center>working_time</td><td align=center>datetime</td><td align=center>True</td></tr><tr><td align=center>off_work_time</td><td align=center>datetime</td><td align=center>True</td></tr></tbody></table></div><p><strong>maintenance_application_db:</strong></p><div style=overflow:auto><table style=width:100%><thead><tr><th align=center>列名</th><th align=center>数据类型</th><th align=center>允许 Null 值</th></tr></thead><tbody><tr><td align=center><u>maintenance_application_id</u></td><td align=center>int IDENTITY(1, 1)</td><td align=center>False</td></tr><tr><td align=center>maintenance_application</td><td align=center>varchar(50)</td><td align=center>False</td></tr><tr><td align=center>room_id</td><td align=center>nchar(10)</td><td align=center>False</td></tr><tr><td align=center>maintenance_personnel_id</td><td align=center>nchar(10)</td><td align=center>True</td></tr><tr><td align=center>work_status</td><td align=center>bit DEFAULT(0)</td><td align=center>False</td></tr></tbody></table></div><h2 id=database-implementation>Database implementation</h2><h3 id=case-data>Case data</h3><p><strong>student_db:</strong></p><div style=overflow:auto><table style=width:100%><thead><tr><th align=center>student_id</th><th align=center>student_name</th><th align=center>student_sex</th><th align=center>room_id</th></tr></thead><tbody><tr><td align=center>0001</td><td align=center>Mogeko</td><td align=center>Male</td><td align=center>M101</td></tr><tr><td align=center>0002</td><td align=center>Ezie</td><td align=center>Female</td><td align=center>F101</td></tr><tr><td align=center>0003</td><td align=center>Washington</td><td align=center>Male</td><td align=center>M101</td></tr><tr><td align=center>0004</td><td align=center>Licoln</td><td align=center>Male</td><td align=center>M102</td></tr><tr><td align=center>0005</td><td align=center>Daisy</td><td align=center>Female</td><td align=center>F101</td></tr><tr><td align=center>0006</td><td align=center>Trump</td><td align=center>Male</td><td align=center>M101</td></tr><tr><td align=center>0007</td><td align=center>Noah</td><td align=center>Male</td><td align=center>M102</td></tr><tr><td align=center>0008</td><td align=center>Lucy</td><td align=center>Female</td><td align=center>F101</td></tr><tr><td align=center>0009</td><td align=center>Obama</td><td align=center>Male</td><td align=center>M101</td></tr><tr><td align=center>0010</td><td align=center>Lucy</td><td align=center>Female</td><td align=center>F101</td></tr></tbody></table></div><p><strong>administrator_db:</strong></p><div style=overflow:auto><table style=width:100%><thead><tr><th align=center>administrator_id</th><th align=center>administrator_name</th><th align=center>administrator_sex</th></tr></thead><tbody><tr><td align=center>001</td><td align=center>Herrington</td><td align=center>Male</td></tr><tr><td align=center>002</td><td align=center>Van</td><td align=center>Male</td></tr><tr><td align=center>003</td><td align=center>Rossett</td><td align=center>Male</td></tr><tr><td align=center>004</td><td align=center>Jade</td><td align=center>Female</td></tr><tr><td align=center>005</td><td align=center>Eva</td><td align=center>Female</td></tr><tr><td align=center>006</td><td align=center>May</td><td align=center>Female</td></tr></tbody></table></div><p><strong>dormitry_db:</strong></p><div style=overflow:auto><table style=width:100%><thead><tr><th align=center>room_id</th><th align=center>dormitry_types</th><th align=center>administrator_id</th></tr></thead><tbody><tr><td align=center>M101</td><td align=center>Male</td><td align=center>001</td></tr><tr><td align=center>M102</td><td align=center>Male</td><td align=center>001</td></tr><tr><td align=center>M103</td><td align=center>Male</td><td align=center>001</td></tr><tr><td align=center>M104</td><td align=center>Male</td><td align=center>002</td></tr><tr><td align=center>M105</td><td align=center>Male</td><td align=center>002</td></tr><tr><td align=center>F101</td><td align=center>Female</td><td align=center>004</td></tr><tr><td align=center>F102</td><td align=center>Female</td><td align=center>004</td></tr><tr><td align=center>F103</td><td align=center>Female</td><td align=center>004</td></tr><tr><td align=center>F104</td><td align=center>Female</td><td align=center>004</td></tr><tr><td align=center>F105</td><td align=center>Female</td><td align=center>004</td></tr></tbody></table></div><p><strong>maintenance_personnel_db:</strong></p><div style=overflow:auto><table style=width:100%><thead><tr><th align=center>maintenance_personnel_id</th><th align=center>maintenance_personnel_name</th><th align=center>maintenance_personnel_sex</th><th align=center>working_time</th><th align=center>off_work_time</th></tr></thead><tbody><tr><td align=center>001</td><td align=center>Roosevelt</td><td align=center>Male</td><td align=center>2018-12-22T09:00:00</td><td align=center>2018-12T22 22:00:00</td></tr><tr><td align=center>002</td><td align=center>Kennedy</td><td align=center>Male</td><td align=center></td><td align=center></td></tr><tr><td align=center>003</td><td align=center>Nannie</td><td align=center>Female</td><td align=center>2018-12-22T09:00:00</td><td align=center>2018-12-22T22:00:00</td></tr><tr><td align=center>004</td><td align=center>Dawn</td><td align=center>Female</td><td align=center></td><td align=center></td></tr></tbody></table></div><p><strong>maintenance_application_db:</strong></p><div style=overflow:auto><table style=width:100%><thead><tr><th align=center>maintenance_application_id</th><th align=center>maintenance_application</th><th align=center>room_id</th><th align=center>maintenance_personnel_id</th><th align=center>work_status</th></tr></thead><tbody><tr><td align=center>1</td><td align=center>Door damage</td><td align=center>M102</td><td align=center>001</td><td align=center>0</td></tr><tr><td align=center>2</td><td align=center>Faucet damage</td><td align=center>F101</td><td align=center></td><td align=center>0</td></tr></tbody></table></div><h2 id=import-case-data>Import case data</h2><p>Create the tables</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=color:#75715e>/*
+</span><span style=color:#75715e> Create tables
+</span><span style=color:#75715e>  - student_db
+</span><span style=color:#75715e>  - administrator_db
+</span><span style=color:#75715e>  - dormitry_db
+</span><span style=color:#75715e>  - maintenance_personnel_db
+</span><span style=color:#75715e>  - maintenance_application_db
+</span><span style=color:#75715e> */</span>
+<span style=color:#66d9ef>CREATE</span> <span style=color:#66d9ef>TABLE</span> student_db
+(
+student_id <span style=color:#66d9ef>nchar</span>(<span style=color:#ae81ff>10</span>) <span style=color:#66d9ef>NOT</span> <span style=color:#66d9ef>NULL</span> <span style=color:#66d9ef>PRIMARY</span> <span style=color:#66d9ef>KEY</span>,
+student_name <span style=color:#66d9ef>nchar</span>(<span style=color:#ae81ff>10</span>) <span style=color:#66d9ef>NOT</span> <span style=color:#66d9ef>NULL</span>,
+student_sex <span style=color:#66d9ef>nchar</span>(<span style=color:#ae81ff>10</span>) <span style=color:#66d9ef>NOT</span> <span style=color:#66d9ef>NULL</span>,
+room_id <span style=color:#66d9ef>nchar</span>(<span style=color:#ae81ff>10</span>) <span style=color:#66d9ef>NOT</span> <span style=color:#66d9ef>NULL</span>
+)
+<span style=color:#66d9ef>CREATE</span> <span style=color:#66d9ef>TABLE</span> administrator_db
+(
+administrator_id <span style=color:#66d9ef>nchar</span>(<span style=color:#ae81ff>10</span>) <span style=color:#66d9ef>NOT</span> <span style=color:#66d9ef>NULL</span> <span style=color:#66d9ef>PRIMARY</span> <span style=color:#66d9ef>KEY</span>,
+administrator_name <span style=color:#66d9ef>nchar</span>(<span style=color:#ae81ff>10</span>) <span style=color:#66d9ef>NOT</span> <span style=color:#66d9ef>NULL</span>,
+administrator_sex <span style=color:#66d9ef>nchar</span>(<span style=color:#ae81ff>10</span>) <span style=color:#66d9ef>NOT</span> <span style=color:#66d9ef>NULL</span>
+)
+<span style=color:#66d9ef>CREATE</span> <span style=color:#66d9ef>TABLE</span> dormitry_db
+(
+room_id <span style=color:#66d9ef>nchar</span>(<span style=color:#ae81ff>10</span>) <span style=color:#66d9ef>NOT</span> <span style=color:#66d9ef>NULL</span> <span style=color:#66d9ef>PRIMARY</span> <span style=color:#66d9ef>KEY</span>,
+dormitry_types <span style=color:#66d9ef>nchar</span>(<span style=color:#ae81ff>10</span>) <span style=color:#66d9ef>NOT</span> <span style=color:#66d9ef>NULL</span>,
+administrator_id <span style=color:#66d9ef>nchar</span>(<span style=color:#ae81ff>10</span>) <span style=color:#66d9ef>NOT</span> <span style=color:#66d9ef>NULL</span>
+)
+<span style=color:#66d9ef>CREATE</span> <span style=color:#66d9ef>TABLE</span> maintenance_personnel_db
+(
+maintenance_personnel_id <span style=color:#66d9ef>nchar</span>(<span style=color:#ae81ff>10</span>) <span style=color:#66d9ef>NOT</span> <span style=color:#66d9ef>NULL</span> <span style=color:#66d9ef>PRIMARY</span> <span style=color:#66d9ef>KEY</span>,
+maintenance_personnel_name <span style=color:#66d9ef>nchar</span>(<span style=color:#ae81ff>10</span>) <span style=color:#66d9ef>NOT</span> <span style=color:#66d9ef>NULL</span>,
+maintenance_personnel_sex <span style=color:#66d9ef>nchar</span>(<span style=color:#ae81ff>10</span>) <span style=color:#66d9ef>NOT</span> <span style=color:#66d9ef>NULL</span>,
+working_time datetime,
+off_work_time datetime
+)
+<span style=color:#66d9ef>CREATE</span> <span style=color:#66d9ef>TABLE</span> maintenance_application_db
+(
+maintenance_application_id int <span style=color:#66d9ef>IDENTITY</span>(<span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>1</span>) <span style=color:#66d9ef>PRIMARY</span> <span style=color:#66d9ef>KEY</span>,
+maintenance_application varchar(<span style=color:#ae81ff>50</span>) <span style=color:#66d9ef>NOT</span> <span style=color:#66d9ef>NULL</span>,
+room_id <span style=color:#66d9ef>nchar</span>(<span style=color:#ae81ff>10</span>) <span style=color:#66d9ef>NOT</span> <span style=color:#66d9ef>NULL</span>,
+maintenance_personnel_id <span style=color:#66d9ef>nchar</span>(<span style=color:#ae81ff>10</span>),
+work_status bit <span style=color:#66d9ef>DEFAULT</span>(<span style=color:#ae81ff>0</span>) <span style=color:#66d9ef>NOT</span> <span style=color:#66d9ef>NULL</span>,
+)
+</code></pre></div><p>Set <code>FOREIHN KEY</code></p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=color:#75715e>/* Set the foreign key */</span>
+
+<span style=color:#66d9ef>ALTER</span> <span style=color:#66d9ef>TABLE</span> STUDENT_DB.dbo.student_db
+<span style=color:#66d9ef>ADD</span> <span style=color:#66d9ef>FOREIGN</span> <span style=color:#66d9ef>KEY</span> (room_id)
+<span style=color:#66d9ef>REFERENCES</span> dormitry_db(room_id)
+
+<span style=color:#66d9ef>ALTER</span> <span style=color:#66d9ef>TABLE</span> STUDENT_DB.dbo.dormitry_db
+<span style=color:#66d9ef>ADD</span> <span style=color:#66d9ef>FOREIGN</span> <span style=color:#66d9ef>KEY</span> (administrator_id)
+<span style=color:#66d9ef>REFERENCES</span> administrator_db(administrator_id)
+
+<span style=color:#66d9ef>ALTER</span> <span style=color:#66d9ef>TABLE</span> STUDENT_DB.dbo.maintenance_application_db
+<span style=color:#66d9ef>ADD</span> <span style=color:#66d9ef>FOREIGN</span> <span style=color:#66d9ef>KEY</span> (room_id)
+<span style=color:#66d9ef>REFERENCES</span> dormitry_db(room_id)
+
+<span style=color:#66d9ef>ALTER</span> <span style=color:#66d9ef>TABLE</span> STUDENT_DB.dbo.maintenance_application_db
+<span style=color:#66d9ef>ADD</span> <span style=color:#66d9ef>FOREIGN</span> <span style=color:#66d9ef>KEY</span> (maintenance_personnel_id)
+<span style=color:#66d9ef>REFERENCES</span> maintenance_personnel_db(maintenance_personnel_id)
+</code></pre></div><p>Insert data into the form <code>STUDENT_DB.dbo.administrator_db</code></p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=color:#75715e>/* Insert data into the form STUDENT_DB.dbo.administrator_db */</span>
+<span style=color:#66d9ef>INSERT</span> <span style=color:#66d9ef>INTO</span> STUDENT_DB.dbo.administrator_db
+(administrator_id, administrator_name, administrator_sex)
+<span style=color:#66d9ef>VALUES</span>(<span style=color:#e6db74>&#39;001&#39;</span>, <span style=color:#e6db74>&#39;Herrington&#39;</span>, <span style=color:#e6db74>&#39;Male&#39;</span>)
+<span style=color:#66d9ef>INSERT</span> <span style=color:#66d9ef>INTO</span> STUDENT_DB.dbo.administrator_db
+(administrator_id, administrator_name, administrator_sex)
+<span style=color:#66d9ef>VALUES</span>(<span style=color:#e6db74>&#39;002&#39;</span>, <span style=color:#e6db74>&#39;Van&#39;</span>, <span style=color:#e6db74>&#39;Male&#39;</span>)
+<span style=color:#66d9ef>INSERT</span> <span style=color:#66d9ef>INTO</span> STUDENT_DB.dbo.administrator_db
+(administrator_id, administrator_name, administrator_sex)
+<span style=color:#66d9ef>VALUES</span>(<span style=color:#e6db74>&#39;003&#39;</span>, <span style=color:#e6db74>&#39;Rossett&#39;</span>, <span style=color:#e6db74>&#39;Male&#39;</span>)
+<span style=color:#66d9ef>INSERT</span> <span style=color:#66d9ef>INTO</span> STUDENT_DB.dbo.administrator_db
+(administrator_id, administrator_name, administrator_sex)
+<span style=color:#66d9ef>VALUES</span>(<span style=color:#e6db74>&#39;004&#39;</span>, <span style=color:#e6db74>&#39;Jade&#39;</span>, <span style=color:#e6db74>&#39;Female&#39;</span>)
+<span style=color:#66d9ef>INSERT</span> <span style=color:#66d9ef>INTO</span> STUDENT_DB.dbo.administrator_db
+(administrator_id, administrator_name, administrator_sex)
+<span style=color:#66d9ef>VALUES</span>(<span style=color:#e6db74>&#39;005&#39;</span>, <span style=color:#e6db74>&#39;Eva&#39;</span>, <span style=color:#e6db74>&#39;Female&#39;</span>)
+<span style=color:#66d9ef>INSERT</span> <span style=color:#66d9ef>INTO</span> STUDENT_DB.dbo.administrator_db
+(administrator_id, administrator_name, administrator_sex)
+<span style=color:#66d9ef>VALUES</span>(<span style=color:#e6db74>&#39;006&#39;</span>, <span style=color:#e6db74>&#39;May&#39;</span>, <span style=color:#e6db74>&#39;Female&#39;</span>)
+</code></pre></div><p>Insert data into the form <code>STUDENT_DB.dbo.dormitry_db</code></p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=color:#75715e>/* Insert data into the form STUDENT_DB.dbo.dormitry_db */</span>
+<span style=color:#66d9ef>INSERT</span> <span style=color:#66d9ef>INTO</span> STUDENT_DB.dbo.dormitry_db
+(room_id, dormitry_types, administrator_id)
+<span style=color:#66d9ef>VALUES</span>(<span style=color:#e6db74>&#39;M101&#39;</span>, <span style=color:#e6db74>&#39;Male&#39;</span>, <span style=color:#e6db74>&#39;001&#39;</span>)
+<span style=color:#66d9ef>INSERT</span> <span style=color:#66d9ef>INTO</span> STUDENT_DB.dbo.dormitry_db
+(room_id, dormitry_types, administrator_id)
+<span style=color:#66d9ef>VALUES</span>(<span style=color:#e6db74>&#39;M102&#39;</span>, <span style=color:#e6db74>&#39;Male&#39;</span>, <span style=color:#e6db74>&#39;001&#39;</span>)
+<span style=color:#66d9ef>INSERT</span> <span style=color:#66d9ef>INTO</span> STUDENT_DB.dbo.dormitry_db
+(room_id, dormitry_types, administrator_id)
+<span style=color:#66d9ef>VALUES</span>(<span style=color:#e6db74>&#39;M103&#39;</span>, <span style=color:#e6db74>&#39;Male&#39;</span>, <span style=color:#e6db74>&#39;001&#39;</span>)
+<span style=color:#66d9ef>INSERT</span> <span style=color:#66d9ef>INTO</span> STUDENT_DB.dbo.dormitry_db
+(room_id, dormitry_types, administrator_id)
+<span style=color:#66d9ef>VALUES</span>(<span style=color:#e6db74>&#39;M104&#39;</span>, <span style=color:#e6db74>&#39;Male&#39;</span>, <span style=color:#e6db74>&#39;002&#39;</span>)
+<span style=color:#66d9ef>INSERT</span> <span style=color:#66d9ef>INTO</span> STUDENT_DB.dbo.dormitry_db
+(room_id, dormitry_types, administrator_id)
+<span style=color:#66d9ef>VALUES</span>(<span style=color:#e6db74>&#39;M105&#39;</span>, <span style=color:#e6db74>&#39;Male&#39;</span>, <span style=color:#e6db74>&#39;002&#39;</span>)
+<span style=color:#66d9ef>INSERT</span> <span style=color:#66d9ef>INTO</span> STUDENT_DB.dbo.dormitry_db
+(room_id, dormitry_types, administrator_id)
+<span style=color:#66d9ef>VALUES</span>(<span style=color:#e6db74>&#39;F101&#39;</span>, <span style=color:#e6db74>&#39;Female&#39;</span>, <span style=color:#e6db74>&#39;004&#39;</span>)
+<span style=color:#66d9ef>INSERT</span> <span style=color:#66d9ef>INTO</span> STUDENT_DB.dbo.dormitry_db
+(room_id, dormitry_types, administrator_id)
+<span style=color:#66d9ef>VALUES</span>(<span style=color:#e6db74>&#39;F102&#39;</span>, <span style=color:#e6db74>&#39;Female&#39;</span>, <span style=color:#e6db74>&#39;004&#39;</span>)
+<span style=color:#66d9ef>INSERT</span> <span style=color:#66d9ef>INTO</span> STUDENT_DB.dbo.dormitry_db
+(room_id, dormitry_types, administrator_id)
+<span style=color:#66d9ef>VALUES</span>(<span style=color:#e6db74>&#39;F103&#39;</span>, <span style=color:#e6db74>&#39;Female&#39;</span>, <span style=color:#e6db74>&#39;004&#39;</span>)
+<span style=color:#66d9ef>INSERT</span> <span style=color:#66d9ef>INTO</span> STUDENT_DB.dbo.dormitry_db
+(room_id, dormitry_types, administrator_id)
+<span style=color:#66d9ef>VALUES</span>(<span style=color:#e6db74>&#39;F104&#39;</span>, <span style=color:#e6db74>&#39;Female&#39;</span>, <span style=color:#e6db74>&#39;004&#39;</span>)
+<span style=color:#66d9ef>INSERT</span> <span style=color:#66d9ef>INTO</span> STUDENT_DB.dbo.dormitry_db
+(room_id, dormitry_types, administrator_id)
+<span style=color:#66d9ef>VALUES</span>(<span style=color:#e6db74>&#39;F105&#39;</span>, <span style=color:#e6db74>&#39;Female&#39;</span>, <span style=color:#e6db74>&#39;004&#39;</span>)
+</code></pre></div><p>Insert data into the form <code>STUDENT_DB.dbo.student_db</code></p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=color:#75715e>/* Insert data into the form STUDENT_DB.dbo.student_db */</span>
+<span style=color:#66d9ef>INSERT</span> <span style=color:#66d9ef>INTO</span> STUDENT_DB.dbo.student_db
+(student_id, student_name, student_sex, room_id)
+<span style=color:#66d9ef>VALUES</span>(<span style=color:#e6db74>&#39;0001&#39;</span>, <span style=color:#e6db74>&#39;Mogeko&#39;</span>, <span style=color:#e6db74>&#39;Male&#39;</span>, <span style=color:#e6db74>&#39;M101&#39;</span>)
+<span style=color:#66d9ef>INSERT</span> <span style=color:#66d9ef>INTO</span> STUDENT_DB.dbo.student_db
+(student_id, student_name, student_sex, room_id)
+<span style=color:#66d9ef>VALUES</span>(<span style=color:#e6db74>&#39;0002&#39;</span>, <span style=color:#e6db74>&#39;Ezie&#39;</span>, <span style=color:#e6db74>&#39;Female&#39;</span>, <span style=color:#e6db74>&#39;F101&#39;</span>)
+<span style=color:#66d9ef>INSERT</span> <span style=color:#66d9ef>INTO</span> STUDENT_DB.dbo.student_db
+(student_id, student_name, student_sex, room_id)
+<span style=color:#66d9ef>VALUES</span>(<span style=color:#e6db74>&#39;0003&#39;</span>, <span style=color:#e6db74>&#39;Washington&#39;</span>, <span style=color:#e6db74>&#39;Male&#39;</span>, <span style=color:#e6db74>&#39;M101&#39;</span>)
+<span style=color:#66d9ef>INSERT</span> <span style=color:#66d9ef>INTO</span> STUDENT_DB.dbo.student_db
+(student_id, student_name, student_sex, room_id)
+<span style=color:#66d9ef>VALUES</span>(<span style=color:#e6db74>&#39;0004&#39;</span>, <span style=color:#e6db74>&#39;Licoln&#39;</span>, <span style=color:#e6db74>&#39;Male&#39;</span>, <span style=color:#e6db74>&#39;M102&#39;</span>)
+<span style=color:#66d9ef>INSERT</span> <span style=color:#66d9ef>INTO</span> STUDENT_DB.dbo.student_db
+(student_id, student_name, student_sex, room_id)
+<span style=color:#66d9ef>VALUES</span>(<span style=color:#e6db74>&#39;0005&#39;</span>, <span style=color:#e6db74>&#39;Daisy&#39;</span>, <span style=color:#e6db74>&#39;Female&#39;</span>, <span style=color:#e6db74>&#39;F101&#39;</span>)
+<span style=color:#66d9ef>INSERT</span> <span style=color:#66d9ef>INTO</span> STUDENT_DB.dbo.student_db
+(student_id, student_name, student_sex, room_id)
+<span style=color:#66d9ef>VALUES</span>(<span style=color:#e6db74>&#39;0006&#39;</span>, <span style=color:#e6db74>&#39;Trump&#39;</span>, <span style=color:#e6db74>&#39;Male&#39;</span>, <span style=color:#e6db74>&#39;M101&#39;</span>)
+<span style=color:#66d9ef>INSERT</span> <span style=color:#66d9ef>INTO</span> STUDENT_DB.dbo.student_db
+(student_id, student_name, student_sex, room_id)
+<span style=color:#66d9ef>VALUES</span>(<span style=color:#e6db74>&#39;0007&#39;</span>, <span style=color:#e6db74>&#39;Noah&#39;</span>, <span style=color:#e6db74>&#39;Male&#39;</span>, <span style=color:#e6db74>&#39;M102&#39;</span>)
+<span style=color:#66d9ef>INSERT</span> <span style=color:#66d9ef>INTO</span> STUDENT_DB.dbo.student_db
+(student_id, student_name, student_sex, room_id)
+<span style=color:#66d9ef>VALUES</span>(<span style=color:#e6db74>&#39;0008&#39;</span>, <span style=color:#e6db74>&#39;Lucy&#39;</span>, <span style=color:#e6db74>&#39;Female&#39;</span>, <span style=color:#e6db74>&#39;F101&#39;</span>)
+<span style=color:#66d9ef>INSERT</span> <span style=color:#66d9ef>INTO</span> STUDENT_DB.dbo.student_db
+(student_id, student_name, student_sex, room_id)
+<span style=color:#66d9ef>VALUES</span>(<span style=color:#e6db74>&#39;0009&#39;</span>, <span style=color:#e6db74>&#39;Obama&#39;</span>, <span style=color:#e6db74>&#39;Male&#39;</span>, <span style=color:#e6db74>&#39;M101&#39;</span>)
+<span style=color:#66d9ef>INSERT</span> <span style=color:#66d9ef>INTO</span> STUDENT_DB.dbo.student_db
+(student_id, student_name, student_sex, room_id)
+<span style=color:#66d9ef>VALUES</span>(<span style=color:#e6db74>&#39;0010&#39;</span>, <span style=color:#e6db74>&#39;Lucy&#39;</span>, <span style=color:#e6db74>&#39;Female&#39;</span>, <span style=color:#e6db74>&#39;F101&#39;</span>)
+</code></pre></div><p>Insert data into the form <code>STUDENT_DB.dbo.maintenance_application_db</code></p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=color:#75715e>/* Insert data into the form STUDENT_DB.dbo.maintenance_application_db */</span>
+<span style=color:#66d9ef>INSERT</span> <span style=color:#66d9ef>INTO</span> STUDENT_DB.dbo.maintenance_application_db
+(maintenance_application, room_id)
+<span style=color:#66d9ef>VALUES</span> (<span style=color:#e6db74>&#39;Door damage&#39;</span>, <span style=color:#e6db74>&#39;M102&#39;</span>)
+<span style=color:#66d9ef>INSERT</span> <span style=color:#66d9ef>INTO</span> STUDENT_DB.dbo.maintenance_application_db
+(maintenance_application, room_id)
+<span style=color:#66d9ef>VALUES</span> (<span style=color:#e6db74>&#39;Faucet damage&#39;</span>, <span style=color:#e6db74>&#39;F102&#39;</span>)
+</code></pre></div><p>Insert data into the form <code>STUDENT_DB.dbo.maintenance_personnel_db</code></p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=color:#75715e>/* Insert data into the form STUDENT_DB.dbo.maintenance_personnel_db */</span>
+<span style=color:#66d9ef>INSERT</span> <span style=color:#66d9ef>INTO</span> STUDENT_DB.dbo.maintenance_personnel_db
+(maintenance_personnel_id, maintenance_personnel_name, maintenance_personnel_sex, working_time, off_work_time)
+<span style=color:#66d9ef>VALUES</span>(<span style=color:#e6db74>&#39;001&#39;</span>, <span style=color:#e6db74>&#39;Roosevelt&#39;</span>, <span style=color:#e6db74>&#39;Male&#39;</span>, <span style=color:#e6db74>&#39;2018-12-22T09:00:00&#39;</span>, <span style=color:#e6db74>&#39;2018-12-22T22:00:00&#39;</span>)
+<span style=color:#66d9ef>INSERT</span> <span style=color:#66d9ef>INTO</span> STUDENT_DB.dbo.maintenance_personnel_db
+(maintenance_personnel_id, maintenance_personnel_name, maintenance_personnel_sex)
+<span style=color:#66d9ef>VALUES</span>(<span style=color:#e6db74>&#39;002&#39;</span>, <span style=color:#e6db74>&#39;Kennedy&#39;</span>, <span style=color:#e6db74>&#39;Male&#39;</span>)
+<span style=color:#66d9ef>INSERT</span> <span style=color:#66d9ef>INTO</span> STUDENT_DB.dbo.maintenance_personnel_db
+(maintenance_personnel_id, maintenance_personnel_name, maintenance_personnel_sex, working_time, off_work_time)
+<span style=color:#66d9ef>VALUES</span>(<span style=color:#e6db74>&#39;003&#39;</span>, <span style=color:#e6db74>&#39;Nannie&#39;</span>, <span style=color:#e6db74>&#39;Female&#39;</span>, <span style=color:#e6db74>&#39;2018-12-22T09:00:00&#39;</span>, <span style=color:#e6db74>&#39;2018-12-22T22:00:00&#39;</span>)
+<span style=color:#66d9ef>INSERT</span> <span style=color:#66d9ef>INTO</span> STUDENT_DB.dbo.maintenance_personnel_db
+(maintenance_personnel_id, maintenance_personnel_name, maintenance_personnel_sex)
+<span style=color:#66d9ef>VALUES</span>(<span style=color:#e6db74>&#39;004&#39;</span>, <span style=color:#e6db74>&#39;Dawn&#39;</span>, <span style=color:#e6db74>&#39;Female&#39;</span>)
+</code></pre></div><h2 id=example-features>(Example) Features</h2><p>Check student accommodation information.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=color:#75715e>/*
+</span><span style=color:#75715e>Check student accommodation information
+</span><span style=color:#75715e>INPUT @stu_name -- The name of the student being queried
+</span><span style=color:#75715e>*/</span>
+
+<span style=color:#66d9ef>DECLARE</span> <span style=color:#f92672>@</span>stu_name <span style=color:#66d9ef>nchar</span>(<span style=color:#ae81ff>10</span>)
+<span style=color:#75715e>-- Check accommodation information in Mogeko
+</span><span style=color:#75715e></span><span style=color:#66d9ef>SET</span> <span style=color:#f92672>@</span>stu_name <span style=color:#f92672>=</span> <span style=color:#e6db74>&#39;Mogeko&#39;</span>
+
+<span style=color:#66d9ef>SELECT</span> student_id, student_name, student_sex, room_id
+<span style=color:#66d9ef>FROM</span> STUDENT_DB.dbo.student_db
+<span style=color:#66d9ef>WHERE</span> student_name<span style=color:#f92672>=@</span>stu_name
+</code></pre></div><p>Newborn stay.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=color:#75715e>/*
+</span><span style=color:#75715e>Newborn stay
+</span><span style=color:#75715e>INPUT @Stu_id -- The ID of nweborn
+</span><span style=color:#75715e>INPUT @Stu_name -- The name of newborn
+</span><span style=color:#75715e>INPUT @Stu_sex -- The gender of newborn
+</span><span style=color:#75715e>INPUT @room_id -- The room number of newborn
+</span><span style=color:#75715e>*/</span>
+
+<span style=color:#66d9ef>DECLARE</span> <span style=color:#f92672>@</span>Stu_id <span style=color:#66d9ef>nchar</span>(<span style=color:#ae81ff>10</span>)
+<span style=color:#66d9ef>DECLARE</span> <span style=color:#f92672>@</span>Stu_name <span style=color:#66d9ef>nchar</span>(<span style=color:#ae81ff>10</span>)
+<span style=color:#66d9ef>DECLARE</span> <span style=color:#f92672>@</span>Stu_sex <span style=color:#66d9ef>nchar</span>(<span style=color:#ae81ff>10</span>)
+<span style=color:#66d9ef>DECLARE</span> <span style=color:#f92672>@</span>room_id <span style=color:#66d9ef>nchar</span>(<span style=color:#ae81ff>10</span>)
+
+<span style=color:#75715e>-- New student information
+</span><span style=color:#75715e></span><span style=color:#66d9ef>SET</span> <span style=color:#f92672>@</span>Stu_id <span style=color:#f92672>=</span> <span style=color:#e6db74>&#39;0011&#39;</span>
+<span style=color:#66d9ef>SET</span> <span style=color:#f92672>@</span>Stu_name <span style=color:#f92672>=</span> <span style=color:#e6db74>&#39;Bob&#39;</span>
+<span style=color:#66d9ef>SET</span> <span style=color:#f92672>@</span>Stu_sex <span style=color:#f92672>=</span> <span style=color:#e6db74>&#39;Male&#39;</span>
+<span style=color:#66d9ef>SET</span> <span style=color:#f92672>@</span>room_id <span style=color:#f92672>=</span> <span style=color:#e6db74>&#39;M103&#39;</span>
+
+<span style=color:#66d9ef>INSERT</span> <span style=color:#66d9ef>INTO</span> STUDENT_DB.dbo.student_db
+(student_id, student_name, student_sex, room_id)
+<span style=color:#66d9ef>VALUES</span> (<span style=color:#f92672>@</span>Stu_id, <span style=color:#f92672>@</span>Stu_name, <span style=color:#f92672>@</span>Stu_sex, <span style=color:#f92672>@</span>room_id)
+</code></pre></div><p>Students move out of the bedroom.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=color:#75715e>/*
+</span><span style=color:#75715e>Students move out of the bedroom
+</span><span style=color:#75715e>INPUT Stu_id -- The ID of the student
+</span><span style=color:#75715e>*/</span>
+
+<span style=color:#66d9ef>DECLARE</span> <span style=color:#f92672>@</span>Stu_id <span style=color:#66d9ef>nchar</span>(<span style=color:#ae81ff>10</span>)
+<span style=color:#75715e>-- Input the ID of the student
+</span><span style=color:#75715e></span><span style=color:#66d9ef>SET</span> <span style=color:#f92672>@</span>Stu_id <span style=color:#f92672>=</span> <span style=color:#e6db74>&#39;0011&#39;</span>
+
+<span style=color:#66d9ef>DELETE</span> <span style=color:#66d9ef>FROM</span> STUDENT_DB.dbo.student_db
+<span style=color:#66d9ef>WHERE</span> student_id <span style=color:#f92672>=</span> <span style=color:#f92672>@</span>Stu_id
+</code></pre></div><p>Submit a repair request.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=color:#75715e>/*
+</span><span style=color:#75715e>Submit a repair request
+</span><span style=color:#75715e>INPUT @request -- Repair application
+</span><span style=color:#75715e>INPUT @room_id -- Repair location
+</span><span style=color:#75715e>*/</span>
+
+<span style=color:#66d9ef>DECLARE</span> <span style=color:#f92672>@</span>requst varchar(<span style=color:#ae81ff>50</span>)
+<span style=color:#66d9ef>DECLARE</span> <span style=color:#f92672>@</span>room_id <span style=color:#66d9ef>nchar</span>(<span style=color:#ae81ff>10</span>)
+
+<span style=color:#75715e>-- Repair application information
+</span><span style=color:#75715e></span><span style=color:#66d9ef>SET</span> <span style=color:#f92672>@</span>requst <span style=color:#f92672>=</span> <span style=color:#e6db74>&#39;The cabinet was damaged&#39;</span>
+<span style=color:#66d9ef>SET</span> <span style=color:#f92672>@</span>room_id <span style=color:#f92672>=</span> <span style=color:#e6db74>&#39;M101&#39;</span>
+
+<span style=color:#66d9ef>INSERT</span> <span style=color:#66d9ef>INTO</span> STUDENT_DB.dbo.maintenance_application_db
+(maintenance_application, room_id)
+<span style=color:#66d9ef>VALUES</span> (<span style=color:#f92672>@</span>requst, <span style=color:#f92672>@</span>room_id)
+</code></pre></div><p>Check the repair application list.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=color:#75715e>/*
+</span><span style=color:#75715e>Check the repair application list
+</span><span style=color:#75715e>INPUT @staff_name -- Name of the maintenance person
+</span><span style=color:#75715e>*/</span>
+
+<span style=color:#66d9ef>DECLARE</span> <span style=color:#f92672>@</span>staff_name <span style=color:#66d9ef>nchar</span>(<span style=color:#ae81ff>10</span>)
+
+<span style=color:#75715e>-- Input the name of the maintenance person
+</span><span style=color:#75715e></span><span style=color:#66d9ef>SET</span> <span style=color:#f92672>@</span>staff_name <span style=color:#f92672>=</span> <span style=color:#e6db74>&#39;Roosevelt&#39;</span>
+
+<span style=color:#66d9ef>SELECT</span> maintenance_application_id, maintenance_application, room_id
+<span style=color:#66d9ef>FROM</span> STUDENT_DB.dbo.maintenance_application_db
+<span style=color:#66d9ef>WHERE</span> (maintenance_personnel_id <span style=color:#66d9ef>is</span> <span style=color:#66d9ef>NULL</span>) <span style=color:#66d9ef>and</span> room_id <span style=color:#66d9ef>in</span> (
+	<span style=color:#66d9ef>SELECT</span> room_id
+	<span style=color:#66d9ef>FROM</span> STUDENT_DB.dbo.dormitry_db
+	<span style=color:#66d9ef>WHERE</span> dormitry_types <span style=color:#f92672>=</span> (
+		<span style=color:#66d9ef>SELECT</span> maintenance_personnel_sex
+		<span style=color:#66d9ef>FROM</span> STUDENT_DB.dbo.maintenance_personnel_db
+		<span style=color:#66d9ef>WHERE</span> maintenance_personnel_name <span style=color:#f92672>=</span> <span style=color:#f92672>@</span>staff_name
+	)
+)
+</code></pre></div><p>Accept repair request.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=color:#75715e>/*
+</span><span style=color:#75715e>Accept repair request
+</span><span style=color:#75715e>INPUT @staff_id -- ID of the maintenance person
+</span><span style=color:#75715e>INPUT @application_id -- ID of the maintenance application
+</span><span style=color:#75715e>*/</span>
+
+<span style=color:#66d9ef>DECLARE</span> <span style=color:#f92672>@</span>staff_id <span style=color:#66d9ef>nchar</span>(<span style=color:#ae81ff>10</span>)
+<span style=color:#66d9ef>DECLARE</span> <span style=color:#f92672>@</span>application_id int
+
+<span style=color:#75715e>-- Input the ID of the maintenance person
+</span><span style=color:#75715e></span><span style=color:#66d9ef>SET</span> <span style=color:#f92672>@</span>staff_id <span style=color:#f92672>=</span> <span style=color:#e6db74>&#39;001&#39;</span>
+<span style=color:#75715e>-- Input the ID of the maintenance application
+</span><span style=color:#75715e></span><span style=color:#66d9ef>SET</span> <span style=color:#f92672>@</span>application_id <span style=color:#f92672>=</span> <span style=color:#ae81ff>3</span>
+
+<span style=color:#66d9ef>UPDATE</span> STUDENT_DB.dbo.maintenance_application_db
+<span style=color:#66d9ef>SET</span> maintenance_personnel_id <span style=color:#f92672>=</span> <span style=color:#f92672>@</span>staff_id
+<span style=color:#66d9ef>WHERE</span> maintenance_application_id <span style=color:#f92672>=</span> <span style=color:#f92672>@</span>application_id
+</code></pre></div><p>Complete repair.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sql data-lang=sql><span style=color:#75715e>/*
+</span><span style=color:#75715e>Complete repair
+</span><span style=color:#75715e>INPUT @application_id -- ID of the maintenance application
+</span><span style=color:#75715e>*/</span>
+
+<span style=color:#66d9ef>DECLARE</span> <span style=color:#f92672>@</span>application_id int
+
+<span style=color:#75715e>-- Input the ID of the maintenance application
+</span><span style=color:#75715e></span><span style=color:#66d9ef>SET</span> <span style=color:#f92672>@</span>application_id <span style=color:#f92672>=</span> <span style=color:#ae81ff>3</span>
+
+<span style=color:#66d9ef>UPDATE</span> STUDENT_DB.dbo.maintenance_application_db
+<span style=color:#66d9ef>SET</span> work_status <span style=color:#f92672>=</span> <span style=color:#ae81ff>1</span>
+<span style=color:#66d9ef>WHERE</span> maintenance_application_id <span style=color:#f92672>=</span> <span style=color:#f92672>@</span>application_id
+</code></pre></div></div><div class=post-copyright><p class=copyright-item><span>Author:</span>
+<span>Mogeko</span></p><p class=copyright-item><span>Link:</span>
+<a href=https://mogeko.me/2018/039/>https://mogeko.me/2018/039/</span></p><p class="copyright-item lincese">本文采用<a rel=license href=http://creativecommons.org/licenses/by-nc/4.0/ target=_blank>知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p></div><div class=post-tags><section><i class="iconfont icon-tag"></i>Tag(s):
+<span class=tag><a href=https://mogeko.me/tags/sql/>#SQL</a></span></section><section><a href=javascript:window.history.back();>back</a></span> ·
+<span><a href=https://mogeko.me>home</a></span></section></div><div class=post-nav><a href=https://mogeko.me/2018/038/ class=prev rel=prev title=对，这他妈就是生活！><i class="iconfont icon-left"></i>&nbsp;对，这他妈就是生活！</a>
+<a href=https://mogeko.me/2018/040/ class=next rel=next title=描边城市插画>描边城市插画&nbsp;<i class="iconfont icon-right"></i></a></div><div class=post-comment><div id=utteranc-container><script src=https://utteranc.es/client.js repo=Mogeko/blog-commits issue-term=title theme=preferred-color-scheme crossorigin=anonymous async></script></div></div></article></div></main><footer class=footer><div class=copyright>&copy;
+<span itemprop=copyrightYear>2017 - 2020</span>
+<span class=with-love><i class="iconfont icon-love"></i></span><span class=author itemprop=copyrightHolder><a href=https://mogeko.me>Mogeko</a> |</span>
+<span>Powered by <a href=https://gohugo.io/ target=_blank rel="external nofollow">Hugo</a> & <a href=https://github.com/Mogeko/Mogege target=_blank rel="external nofollow">Mogege</a></span></div></footer><script defer src=/js/vendor_main.min.js></script><script src=https://cdn.jsdelivr.net/npm/pangu@4.0.7/dist/browser/pangu.min.js integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin=anonymous></script><script>pangu.spacingPage();</script></div></body></html>

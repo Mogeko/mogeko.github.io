@@ -1,0 +1,79 @@
+<!doctype html><html lang=zh-cn><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="chrome=1"><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><meta name=author content="Mogeko"><meta name=description content="Mogeko 的个人博客"><meta name=keywords content="blog,KMS,Hugo,GNU/Linux,Linux,Ubuntu,Rusty Lake: Roots,Hollow Knight,空洞骑士"><link rel=prev href=https://mogeko.me/2018/027/><link rel=next href=https://mogeko.me/2018/029/><link rel=canonical href=https://mogeko.me/2018/028/><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=manifest href=/site.webmanifest><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><meta name=msapplication-TileColor content="#da532c"><meta name=theme-color content="#ffffff"><title>使用 Travis CI 自动部署 Hugo 博客 | Mogeko`s Blog</title><meta name=title content="使用 Travis CI 自动部署 Hugo 博客 | Mogeko`s Blog"><link rel=stylesheet href=/css/main.min.css><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/mogeko.me"},"articleSection":"posts","name":"使用 Travis CI 自动部署 Hugo 博客","headline":"使用 Travis CI 自动部署 Hugo 博客","description":"通过 Travis CI 来部署 Hugo 或者 Hexo 博客可能在配置的时候会麻烦一点，但配置好后确实是方便了不少。特别是对于 Hugo 这种没有部署插件的静态网站生成器，只能手动部署","inLanguage":"zh-cn","author":"Mogeko","creator":"Mogeko","publisher":"Mogeko","accountablePerson":"Mogeko","copyrightHolder":"Mogeko","copyrightYear":"2018","datePublished":"2018-11-19 11:28:18 \u002b0800 \u002b0800","dateModified":"2018-11-19 11:28:18 \u002b0800 \u002b0800","url":"https:\/\/mogeko.me\/2018\/028\/","wordCount":"1670","keywords":["Hugo","Mogeko`s Blog"]}</script></head><body><div class=wrapper><nav class=navbar><progress class=content_progress max=0 value=0></progress><div class=container><div class="navbar-header header-back2home-logo"><span class=logo_mark>>$</span>
+<a href=https://mogeko.me><span class=logo_text>cd /home/</span>
+<span class=logo_cursor></span></a></div><div class=navbar-right><span class=menu><a class=menu-item href=/tools/>Tools</a>
+<a class=menu-item href=/posts/>Blog</a>
+<a class=menu-item href=/categories/>Categories</a>
+<a class=menu-item href=/tags/>Tags</a>
+<a class=menu-item href=/about/>About</a>
+<a class=menu-item href=/tools/></a><a class=menu-item href=/about/ title=Mogeko>Mogeko</a>
+<span class=divide></span><a href=javascript:void(0); class=theme-switch><i class="iconfont icon-dark-mode"></i></a></span></div></div></nav><nav class=navbar-mobile id=nav-mobile style=display:none><progress class=content_progress max=0 value=0></progress><div class=container><div class=navbar><div class="navbar-header header-logo"><a href=https://mogeko.me>Mogeko`s Blog</a></div><div class=navbar-right><div><a href=javascript:void(0); class=theme-switch><i class="iconfont icon-dark-mode"></i></a></div><div class=menu-toggle><span></span><span></span><span></span></div></div></div><div class=menu id=mobile-menu><nav class=mb-md><a class=menu-item href=/tools/><h3>Tools</h3><div class=menu-active></div></a><a class=menu-item href=/posts/><h3>Blog</h3><div class=menu-active></div></a><a class=menu-item href=/categories/><h3>Categories</h3><div class=menu-active></div></a><a class=menu-item href=/tags/><h3>Tags</h3><div class=menu-active></div></a><a class=menu-item href=/about/><h3>About</h3><div class=menu-active></div></a><a class=menu-item href=/tools/><h3></h3><div class=menu-active></div></a><a class=menu-item href=/about/ title=Mogeko><h3>Mogeko</h3><div class=menu-active></div></a></nav></div></div></nav><main class=main><div class=container><article class=post-warp itemscope itemtype=http://schema.org/Article><header class=post-header><h1 class=post-title itemprop="name headline">使用 Travis CI 自动部署 Hugo 博客</h1><div class=post-meta>Written by <a itemprop=name href=https://mogeko.me rel=author>Mogeko</a> with ♥
+<span class=post-time>on <time datetime=2018-11-19 itemprop=datePublished>November 19, 2018</time></span>
+in
+<i class="iconfont icon-folder"></i><span class=post-category><a href=https://mogeko.me/categories/%E6%8A%98%E8%85%BE%E5%8D%9A%E5%AE%A2%E7%9A%84%E4%BA%8C%E4%B8%89%E4%BA%8B/>折腾博客的二三事,</a></span>
+<span class=post-word-count>1670 words</span></div></header><div class=post-content><p>通过 Travis CI 来部署 Hugo 或者 Hexo 博客可能在配置的时候会麻烦一点，但配置好后确实是方便了不少。特别是对于 Hugo 这种没有部署插件的静态网站生成器，只能手动部署到 GitHub。</p><p>网上有很多关于用 Travis 自动部署 Hexo 的文章，却没看到几篇关于 Hugo，虽然原理都差不多，但细节上还是有很多容易让小白头疼的地方，所以今天我就来教教如何用 Travis 来自动部署 Hugo。</p><h2 id=正文>正文</h2><p>废话不多说，我们开始吧！</p><h3 id=设置代码仓库>设置代码仓库</h3><p>首先确保你的 GitHub 上有这两个仓库：<strong>用来部署博客的 <code>[用户名].github.io</code></strong> 和 <strong>用来存放“源码”的 <code>Blog</code></strong></p><p>这里与别的<em>使用 Travis 自动部署博客</em>教程稍微有点不同，别人家大多上将博客的<strong>源码</strong>放在 <code>[用户名].github.io</code> 的分支上，而不是向我一样开两个仓库</p><p>开两个仓库的好处有：</p><ul><li>结构更清晰。与博客相关的内容都在 **<code>Blog</code>**仓库里， <strong><code>[用户名].github.io</code></strong> 只用来提供一个 GitHub Pages 的服务</li><li>「源码」存放在 <strong><code>master</code></strong> 分支下，<code>clone</code> 更快 <span class=spoiler>我不知道上我的原因还是 GitHub 或是 Git 的原因，我从 GitHub clone 除 master 分支以外的分支时，下载速度贼慢，只有几百 kb 每秒，clone 一个 「源码」 都至少要半个多小时</span></li></ul><h3 id=申请-token>申请 Token</h3><p>然后要去 GitHub 上申请一个新的 <a href=https://github.com/settings/tokens/new>personal access token</a>。</p><p><strong>Token description</strong> 也就是 Token 的名字，可以随便填。然后<strong>一定要勾选上 <code>repo</code> 上的所以项目，然后别的项目一个都不要选</strong>。点 <code>Generate token</code> 生成 Token。</p><p><img src=https://mogeko.github.io/blog-images/r/028/get_token.png alt="Get Token" loading=lazy></p><p>然后记下 Token 的值，也就是我打码的那一部分 (一定要记下来，因为离开这个页面之后就没有机会再次查看了)</p><p><img src=https://mogeko.github.io/blog-images/r/028/get_token_api.png alt="Get Token" loading=lazy></p><h3 id=设置-travis-ci>设置 Travis CI</h3><p>接着来到 <a href=https://travis-ci.org/account/repositories>Travis CI</a>，使用 GitHub 帐号登录；然后为 <strong><code>Blog</code></strong> 仓库打上 ☑，然后点 <code>setting</code>。</p><p><img src=https://mogeko.github.io/blog-images/r/028/set_travis_1.png alt="设置 Travis CI" loading=lazy></p><p>然后填写 <strong>Environment Variables</strong>。</p><ul><li><strong><code>Name</code></strong> 填写： <code>GITHUB_TOKEN</code></li><li><strong><code>Value</code></strong> 填写：刚刚在 GitHub 申请到的 Token 的值</li></ul><p><img src=https://mogeko.github.io/blog-images/r/028/set_travis_2.png alt="设置 Travis CI" loading=lazy></p><p>点击 <code>Add</code></p><h3 id=编写-travisyml>编写 .travis.yml</h3><p>在 <strong>Blog</strong> 的目录下创建并编辑一个 <code>.travis.yml</code> 文件。这个文件的作用是告诉 <strong>Travis CI</strong> 如何部署你的博客的</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=color:#f92672>language</span>: <span style=color:#ae81ff>go</span>
+
+<span style=color:#f92672>go</span>:
+  - <span style=color:#e6db74>&#34;1.8&#34;</span>  <span style=color:#75715e># 指定Golang 1.8</span>
+
+<span style=color:#75715e># Specify which branches to build using a safelist</span>
+<span style=color:#75715e># 分支白名单限制：只有 master 分支的提交才会触发构建</span>
+<span style=color:#75715e># branches:</span>
+<span style=color:#75715e>#   only:</span>
+<span style=color:#75715e>#     - master</span>
+
+<span style=color:#f92672>install</span>:
+  <span style=color:#75715e># 安装最新的hugo</span>
+  - <span style=color:#ae81ff>wget https://github.com/gohugoio/hugo/releases/download/v0.51/hugo_0.51_Linux-64bit.deb</span>
+  - <span style=color:#ae81ff>sudo dpkg -i hugo*.deb</span>
+  <span style=color:#75715e># 安装主题</span>
+  - <span style=color:#ae81ff>git clone [你使用的主题的 Git 地址]</span>
+
+<span style=color:#f92672>script</span>:
+  <span style=color:#75715e># 运行hugo命令</span>
+  - <span style=color:#ae81ff>hugo</span>
+
+<span style=color:#f92672>after_script</span>:
+  <span style=color:#75715e># 部署</span>
+  - <span style=color:#ae81ff>cd ./public</span>
+  - <span style=color:#ae81ff>git init</span>
+  - <span style=color:#ae81ff>git config user.name &#34;[你的名字]&#34;</span>
+  - <span style=color:#ae81ff>git config user.email &#34;[你的邮箱]&#34;</span>
+  - <span style=color:#ae81ff>git add .</span>
+  - <span style=color:#ae81ff>git commit -m &#34;Update Blog By TravisCI With Build $TRAVIS_BUILD_NUMBER&#34;</span>
+  <span style=color:#75715e># Github Pages</span>
+  - <span style=color:#ae81ff>git push --force --quiet &#34;https://$GITHUB_TOKEN@${GH_REF}&#34; master:master</span>
+  <span style=color:#75715e># Github Pages</span>
+  - <span style=color:#ae81ff>git push --quiet &#34;https://$GITHUB_TOKEN@${GH_REF}&#34; master:master --tags</span>
+
+<span style=color:#f92672>env</span>:
+ <span style=color:#f92672>global</span>:
+   <span style=color:#75715e># Github Pages</span>
+   - <span style=color:#f92672>GH_REF</span>: [<span style=color:#ae81ff>用来部署博客的 Git 地址]</span>
+
+<span style=color:#f92672>deploy</span>:
+  <span style=color:#f92672>provider</span>: <span style=color:#ae81ff>pages</span> <span style=color:#75715e># 重要，指定这是一份github pages的部署配置</span>
+  <span style=color:#f92672>skip-cleanup</span>: <span style=color:#66d9ef>true</span> <span style=color:#75715e># 重要，不能省略</span>
+  <span style=color:#f92672>local-dir</span>: <span style=color:#ae81ff>public</span> <span style=color:#75715e># 静态站点文件所在目录</span>
+  <span style=color:#75715e># target-branch: master # 要将静态站点文件发布到哪个分支</span>
+  <span style=color:#f92672>github-token</span>: <span style=color:#ae81ff>$GITHUB_TOKEN</span> <span style=color:#75715e># 重要，$GITHUB_TOKEN是变量，需要在GitHub上申请、再到配置到Travis</span>
+  <span style=color:#75715e># fqdn:  # 如果是自定义域名，此处要填</span>
+  <span style=color:#f92672>keep-history</span>: <span style=color:#66d9ef>true</span> <span style=color:#75715e># 是否保持target-branch分支的提交记录</span>
+  <span style=color:#f92672>on</span>:
+    <span style=color:#f92672>branch</span>: <span style=color:#ae81ff>master</span> <span style=color:#75715e># 博客源码的分支</span>
+</code></pre></div><p>将上面的配置文件按照你的实际情况更改。</p><p>然后将代码提交到 <strong>Blog 仓库</strong> 里。等个一两分钟，就可以在 <a href=https://travis-ci.org/>Travis CI</a> 上查看部署情况了</p><p><span style=color:#0f0>绿色</span> 代表部署成功  <span style=color:#ff0>黄色</span> 代表正在部署  <span style=color:red>红色</span> 代表部署失败  <span style=color:silver>灰色</span> 代表部署被取消</p><p><img src=https://mogeko.github.io/blog-images/r/028/run_travis.png alt="Travis CI 部署" loading=lazy></p><p>然后再去你的博客，如果没有出什么偏差的话就说明部署成功了 | ・ω・’）</p><p>以后的话就只需要把写好的文章推送到 <strong>Blog 仓库</strong> 下就可以了，就不需要再自己编译然后手动推送了 <span class=spoiler>甚至连 Hugo 都可以不要装 | ・ω・’）</span></p><h2 id=附录-以及一些坑-_з_>附录 以及一些坑 _(:з)∠)_</h2><h3 id=添加-gitignore-文件>添加 .gitignore 文件</h3><p>在 Hugo 本地编译时会产生 <code>public</code> 文件夹，但是这个文件夹中的内容对于 <strong>Blog 仓库</strong> 来说是不需要的 (包括用来存放主题的 <code>themes</code> 文件夹和主题产生的 <code>resources</code> 文件夹也是不需要的)</p><p>我们可以用一个<code>.gitignore</code> 文件来排除这些内容</p><p>在 Blog 目录下创建并修改 <code>.gitignore</code>，然后提交到 GitHub</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext>public/*
+themes/*
+resources/*
+</code></pre></div><h3 id=travis-ci-的分支白名单>Travis CI 的分支白名单</h3><p>我给你的 <code>.travis.yml</code> 文件中有怎么一段</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=color:#75715e># Specify which branches to build using a safelist</span>
+<span style=color:#75715e># 分支白名单限制：只有 master 分支的提交才会触发构建</span>
+<span style=color:#f92672>branches</span>:
+  <span style=color:#f92672>only</span>:
+    - <span style=color:#ae81ff>master</span>
+</code></pre></div><p>这一段的作用是限制触发构建的分支。这在正常开发中是很重要的配置，特别是在团队 (多人) 开发的场景中。</p><p>不过这里不存在这个场景，并且如果配置错了会出很大的问题，很容易坑到小白， <span class=spoiler>比如说我 _(:з)∠)_ </span>所以默认就给注释掉了。</p><p>如果你晓得这是干啥的，并且觉得有必要的话，可以考虑开启</p><h2 id=相关文章>相关文章</h2><ul><li><a href=https://mogeko.github.io/2018/018/><strong>使用 Hugo + GitHub Pages 搭建个人博客</strong></a></li><li><a href=https://mogeko.github.io/2018/024/><strong>为 Hugo 添加谈笑风生区 (Gitalk)</strong></a></li><li><a href=https://mogeko.github.io/2018/033/><strong>为 Hugo 博客添加字数统计</strong></a></li><li><a href=https://mogeko.github.io/2018/025/><strong>Leavelt 主题优化</strong></a></li><li><a href=https://mogeko.github.io/2019/048/><strong>为博客添加独立域名</strong></a></li><li><a href=https://mogeko.github.io/2019/056/><strong>为博客添加免费的 CDN (Cloudflare)</strong></a></li><li><a href=https://mogeko.github.io/2019/070/><strong>为 LeaveIt 主题添加阅读进度条</strong></a></li></ul><br><center>·End·</center></div><div class=post-copyright><p class=copyright-item><span>Author:</span>
+<span>Mogeko</span></p><p class=copyright-item><span>Link:</span>
+<a href=https://mogeko.me/2018/028/>https://mogeko.me/2018/028/</span></p><p class="copyright-item lincese">本文采用<a rel=license href=http://creativecommons.org/licenses/by-nc/4.0/ target=_blank>知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p></div><div class=post-tags><section><i class="iconfont icon-tag"></i>Tag(s):
+<span class=tag><a href=https://mogeko.me/tags/hugo/>#Hugo</a></span></section><section><a href=javascript:window.history.back();>back</a></span> ·
+<span><a href=https://mogeko.me>home</a></span></section></div><div class=post-nav><a href=https://mogeko.me/2018/027/ class=prev rel=prev title="Bottom-up  to development a Loan Calculator"><i class="iconfont icon-left"></i>&nbsp;Bottom-up to development a Loan Calculator</a>
+<a href=https://mogeko.me/2018/029/ class=next rel=next title="GNOME MPV | GNU/Linux 下一个不错的流媒体播放器">GNOME MPV | GNU/Linux 下一个不错的流媒体播放器&nbsp;<i class="iconfont icon-right"></i></a></div><div class=post-comment><div id=utteranc-container><script src=https://utteranc.es/client.js repo=Mogeko/blog-commits issue-term=title theme=preferred-color-scheme crossorigin=anonymous async></script></div></div></article></div></main><footer class=footer><div class=copyright>&copy;
+<span itemprop=copyrightYear>2017 - 2020</span>
+<span class=with-love><i class="iconfont icon-love"></i></span><span class=author itemprop=copyrightHolder><a href=https://mogeko.me>Mogeko</a> |</span>
+<span>Powered by <a href=https://gohugo.io/ target=_blank rel="external nofollow">Hugo</a> & <a href=https://github.com/Mogeko/Mogege target=_blank rel="external nofollow">Mogege</a></span></div></footer><script defer src=/js/vendor_main.min.js></script><script src=https://cdn.jsdelivr.net/npm/pangu@4.0.7/dist/browser/pangu.min.js integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin=anonymous></script><script>pangu.spacingPage();</script></div></body></html>

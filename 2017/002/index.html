@@ -1,0 +1,171 @@
+<!doctype html><html lang=zh-cn><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="chrome=1"><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><meta name=author content="Mogeko"><meta name=description content="Mogeko 的个人博客"><meta name=keywords content="blog,KMS,Hugo,GNU/Linux,Linux,Ubuntu,Rusty Lake: Roots,Hollow Knight,空洞骑士"><link rel=prev href=https://mogeko.me/2017/001/><link rel=next href=https://mogeko.me/2017/003/><link rel=canonical href=https://mogeko.me/2017/002/><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=manifest href=/site.webmanifest><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><meta name=msapplication-TileColor content="#da532c"><meta name=theme-color content="#ffffff"><title>使用 Hexo + GitHub Pages 建立自己的博客 | Mogeko`s Blog</title><meta name=title content="使用 Hexo + GitHub Pages 建立自己的博客 | Mogeko`s Blog"><link rel=stylesheet href=/css/main.min.css><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/mogeko.me"},"articleSection":"posts","name":"使用 Hexo \u002b GitHub Pages 建立自己的博客","headline":"使用 Hexo \u002b GitHub Pages 建立自己的博客","description":"自从我开了这个博客后，就有很多小伙伴问我怎么弄的？（好吧，其实就一个(*\/ω＼*)） 为了教她，也为了给各位看官一点参考。我写了这篇文章。 因为","inLanguage":"zh-cn","author":"Mogeko","creator":"Mogeko","publisher":"Mogeko","accountablePerson":"Mogeko","copyrightHolder":"Mogeko","copyrightYear":"2017","datePublished":"2017-08-20 00:00:00 \u002b0000 UTC","dateModified":"2017-08-20 00:00:00 \u002b0000 UTC","url":"https:\/\/mogeko.me\/2017\/002\/","wordCount":"2569","keywords":["Hexo","Mogeko`s Blog"]}</script></head><body><div class=wrapper><nav class=navbar><progress class=content_progress max=0 value=0></progress><div class=container><div class="navbar-header header-back2home-logo"><span class=logo_mark>>$</span>
+<a href=https://mogeko.me><span class=logo_text>cd /home/</span>
+<span class=logo_cursor></span></a></div><div class=navbar-right><span class=menu><a class=menu-item href=/tools/>Tools</a>
+<a class=menu-item href=/posts/>Blog</a>
+<a class=menu-item href=/categories/>Categories</a>
+<a class=menu-item href=/tags/>Tags</a>
+<a class=menu-item href=/about/>About</a>
+<a class=menu-item href=/tools/></a><a class=menu-item href=/about/ title=Mogeko>Mogeko</a>
+<span class=divide></span><a href=javascript:void(0); class=theme-switch><i class="iconfont icon-dark-mode"></i></a></span></div></div></nav><nav class=navbar-mobile id=nav-mobile style=display:none><progress class=content_progress max=0 value=0></progress><div class=container><div class=navbar><div class="navbar-header header-logo"><a href=https://mogeko.me>Mogeko`s Blog</a></div><div class=navbar-right><div><a href=javascript:void(0); class=theme-switch><i class="iconfont icon-dark-mode"></i></a></div><div class=menu-toggle><span></span><span></span><span></span></div></div></div><div class=menu id=mobile-menu><nav class=mb-md><a class=menu-item href=/tools/><h3>Tools</h3><div class=menu-active></div></a><a class=menu-item href=/posts/><h3>Blog</h3><div class=menu-active></div></a><a class=menu-item href=/categories/><h3>Categories</h3><div class=menu-active></div></a><a class=menu-item href=/tags/><h3>Tags</h3><div class=menu-active></div></a><a class=menu-item href=/about/><h3>About</h3><div class=menu-active></div></a><a class=menu-item href=/tools/><h3></h3><div class=menu-active></div></a><a class=menu-item href=/about/ title=Mogeko><h3>Mogeko</h3><div class=menu-active></div></a></nav></div></div></nav><main class=main><div class=container><article class=post-warp itemscope itemtype=http://schema.org/Article><header class=post-header><h1 class=post-title itemprop="name headline">使用 Hexo + GitHub Pages 建立自己的博客</h1><div class=post-meta>Written by <a itemprop=name href=https://mogeko.me rel=author>Mogeko</a> with ♥
+<span class=post-time>on <time datetime=2017-08-20 itemprop=datePublished>August 20, 2017</time></span>
+in
+<i class="iconfont icon-folder"></i><span class=post-category><a href=https://mogeko.me/categories/%E6%8A%98%E8%85%BE%E5%8D%9A%E5%AE%A2%E7%9A%84%E4%BA%8C%E4%B8%89%E4%BA%8B/>折腾博客的二三事,</a></span>
+<span class=post-word-count>2569 words</span></div></header><div class=post-content><img src=https://mogeko.github.io/blog-images/r/002/logo.jpg class=featured_image><p>自从我开了这个博客后，就有很多小伙伴问我怎么弄的？（好吧，其实就一个(*/ω＼*)）
+为了教她，也为了给各位看官一点参考。我写了这篇文章。
+因为她比较小白，所以这篇文章会写得比较详细。</p><h2 id=准备工作>准备工作</h2><ol><li>一个 Github 账号。 &lt;-我们要使用它提供的 Github Pages 服务来搭建博客 <a href=https://github.com/>https://github.com/</a></li><li>Node.js &lt;- Hexo 依赖于此 <a href=https://nodejs.org/zh-cn/>https://nodejs.org/zh-cn/</a></li><li>Git &lt;- 用来发布博客 <a href=https://git-scm.com/>https://git-scm.com/</a></li><li>Hexo &lt;- 博客框架 <a href=https://hexo.io/zh-cn/index.html>https://hexo.io/zh-cn/index.html</a></li><li>[非必需]Chocolatey &lt;- 用来安装 Node.js 和 Git <a href=https://chocolatey.org/>https://chocolatey.org/</a></li></ol><h2 id=正文>正文</h2><h3 id=安装-nodejs--git>安装 Node.js & Git</h3><h4 id=使用-安装包-安装小白看这里>使用 安装包 安装（小白看这里）</h4><p>首先去官网下载各自的安装包。（地址在上面）
+其中 Node.js 一般会有两个版本；都可以用。
+Git 的官网是英文的，点 [Downloads for Windows] 下载。</p><p>下载好后，双击安装包，就像安装普通软件一样安装。</p><p>安装好后打开按 Win键 + R，输入 cmd，回车。
+在弹出的黑框框中分别输入</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext>$ node -v
+</code></pre></div><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext>$ npm -v
+</code></pre></div><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext>$ git version
+</code></pre></div><p>如果显示的是各种的版本号，说明安装成功
+<img src=https://mogeko.github.io/blog-images/r/002/check.png alt=查看版本号 loading=lazy></p><h4 id=使用-chocolatey-安装>使用 Chocolatey 安装</h4><p>我比较喜欢用 Chocolatey 来安装；比较方便。
+虽然赶 apt 还有一段距离，但确实是 Windows 下最好的包管理程序。
+有空我会写一篇比较详尽的 Chocolatey 使用教程。</p><p>首先安装 Chocolatey
+用管理员身份打开 CMD，输入一下命令，回车</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext>$ @&#34;%SystemRoot%\System32\WindowsPowerShell\v1.0\powershell.exe&#34; -NoProfile -InputFormat None -ExecutionPolicy Bypass -Command &#34;iex ((New-Object System.Net.WebClient).DownloadString(&#39;https://chocolatey.org/install.ps1&#39;))&#34; &amp;&amp; SET &#34;PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin&#34;
+</code></pre></div><p>然后安装 Node.js
+在 CMD 中键入：（同样是以管理员身份运行）</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext>$ choco install nodejs
+</code></pre></div><p>出现一下文字说明它安装完成了
+<img src=https://mogeko.github.io/blog-images/r/002/node.js_install.png alt="安装 Node.js" loading=lazy></p><p>然后安装 Git</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext>$ choco install git
+</code></pre></div><p><img src=https://mogeko.github.io/blog-images/r/002/git_install.png alt="安装 Git" loading=lazy></p><p>同样的，验证一下是否安装成功
+关闭 CMD 然后重新打开它（刷新 %PATH% ）键入</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext>$ node -v
+</code></pre></div><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext>$ npm -v
+</code></pre></div><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext>$ git version
+</code></pre></div><p>如果显示的是各种的版本号，说明安装成功
+<img src=https://mogeko.github.io/blog-images/r/002/check.png alt=查看版本号 loading=lazy></p><h3 id=注册-github-账号>注册 Github 账号</h3><p><strong>如果你已经拥有，请跳过</strong>
+打开 <a href=https://github.com/>https://github.com/</a> 分别填上 <code>名字</code>，<code>邮箱</code>，<code>密码</code> 点 <code>Sign up to GitHub</code>
+<img src=https://mogeko.github.io/blog-images/r/002/github_1.png alt="注册 Github 账号" loading=lazy>
+然后前往自己刚才填写的邮箱，点开 Github 发送给你的注册确认信，确认注册</p><h3 id=创建代码库>创建代码库</h3><p>登陆之后，点击页面右上角的加号，选择 <code>New repository</code>
+<img src=https://mogeko.github.io/blog-images/r/002/github_2.png alt=创建代码库 loading=lazy></p><p>在 <code>Repository name</code> 下填写 <code>[你的名字].github.io</code>（填写注册时的名字，英文），<code>Description (optional)</code> 下填写一些简单的描述（不写也没有关系）
+<img src=https://mogeko.github.io/blog-images/r/002/github_3.png alt=创建代码库 loading=lazy>
+然后你会看到
+<img src=https://mogeko.github.io/blog-images/r/002/github_4.png alt=创建代码库 loading=lazy></p><p>选择右侧的Settings，向下拖动，直到看见GitHub Pages
+<img src=https://mogeko.github.io/blog-images/r/002/github_5.png alt=创建代码库 loading=lazy>
+点击 <code>Automatic page generator</code>，Github 将会自动替你创建出一个 gh-pages 的页面。 如果你的配置没有问题，那么大约 15 分钟之后，<code>[你的名字].github.io</code> 这个网址就可以正常访问了</p><h3 id=安装-hexo>安装 Hexo</h3><p>按照官网的说法，Hexo是一个 <code>快速、简洁且高效的博客框架</code>
+我们要用它来将 Markdown 渲染成网页，然后发布到 Github 上。</p><p>Hexo 通过 Node.js 来安装
+在 CMD 中输入：</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext>$ npm install hexo-cli -g
+</code></pre></div><p>你会看到
+<img src=https://mogeko.github.io/blog-images/r/002/hexo_install_1.png alt="安装 Hexo" loading=lazy></p><p>然后输入</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext>$ npm install hexo -g
+</code></pre></div><p><img src=https://mogeko.github.io/blog-images/r/002/hexo_install_2.png alt="安装 Hexo" loading=lazy></p><p>等它安装好了，我们验证一下是否安装成功
+输入</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext>$ hexo -v
+</code></pre></div><p><img src=https://mogeko.github.io/blog-images/r/002/hexo_install_3.png alt="安装 Hexo" loading=lazy></p><p>下面，初始化我们的 Hexo
+找一个地方新建一个文件夹，这个文件夹将是用来存放你博客的地方
+切换的刚刚新建的文件夹下，初始化 Hexo：（将[你新建的文件夹的路径]改为你刚刚新建文件夹的路径）</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext>$ cd [你新建的文件夹的路径]
+$ hexo init
+</code></pre></div><p><img src=https://mogeko.github.io/blog-images/r/002/hexo_init.png alt="初始化 Hexo" loading=lazy></p><p>因为我们要用 Git 来发布博客，所以还需要安装一个名为 <code>hexo-deployer-git</code> 的插件
+在 CMD 中输入</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext>$ npm install hexo-deployer-git --save
+</code></pre></div><p><img src=https://mogeko.github.io/blog-images/r/002/hexo-deployer-git.png alt="安装 hexo-deployer-git" loading=lazy></p><p>此时的目录结构↓</p><blockquote><p>.<br>├── .deploy # 需要部署的文件<br>├── node_modules # Hexo插件<br>├── public # 生成的静态网页文件<br>├── scaffolds # 模板<br>├── source # 博客正文和其他源文件，404、favicon、CNAME 都应该放在这里<br>| ├── _drafts # 草稿<br>| └── _posts # 文章<br>├── themes # 主题<br>├── _config.yml # 全局配置文件<br>└── package.json</p></blockquote><h3 id=配置-deployment>配置 Deployment</h3><p>首先，你需要为自己配置身份信息，打开命令行，然后输入：</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext>$ git config --global user.name &#34;[yourname]&#34;
+$ git config --global user.email &#34;[youremail]&#34;
+</code></pre></div><h3 id=修改-_configyml>修改 _config.yml</h3><p>按照一下注释按需修改</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yml data-lang=yml><span style=color:#75715e># Hexo Configuration</span>
+<span style=color:#75715e>## Docs: http://hexo.io/docs/configuration.html</span>
+<span style=color:#75715e>## Source: https://github.com/hexojs/hexo/</span>
+
+<span style=color:#75715e># Site # 站点信息</span>
+<span style=color:#f92672>title</span>:  <span style=color:#75715e># 标题</span>
+<span style=color:#f92672>subtitle</span>:  <span style=color:#75715e># 副标题</span>
+<span style=color:#f92672>description</span>:  <span style=color:#75715e># 站点描述，给搜索引擎看的</span>
+<span style=color:#f92672>keywords</span>:  <span style=color:#75715e># 关键词</span>
+<span style=color:#f92672>author</span>:  <span style=color:#75715e># 作者</span>
+<span style=color:#f92672>language</span>: <span style=color:#ae81ff>zh-CN</span> <span style=color:#75715e># 语言</span>
+<span style=color:#f92672>timezone</span>:  <span style=color:#75715e># 时区</span>
+
+<span style=color:#75715e># URL # 链接格式</span>
+<span style=color:#f92672>url</span>: <span style=color:#ae81ff>https://[你的用户名].github.io</span> <span style=color:#75715e># 网址；必填，否则会报错！！</span>
+<span style=color:#f92672>root</span>: <span style=color:#ae81ff>/</span> <span style=color:#75715e># 根目录</span>
+<span style=color:#f92672>permalink</span>: :<span style=color:#ae81ff>year/:month/:day/:title/</span> <span style=color:#75715e># 文章的链接格式</span>
+<span style=color:#f92672>permalink_defaults</span>:
+
+<span style=color:#75715e># Directory # 目录</span>
+<span style=color:#f92672>source_dir</span>: <span style=color:#ae81ff>source</span> <span style=color:#75715e># 源文件目录</span>
+<span style=color:#f92672>public_dir</span>: <span style=color:#ae81ff>public</span> <span style=color:#75715e># 生成的网页文件目录</span>
+<span style=color:#f92672>tag_dir</span>: <span style=color:#ae81ff>tags</span> <span style=color:#75715e># 标签目录</span>
+<span style=color:#f92672>archive_dir</span>: <span style=color:#ae81ff>archives</span> <span style=color:#75715e># 存档目录</span>
+<span style=color:#f92672>category_dir</span>: <span style=color:#ae81ff>categories</span> <span style=color:#75715e># 分类目录</span>
+<span style=color:#f92672>code_dir</span>: <span style=color:#ae81ff>downloads/code</span>
+<span style=color:#f92672>i18n_dir</span>: :<span style=color:#ae81ff>lang</span>
+<span style=color:#ae81ff>skip_render:README.md</span> <span style=color:#75715e># 排除的页面 (可以用来上传 README)</span>
+
+<span style=color:#75715e># Writing # 写作</span>
+<span style=color:#f92672>new_post_name</span>: :<span style=color:#ae81ff>title.md</span> <span style=color:#75715e># 新文章标题</span>
+<span style=color:#f92672>default_layout</span>: <span style=color:#ae81ff>post</span> <span style=color:#75715e># 默认的模板，包括 post、page、photo、draft（文章、页面、照片、草稿）</span>
+<span style=color:#f92672>titlecase</span>: <span style=color:#66d9ef>false</span> <span style=color:#75715e># 标题转换成大写</span>
+<span style=color:#f92672>external_link</span>: <span style=color:#66d9ef>true</span> <span style=color:#75715e># 在新选项卡中打开连接</span>
+<span style=color:#f92672>filename_case</span>: <span style=color:#ae81ff>0</span>
+<span style=color:#f92672>render_drafts</span>: <span style=color:#66d9ef>false</span>
+<span style=color:#f92672>post_asset_folder</span>: <span style=color:#ae81ff>ture</span> <span style=color:#75715e># 资源文件夹</span>
+<span style=color:#f92672>relative_link</span>: <span style=color:#66d9ef>false</span>
+<span style=color:#f92672>future</span>: <span style=color:#66d9ef>true</span>
+<span style=color:#f92672>highlight</span>: <span style=color:#75715e># 语法高亮</span>
+  <span style=color:#f92672>enable</span>: <span style=color:#66d9ef>true</span> <span style=color:#75715e># 是否启用</span>
+  <span style=color:#f92672>line_number</span>: <span style=color:#66d9ef>true</span> <span style=color:#75715e># 显示行号</span>
+  <span style=color:#f92672>auto_detect</span>: <span style=color:#66d9ef>false</span>
+  <span style=color:#f92672>tab_replace</span>:
+
+<span style=color:#75715e># Home page setting # 主页设置</span>
+<span style=color:#75715e>## path: 博客主页的根路径 (默认 = &#39;&#39;)</span>
+<span style=color:#75715e>## per_page: 每页显示多少个帖子 (0 = 禁用分页)</span>
+<span style=color:#75715e>## order_by: 排序方式 (默认按时间降序排序)</span>
+<span style=color:#f92672>index_generator</span>:
+  <span style=color:#f92672>path</span>: <span style=color:#e6db74>&#39;&#39;</span>
+  <span style=color:#f92672>per_page</span>: <span style=color:#ae81ff>10</span>
+  <span style=color:#f92672>order_by</span>: -<span style=color:#ae81ff>date</span>
+
+<span style=color:#75715e># Category &amp; Tag # 分类和标签</span>
+<span style=color:#f92672>default_category</span>: <span style=color:#ae81ff>uncategorized</span> <span style=color:#75715e># 默认分类</span>
+<span style=color:#f92672>category_map</span>:
+<span style=color:#f92672>tag_map</span>:
+
+<span style=color:#75715e># Date / Time format # 日期时间格式</span>
+<span style=color:#f92672>date_format</span>: <span style=color:#ae81ff>YYYY-MM-DD</span> <span style=color:#75715e># 参考http://momentjs.com/docs/#/displaying/format/</span>
+<span style=color:#f92672>time_format</span>: <span style=color:#ae81ff>HH:mm:ss</span>
+
+<span style=color:#75715e># Pagination # 分页</span>
+<span style=color:#f92672>per_page</span>: <span style=color:#ae81ff>10</span> <span style=color:#75715e># 每页文章数，设置成 0 禁用分页</span>
+<span style=color:#f92672>pagination_dir</span>: <span style=color:#ae81ff>page</span>
+
+<span style=color:#75715e># Extensions # 拓展插件</span>
+<span style=color:#75715e>## Plugins: https://hexo.io/plugins/</span>
+<span style=color:#75715e>## Themes: https://hexo.io/themes/</span>
+<span style=color:#f92672>theme</span>: <span style=color:#ae81ff>hexo-theme-next</span> <span style=color:#75715e># 主题</span>
+
+<span style=color:#75715e># Deployment # 部署，将 [你的用户名] 改成你的用户名</span>
+<span style=color:#f92672>deploy</span>:
+  <span style=color:#f92672>type</span>: <span style=color:#ae81ff>git</span>
+  <span style=color:#f92672>repo</span>: <span style=color:#ae81ff>git@github.com:[你的用户名]/[你的用户名].github.io.git</span>
+  <span style=color:#f92672>branch</span>: <span style=color:#ae81ff>master</span>
+
+</code></pre></div><p><strong>注意：</strong></p><ul><li>配置文件的冒号 &ldquo;:&rdquo; 后面有一个空格</li><li>repo: 按照 <code>git@github.com:[你的名字]/[你的名字].github.io.git</code> 的格式填写。</li></ul><h3 id=安装-next-主题>安装 NexT 主题</h3><p>使用 Hexo 的最大好处就是非常的自由，你可以完全掌握你的博客，想把它弄成什么样都可以。
+因此，我们可以安装跟好看的主题来替换 Hexo 自带的 landscape 主题。
+我推荐使用 <a href=http://theme-next.iissnan.com/>NexT 主题</a>（就是你们现在看到的样子），因为它简洁大方，比较符合我的审美。
+而且它也是所有主题中，获得 <code>stars</code> 最多的。（在 Github 中，<code>stars</code> 越多，说明该项目越受欢迎。）</p><p>使用一下命令安装 NexT</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext>$ git clone https://github.com/iissnan/hexo-theme-next.git themes/next
+</code></pre></div><p>不嫌弃的话也可以安装我修改过的版本(*/ω＼*) -> <a href=https://github.com/Mogeko/hexo-theme-next>NexT</a></p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext>$ git clone https://github.com/Mogeko/hexo-theme-next.git themes/next
+</code></pre></div><p>安装好后打开 Hexo 文件夹中的 <code>_config.yml</code>，找到 <code>theme: landscape</code>,将其改为<code>theme: next</code>。</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext>theme: landscape -&gt; theme: next
+</code></pre></div><p>重新部署一遍 Hexo，开启 Hexo 的本地服务器</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext>$ hexo g
+$ hexo s
+</code></pre></div><p>现在访问 <code>http://localhost:4000/</code> 看看效果。(๑•̀ㅂ•́)و✧</p><h3 id=编写文章>编写文章</h3><p>引用一段来自官方的文档</p><blockquote><p>你可以执行下列命令来创建一篇新文章。<br><code>$ hexo new [layout] &lt;title></code><br>您可以在命令中指定文章的布局（layout），默认为 <code>post</code>，可以通过修改 <code>_config.yml</code> 中的 <code>default_layout</code> 参数来指定默认布局。</p></blockquote><p>创建文章后，可以看见 <code>source\_posts\</code> 下有一篇新建的以 <code>.md</code> 为后缀文章
+打开它可以看见</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-markdown data-lang=markdown>---
+title: hello-world   //在此处添加你的标题。
+date: 2014-11-7 08:55:29   //在此处输入你编辑这篇文章的时间。
+categories: Exercise   //在此处输入这篇文章的分类。
+toc: true  //在此处设定是否开启目录，需要主题支持。
+---
+</code></pre></div><p>在之后空白的地方用 Markdown 编写文章。</p><h3 id=更多操作>更多操作</h3><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext>$ hexo generate  # 将 Markdown 编译成静态网页
+$ hexo deploy  # 部署 Hexo 到服务器，也就是到 Github
+$ hexo server  # 启动一个本地服务器，默认地址是 `http://localhost:4000`
+
+# 缩写
+$ hexo g  # 等同于 hexo generate
+$ hexo d  # 等同于 hexo deploy
+$ hexo s  # 等同于 hexo server
+
+$ hexo d -g # 等同于 hexo deploy + hexo generate
+
+</code></pre></div><h2 id=相关文章>相关文章</h2><ul><li><a href=https://mogeko.github.io/2017/003/><strong>Hexo 美化</strong></a></li><li><a href=https://mogeko.github.io/2017/004/><strong>使用 Hexo Hey 管理你的博客</strong></a></li><li><a href=https://mogeko.github.io/2017/005/><strong>在你的文章中添加 B站的视频</strong></a></li><li><a href=https://mogeko.github.io/2019/048/><strong>为博客添加独立域名</strong></a></li><li><a href=https://mogeko.github.io/2019/056/><strong>为博客添加免费的 CDN (Cloudflare)</strong></a></li></ul><br><center>·End·</center></div><div class=post-copyright><p class=copyright-item><span>Author:</span>
+<span>Mogeko</span></p><p class=copyright-item><span>Link:</span>
+<a href=https://mogeko.me/2017/002/>https://mogeko.me/2017/002/</span></p><p class="copyright-item lincese">本文采用<a rel=license href=http://creativecommons.org/licenses/by-nc/4.0/ target=_blank>知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p></div><div class=post-tags><section><i class="iconfont icon-tag"></i>Tag(s):
+<span class=tag><a href=https://mogeko.me/tags/hexo/>#Hexo</a></span></section><section><a href=javascript:window.history.back();>back</a></span> ·
+<span><a href=https://mogeko.me>home</a></span></section></div><div class=post-nav><a href=https://mogeko.me/2017/001/ class=prev rel=prev title="UAC 白名单"><i class="iconfont icon-left"></i>&nbsp;UAC 白名单</a>
+<a href=https://mogeko.me/2017/003/ class=next rel=next title="Hexo 美化">Hexo 美化&nbsp;<i class="iconfont icon-right"></i></a></div><div class=post-comment><div id=utteranc-container><script src=https://utteranc.es/client.js repo=Mogeko/blog-commits issue-term=title theme=preferred-color-scheme crossorigin=anonymous async></script></div></div></article></div></main><footer class=footer><div class=copyright>&copy;
+<span itemprop=copyrightYear>2017 - 2020</span>
+<span class=with-love><i class="iconfont icon-love"></i></span><span class=author itemprop=copyrightHolder><a href=https://mogeko.me>Mogeko</a> |</span>
+<span>Powered by <a href=https://gohugo.io/ target=_blank rel="external nofollow">Hugo</a> & <a href=https://github.com/Mogeko/Mogege target=_blank rel="external nofollow">Mogege</a></span></div></footer><script defer src=/js/vendor_main.min.js></script><script src=https://cdn.jsdelivr.net/npm/pangu@4.0.7/dist/browser/pangu.min.js integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin=anonymous></script><script>pangu.spacingPage();</script></div></body></html>

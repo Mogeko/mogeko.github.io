@@ -1,0 +1,65 @@
+<!doctype html><html lang=zh-cn><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="chrome=1"><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><meta name=author content="Mogeko"><meta name=description content="Mogeko 的个人博客"><meta name=keywords content="blog,KMS,Hugo,GNU/Linux,Linux,Ubuntu,Rusty Lake: Roots,Hollow Knight,空洞骑士"><link rel=prev href=https://mogeko.me/2017/000/><link rel=next href=https://mogeko.me/2017/002/><link rel=canonical href=https://mogeko.me/2017/001/><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=manifest href=/site.webmanifest><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><meta name=msapplication-TileColor content="#da532c"><meta name=theme-color content="#ffffff"><title>UAC 白名单 | Mogeko`s Blog</title><meta name=title content="UAC 白名单 | Mogeko`s Blog"><link rel=stylesheet href=/css/main.min.css><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/mogeko.me"},"articleSection":"posts","name":"UAC 白名单","headline":"UAC 白名单","description":"好像废话有点多_(:з)∠)_ -\u0026gt;-\u0026gt; 直接开始的传送门 一直觉得微软为 Windows 引入 UAC 是个明智的选择，它能在一定程度上减少 Windows 平台过于开放，流氓软件肆意横行的","inLanguage":"zh-cn","author":"Mogeko","creator":"Mogeko","publisher":"Mogeko","accountablePerson":"Mogeko","copyrightHolder":"Mogeko","copyrightYear":"2017","datePublished":"2017-08-18 00:00:00 \u002b0000 UTC","dateModified":"2017-08-18 00:00:00 \u002b0000 UTC","url":"https:\/\/mogeko.me\/2017\/001\/","wordCount":"1249","keywords":["Windows","Mogeko`s Blog"]}</script></head><body><div class=wrapper><nav class=navbar><progress class=content_progress max=0 value=0></progress><div class=container><div class="navbar-header header-back2home-logo"><span class=logo_mark>>$</span>
+<a href=https://mogeko.me><span class=logo_text>cd /home/</span>
+<span class=logo_cursor></span></a></div><div class=navbar-right><span class=menu><a class=menu-item href=/tools/>Tools</a>
+<a class=menu-item href=/posts/>Blog</a>
+<a class=menu-item href=/categories/>Categories</a>
+<a class=menu-item href=/tags/>Tags</a>
+<a class=menu-item href=/about/>About</a>
+<a class=menu-item href=/tools/></a><a class=menu-item href=/about/ title=Mogeko>Mogeko</a>
+<span class=divide></span><a href=javascript:void(0); class=theme-switch><i class="iconfont icon-dark-mode"></i></a></span></div></div></nav><nav class=navbar-mobile id=nav-mobile style=display:none><progress class=content_progress max=0 value=0></progress><div class=container><div class=navbar><div class="navbar-header header-logo"><a href=https://mogeko.me>Mogeko`s Blog</a></div><div class=navbar-right><div><a href=javascript:void(0); class=theme-switch><i class="iconfont icon-dark-mode"></i></a></div><div class=menu-toggle><span></span><span></span><span></span></div></div></div><div class=menu id=mobile-menu><nav class=mb-md><a class=menu-item href=/tools/><h3>Tools</h3><div class=menu-active></div></a><a class=menu-item href=/posts/><h3>Blog</h3><div class=menu-active></div></a><a class=menu-item href=/categories/><h3>Categories</h3><div class=menu-active></div></a><a class=menu-item href=/tags/><h3>Tags</h3><div class=menu-active></div></a><a class=menu-item href=/about/><h3>About</h3><div class=menu-active></div></a><a class=menu-item href=/tools/><h3></h3><div class=menu-active></div></a><a class=menu-item href=/about/ title=Mogeko><h3>Mogeko</h3><div class=menu-active></div></a></nav></div></div></nav><main class=main><div class=container><article class=post-warp itemscope itemtype=http://schema.org/Article><header class=post-header><h1 class=post-title itemprop="name headline">UAC 白名单</h1><div class=post-meta>Written by <a itemprop=name href=https://mogeko.me rel=author>Mogeko</a> with ♥
+<span class=post-time>on <time datetime=2017-08-18 itemprop=datePublished>August 18, 2017</time></span>
+in
+<i class="iconfont icon-folder"></i><span class=post-category></span><span class=post-word-count>1249 words</span></div></header><div class=post-content><p>好像废话有点多_(:з)∠)_ ->-> <a href=#Start>直接开始的传送门</a></p><p>一直觉得微软为 Windows 引入 UAC 是个明智的选择，它能在一定程度上减少 Windows 平台过于开放，流氓软件肆意横行的局面。
+国内的情况比较特殊，因为很多人根本不知道那是什么，无脑点 “允许” 。
+都是被那群流氓给教坏的。。。
+抛开这些不谈，即使 UAC 的使用很有必要，但每次都弹出的蓝色框框确实很烦人，特别是在那些需要曾经使用管理员权限的软件上。因此，有的人直接选择关闭 UAC ，不过这样却对系统安全性产生了风险。</p><p>所以，如何才能在不关闭 UAC 的情况下，让某些应用不经过 UAC 使用管理员权限？</p><p>我首先想到的是使用 Autohotkey 帮用户点“允许”
+桌面分为三层，分别是 Winlogon Desktop、Screensaver Desktop、Application Desktop。
+所有的应用都运行在 Application Desktop 上（ UAC 不算）。UAC 在 Winlogon Desktop 上弹出的窗口。
+也就是说，以Autohotkey 所在的位置 UAC 它捞都捞不到。。。</p><p>那么，到底要如何干掉 UAC 呢？</p><p>经过研究发现，想要在不关闭 UAC 的情况下，让某些应用不经过 UAC 使用管理员权限有两种方法。
+分别是使用 任务计划程序 或 <a href="https://technet.microsoft.com/en-us/library/cc766242(v=ws.10).aspx">Application Compatibility Toolkit (ACT)</a>。
+这里只解释使用 任务计划程序。</p><h2 id=正文>正文</h2><p>下面正式开始。</p><p>我们以 CMD 为例。
+在开始菜单找到 CMD，右键 -> 以管理员身份运行
+果不其然弹出了 UAC。
+*上面已经解释过了，UAC 截不出来 _(:з)∠)_</p><p>首先，我们打开 任务计划程序
+右键 “计算机” -> 管理 -> 任务计划程序
+或者 直接在 Cortana 中搜索： 任务计划程序</p><p>计划任务程序库 -> 创建任务
+<img src=https://mogeko.github.io/blog-images/r/001/RunCMDAdmin_1.png alt=添加任务计划 loading=lazy></p><p>在弹出的对话框中填写名称（名称随便取，但<strong>一定要记住</strong>）
+<strong>勾选 ✅使用最高权限运行</strong>
+<img src=https://mogeko.github.io/blog-images/r/001/RunCMDAdmin_2.png alt=添加任务计划 loading=lazy></p><p>操作 -> 新建
+<img src=https://mogeko.github.io/blog-images/r/001/RunCMDAdmin_3.png alt=添加任务计划 loading=lazy></p><p>点 “浏览” 找到 cmd.exe 的路径
+或者直接把以下路径粘贴过去</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext>C:\Windows\System32\cmd.exe
+</code></pre></div><p><img src=https://mogeko.github.io/blog-images/r/001/RunCMDAdmin_4.png alt=添加任务计划 loading=lazy>
+确认</p><p>应该能看见新建好的操作
+<img src=https://mogeko.github.io/blog-images/r/001/RunCMDAdmin_5.png alt=添加任务计划 loading=lazy>
+确认</p><p>现在找一下列表中有没有刚刚创建的计划任务
+找到后右键 -> 运行 以确认能运行
+<img src=https://mogeko.github.io/blog-images/r/001/RunCMDAdmin_6.png alt=添加任务计划 loading=lazy></p><p>成功运行 CMD，并且是以管理员身份，而且没有弹出 UAC
+<img src=https://mogeko.github.io/blog-images/r/001/RunCMDAdmin_7.png alt=添加任务计划 loading=lazy></p><p>现在如果去菜单，双击 CMD。会以普通权限运行。
+右键 -> 以管理员身份运行。依然弹出 UAC。
+所以失败了吗？_(:з)∠)_</p><p>其实。。。只是打开方式不对
+我们到随便一个目录，右键 -> 新建 -> 快捷方式
+<img src=https://mogeko.github.io/blog-images/r/001/Shortcut_1.png alt=正确的打开方式 loading=lazy></p><p>这里的路径就不能通过 “浏览” 来找了
+直接复制下面的路径粘贴过去</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext>schtasks.exe /run /tn &#34;[刚刚创建的计划任务的名称]&#34;
+</code></pre></div><p><img src=https://mogeko.github.io/blog-images/r/001/Shortcut_2.png alt=正确的打开方式 loading=lazy></p><p>填上你喜欢的名字
+<img src=https://mogeko.github.io/blog-images/r/001/Shortcut_3.png alt=正确的打开方式 loading=lazy>
+完成</p><p>现在双击次快捷方式，就可以在不触发 UAC 的情况下以管理员身份运行了</p><p>下面就可以把次快捷方式丢到你喜欢的地方去，想以管理员身份运行 CMD 时，双击它就可以了
+我一般把他放在 开始菜单 里，这样就可以从 开始菜单 或 Cortana 中启动了
+按 Win键 + R，左下角会弹出一个对话框，在路径栏中粘贴（<strong>将[你的用户名]替换为你的用户名，不确定的可以去 C:\Users\ 路径下查看</strong>）</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext>C:\Users\[你的用户名]\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\System Tools
+</code></pre></div><p><img src=https://mogeko.github.io/blog-images/r/001/MoveStartMenu.png alt=开始菜单启动 loading=lazy>
+确定 或 回车
+把刚刚创建好的 快捷方式 丢进去</p><p>如果嫌快捷方式太丑，可以换图标。
+右键刚刚创建的快捷方式 -> 属性 -> 更改图标
+<img src=https://mogeko.github.io/blog-images/r/001/ReIcon_1.png alt=更改图标 loading=lazy>
+他会提示你 “不包含图标”，点确认。</p><p><img src=https://mogeko.github.io/blog-images/r/001/ReIcon_2.png alt=更改图标 loading=lazy>
+在路径栏中键入</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext>C:\Windows\System32\cmd.exe
+</code></pre></div><p>回车 列表里只有一个图标，选中它
+<img src=https://mogeko.github.io/blog-images/r/001/ReIcon_3.png alt=更改图标 loading=lazy>
+确认 -> 确认</p><p>这时两个 CMD 的图标就一样了，可以在 开始菜单 或 Cortana 中，按需启动。</p><br><center>·End·</center></div><div class=post-copyright><p class=copyright-item><span>Author:</span>
+<span>Mogeko</span></p><p class=copyright-item><span>Link:</span>
+<a href=https://mogeko.me/2017/001/>https://mogeko.me/2017/001/</span></p><p class="copyright-item lincese">本文采用<a rel=license href=http://creativecommons.org/licenses/by-nc/4.0/ target=_blank>知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p></div><div class=post-tags><section><i class="iconfont icon-tag"></i>Tag(s):
+<span class=tag><a href=https://mogeko.me/tags/windows/>#Windows</a></span></section><section><a href=javascript:window.history.back();>back</a></span> ·
+<span><a href=https://mogeko.me>home</a></span></section></div><div class=post-nav><a href=https://mogeko.me/2017/000/ class=prev rel=prev title="安装 Ubuntu 双系统"><i class="iconfont icon-left"></i>&nbsp;安装 Ubuntu 双系统</a>
+<a href=https://mogeko.me/2017/002/ class=next rel=next title="使用 Hexo + GitHub Pages 建立自己的博客">使用 Hexo + GitHub Pages 建立自己的博客&nbsp;<i class="iconfont icon-right"></i></a></div><div class=post-comment><div id=utteranc-container><script src=https://utteranc.es/client.js repo=Mogeko/blog-commits issue-term=title theme=preferred-color-scheme crossorigin=anonymous async></script></div></div></article></div></main><footer class=footer><div class=copyright>&copy;
+<span itemprop=copyrightYear>2017 - 2020</span>
+<span class=with-love><i class="iconfont icon-love"></i></span><span class=author itemprop=copyrightHolder><a href=https://mogeko.me>Mogeko</a> |</span>
+<span>Powered by <a href=https://gohugo.io/ target=_blank rel="external nofollow">Hugo</a> & <a href=https://github.com/Mogeko/Mogege target=_blank rel="external nofollow">Mogege</a></span></div></footer><script defer src=/js/vendor_main.min.js></script><script src=https://cdn.jsdelivr.net/npm/pangu@4.0.7/dist/browser/pangu.min.js integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin=anonymous></script><script>pangu.spacingPage();</script></div></body></html>

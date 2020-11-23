@@ -1,0 +1,151 @@
+<!doctype html><html lang=zh-cn><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="chrome=1"><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><meta name=author content="Mogeko"><meta name=description content="Mogeko 的个人博客"><meta name=keywords content="blog,KMS,Hugo,GNU/Linux,Linux,Ubuntu,Rusty Lake: Roots,Hollow Knight,空洞骑士"><link rel=prev href=https://mogeko.me/2018/031/><link rel=next href=https://mogeko.me/2018/033/><link rel=canonical href=https://mogeko.me/2018/032/><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=manifest href=/site.webmanifest><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><meta name=msapplication-TileColor content="#da532c"><meta name=theme-color content="#ffffff"><title>GNU/Linux 技巧：如何快速的找到一个文件 | Mogeko`s Blog</title><meta name=title content="GNU/Linux 技巧：如何快速的找到一个文件 | Mogeko`s Blog"><link rel=stylesheet href=/css/main.min.css><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/mogeko.me"},"articleSection":"posts","name":"GNU\/Linux 技巧：如何快速的找到一个文件","headline":"GNU\/Linux 技巧：如何快速的找到一个文件","description":"\u0026emsp;\u0026emsp; -- 在使用计算机的过程中，我们都有着这么一个需求：找文件！！ “卧槽，我的 XXX 文件放哪儿去了？”Σ(っ °Д °;)っ “XXX 文件不应该就在 XXX 文件夹","inLanguage":"zh-cn","author":"Mogeko","creator":"Mogeko","publisher":"Mogeko","accountablePerson":"Mogeko","copyrightHolder":"Mogeko","copyrightYear":"2018","datePublished":"2018-11-21 19:30:25 \u002b0800 \u002b0800","dateModified":"2018-11-21 19:30:25 \u002b0800 \u002b0800","url":"https:\/\/mogeko.me\/2018\/032\/","wordCount":"1713","keywords":["GNU\/Linux","Mogeko`s Blog"]}</script></head><body><div class=wrapper><nav class=navbar><progress class=content_progress max=0 value=0></progress><div class=container><div class="navbar-header header-back2home-logo"><span class=logo_mark>>$</span>
+<a href=https://mogeko.me><span class=logo_text>cd /home/</span>
+<span class=logo_cursor></span></a></div><div class=navbar-right><span class=menu><a class=menu-item href=/tools/>Tools</a>
+<a class=menu-item href=/posts/>Blog</a>
+<a class=menu-item href=/categories/>Categories</a>
+<a class=menu-item href=/tags/>Tags</a>
+<a class=menu-item href=/about/>About</a>
+<a class=menu-item href=/tools/></a><a class=menu-item href=/about/ title=Mogeko>Mogeko</a>
+<span class=divide></span><a href=javascript:void(0); class=theme-switch><i class="iconfont icon-dark-mode"></i></a></span></div></div></nav><nav class=navbar-mobile id=nav-mobile style=display:none><progress class=content_progress max=0 value=0></progress><div class=container><div class=navbar><div class="navbar-header header-logo"><a href=https://mogeko.me>Mogeko`s Blog</a></div><div class=navbar-right><div><a href=javascript:void(0); class=theme-switch><i class="iconfont icon-dark-mode"></i></a></div><div class=menu-toggle><span></span><span></span><span></span></div></div></div><div class=menu id=mobile-menu><nav class=mb-md><a class=menu-item href=/tools/><h3>Tools</h3><div class=menu-active></div></a><a class=menu-item href=/posts/><h3>Blog</h3><div class=menu-active></div></a><a class=menu-item href=/categories/><h3>Categories</h3><div class=menu-active></div></a><a class=menu-item href=/tags/><h3>Tags</h3><div class=menu-active></div></a><a class=menu-item href=/about/><h3>About</h3><div class=menu-active></div></a><a class=menu-item href=/tools/><h3></h3><div class=menu-active></div></a><a class=menu-item href=/about/ title=Mogeko><h3>Mogeko</h3><div class=menu-active></div></a></nav></div></div></nav><main class=main><div class=container><article class=post-warp itemscope itemtype=http://schema.org/Article><header class=post-header><h1 class=post-title itemprop="name headline">GNU/Linux 技巧：如何快速的找到一个文件</h1><div class=post-meta>Written by <a itemprop=name href=https://mogeko.me rel=author>Mogeko</a> with ♥
+<span class=post-time>on <time datetime=2018-11-21 itemprop=datePublished>November 21, 2018</time></span>
+in
+<i class="iconfont icon-folder"></i><span class=post-category></span><span class=post-word-count>1713 words</span></div></header><div class=post-content><p>在使用计算机的过程中，我们都有着这么一个需求：<strong>找文件！！</strong></p><p>“卧槽，我的 XXX 文件放哪儿去了？”Σ(っ °Д °;)っ</p><p>“XXX 文件不应该就在 XXX 文件夹里吗？！咋个找球不到啊？”‧º·(˚ ˃̣̣̥᷄⌓˂̣̣̥᷅ )‧º·˚</p><p>“MMP！1000 多个文件！我找你麻痹！！”（╯‵□′）╯︵┴─┴</p><p>在一些没有 GUI 的 GNU/Linux 中，遇到这种情况更是雪上加霜。好在 GNU/Linux 的终端中有着不少优秀的命令行工具，可以帮助我们解决上述问题。</p><p>下面就介绍三个最常用的在 GNU/Linux 中快速找文件的命令行工具：<strong>ls</strong>、<strong>tree</strong> 和 <strong>find</strong></p><h1 id=ls>ls</h1><p><code>ls</code> 可能是所有 Linuxer 学习到的第一个命令了 <span class=spoiler>cd: 喵喵喵？</span> 它既简单又实用，如果给 GNU/Linux 中所有的命令使用频率排个名的话，<code>ls</code> 绝对在前 5。</p><p><code>ls</code> 的作用就是列出指定目录下 (默认当前目录) 的所有可见的文件与文件夹，就像这样：</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext>$ ls
+Desktop  Documents  Downloads  Dropbox  Music  Pictures  Public  Steam  Templates  Videos
+</code></pre></div><p>添加 <code>-l</code> 选项则可以查看文件的更多信息。同时再加上 <code>-h</code> 则可查看到文件文件的大小：</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext>$ ls -lh
+drwxr-xr-x 2 mogeko mogeko 4.0K 11月 21 21:24 Desktop
+drwxr-xr-x 3 mogeko mogeko 4.0K 11月 21 12:39 Documents
+drwxr-xr-x 4 mogeko mogeko 4.0K 11月 21 20:37 Downloads
+drwxrwx--- 5 mogeko mogeko 4.0K 11月 21 15:46 Dropbox
+drwxr-xr-x 2 mogeko mogeko  20K 10月 27 19:06 Music
+drwxr-xr-x 3 mogeko mogeko 4.0K 11月  9 11:58 Pictures
+drwxr-xr-x 2 mogeko mogeko 4.0K 10月 27 10:30 Public
+drwxrwxr-x 3 mogeko mogeko 4.0K 10月 26 19:45 Steam
+drwxr-xr-x 2 mogeko mogeko 4.0K 10月 27 10:30 Templates
+drwxr-xr-x 2 mogeko mogeko 4.0K 11月 20 21:29 Videos
+</code></pre></div><p><code>ls</code> 也可以查看指定目录下的文件：</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext>$ ls /etc/apt
+apt.conf.d     sources.list      sources.list.d     trusted.gpg
+preferences.d  trusted.gpg.d
+</code></pre></div><p>或者使用<strong>通配符</strong>：</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext>$ ls *.yaml
+cangjie5.schema.yaml            luna_pinyin.extended.dict.yaml
+default.custom.yaml             luna_pinyin.extra_hanzi.dict.yaml
+default.yaml                    luna_pinyin_fluency.schema.yaml
+installation.yaml               luna_pinyin.kaomoji.dict.yaml
+luna_pinyin.cn_en.dict.yaml     luna_pinyin.schema.yaml
+luna_pinyin.computer.dict.yaml  luna_pinyin_simp.schema.yaml
+luna_pinyin.custom.yaml         luna_pinyin_tw.schema.yaml
+luna_pinyin.email.dict.yaml     symbols.yaml
+luna_pinyin.emoji.dict.yaml     user.yaml
+luna_pinyin.english.dict.yaml
+</code></pre></div><p>想要查看隐藏文件？加个 <code>-a</code> 就可以了：</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext>ls -a
+.   archetypes   content  .gitignore  public     resources  themes
+..  config.toml  .git     LICENSE.md  README.md  static     .travis.yml
+</code></pre></div><p><code>ls</code> 还可以用来在无聊时打发时间😂😂</p><p>在终端中执行以下命令，然后看着屏幕滚就可以了；在一下比较大型的系统中，可以滚一两个小时呢！！</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext>$ ls -R /
+</code></pre></div><p>看腻了可以用 <code>Ctrl + C</code> 强制中断执行 | ・ω・’）</p><p>更多与 <code>ls</code> 相关的选项，可以查看 <code>ls</code> 的文档，通过以下命令查看</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext>$ man ls
+</code></pre></div><h1 id=tree>tree</h1><p>如果你想以更加直观的方式查看目录结构，<code>tree</code> 是个不错的选择。</p><p>一般的 GNU/Linux 发行版上默认是没有安装 <code>tree</code> 的，我们先使用<strong>包管理器</strong>安装 <code>tree</code></p><h2 id=archlinux>Archlinux</h2><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext>$ pacman -S tree
+</code></pre></div><h2 id=ubuntu--debian>Ubuntu / Debian</h2><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext>$ sudo apt-get install tree
+</code></pre></div><h2 id=fedora--centos>Fedora / CentOS</h2><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext>$ sudo yum install tree
+</code></pre></div><p>如果不带任何参数的运行 <code>tree</code>，将会从当前目录开始，遍历当前目录下的所有子目录，形成一个树状图。想这样：</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext>$ tree
+.
+├── input.conf
+├── mpv.conf
+├── mpv_sub-delay.json
+├── scripts
+│   ├── autoload.lua
+│   ├── find_subtitles.lua
+│   └── save-sub-delay.lua
+└── watch_later
+    ├── 0E8222A71582842B0AE77E97F92C8ADF
+    ├── 3711F58064794A225929BB4E40406BB0
+    ├── 64DE4D53E1D5133254D3566CB3DFE548
+    ├── BB76733FFBAC24FA381FA1C04452948E
+    ├── D1EB1EE7CC315044D40B56E68B717219
+    └── E45A1D2ED916D7DFD4109ADFD1E4A829
+
+2 directories, 12 file
+</code></pre></div><p>这个命令非常有用，特别是对于我们这些 Bloger 来说；比如以下场景：</p><blockquote><p>简单讲解一下各个文件的作用</p></blockquote><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext>.
+├── Atom # 供单独使用的脚本
+│   ├── Office_2016
+│   │   ├── Office_Project_Pro.cmd # 将零售版的 Office Project Plus 转换为批量授权版, 然后激活
+│   │   ├── Office_Project_Std.cmd # 将零售版的 Office Project 转换为批量授权版, 然后激活
+│   │   ├── Office_Retail2VOL+Activate.cmd # 将零售版的 Office 转换为批量授权版, 然后激活
+│   │   ├── Office_Retail2VOL_Only.cmd # 仅仅将零售版的 Office 转换为批量授权版, 不激活
+│   │   ├── Office_Visio_Pro.cmd # 将零售版的 Office Visio Plus 转换为批量授权版, 然后激活
+│   │   ├── Office_Visio_Std.cmd # 将零售版的 Office Visio 转换为批量授权版, 然后激活
+│   │   ├── Office_VOL_Activate.cmd # 激活批量授权版的 Office
+│   │   └── 查看 Office 状态.cmd
+│   ├── Office_2013
+│   │   ├── 与 Office_2016 同理, 就不单独介绍了
+│   ├── Office_2010
+│   │   ├── 与 Office_2016 同理
+│   └── Windows_Activate.cmd # 激活批量授权版的 Windows
+├── KMS 服务可用性测试.url # 检测 KMS 服务器是否挂了
+├── README.md
+└── Run.cmd# 激活脚本
+</code></pre></div><p>对于那些需要介绍每个文件的功能的场景，<code>tree</code> 简直是神器好不好！！</p><p>扯远了 | ・ω・’）</p><br><p>如果不想列地太多，可以使用 <code>-L [数字]</code> 选项来指定查找的层数，例如：</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext>$ tree -L 1
+.
+├── input.conf
+├── mpv.conf
+├── mpv_sub-delay.json
+├── scripts
+└── watch_later
+
+2 directories, 3 files
+</code></pre></div><p>你也可以显示指定目录的树状图：</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext>$ tree ~/.config/mpv
+.
+├── input.conf
+├── mpv.conf
+├── mpv_sub-delay.json
+├── scripts
+│   ├── autoload.lua
+│   ├── find_subtitles.lua
+│   └── save-sub-delay.lua
+└── watch_later
+    ├── 0E8222A71582842B0AE77E97F92C8ADF
+    ├── 3711F58064794A225929BB4E40406BB0
+    ├── 64DE4D53E1D5133254D3566CB3DFE548
+    ├── BB76733FFBAC24FA381FA1C04452948E
+    ├── D1EB1EE7CC315044D40B56E68B717219
+    └── E45A1D2ED916D7DFD4109ADFD1E4A829
+
+2 directories, 12 file
+</code></pre></div><p>如果需要列出的是一个很大的树状图，可以配合 <code>less</code> 使用：</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext>tree | less
+</code></pre></div><p>同样的，要查看更多关于 <code>tree</code> 的信息：</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext>man tree
+</code></pre></div><h1 id=find>find</h1><p>如果不知道文件在哪里怎么办呢？总不能从 <code>/</code> 目录开始遍历吧！这时你需要 <code>find</code></p><p>如果不加任何参数的运行 <code>find</code>，它将会递归列出改目录下的所有文件和目录：</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext>$ find
+.
+./mpv_sub-delay.json
+./scripts
+./scripts/find_subtitles.lua
+./scripts/autoload.lua
+./scripts/save-sub-delay.lua
+./mpv.conf
+./watch_later
+./watch_later/E45A1D2ED916D7DFD4109ADFD1E4A829
+./watch_later/3711F58064794A225929BB4E40406BB0
+./watch_later/0E8222A71582842B0AE77E97F92C8ADF
+./watch_later/64DE4D53E1D5133254D3566CB3DFE548
+./watch_later/BB76733FFBAC24FA381FA1C04452948E
+./watch_later/D1EB1EE7CC315044D40B56E68B717219
+./input.conf
+</code></pre></div><p>但是 <code>find</code> 真正强大的地方在于你可以使用文件名进行搜索：</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext>$ find -name autoload.lua
+./scripts/autoload.lua
+</code></pre></div><p>或是使用<strong>通配符</strong>：</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext>$ find -name *.lua
+./scripts/find_subtitles.lua
+./scripts/autoload.lua
+./scripts/save-sub-delay.lua
+</code></pre></div><p>你也可以根据文件大小进行搜索 (对于硬盘空间不足的时候特别有用)</p><p>列出所有大于 1 G 的文件：</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext>$ find -size +1G
+./Downloads/Asura.2012.BluRay.1080p.x264-MySiLU [PublicHD]/Asura.2012.BluRay.1080p.x264.AC3-MySilu.mkv
+./Downloads/Starship.Troopers.Traitor.of.Mars.2017.720p.WEB-DL.DD5.1.H264-FGT/Starship.Troopers.Traitor.of.Mars.2017.720p.WEB-DL.DD5.1.H264-FGT.mkv
+</code></pre></div><p>也可以搜索具体的文件目录，例如我们想在 <code>.config/mpv</code> 目录中查找所有后缀为 <code>.lua</code> 的文件：</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext>$ find .config/mpv -name *.lua
+.config/mpv/scripts/find_subtitles.lua
+.config/mpv/scripts/autoload.lua
+.config/mpv/scripts/save-sub-delay.lua
+</code></pre></div><p>更多的信息可以查看 <strong>man 手册</strong>：</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-plaintext data-lang=plaintext>man find
+</code></pre></div><br><center>·End·</center></div><div class=post-copyright><p class=copyright-item><span>Author:</span>
+<span>Mogeko</span></p><p class=copyright-item><span>Link:</span>
+<a href=https://mogeko.me/2018/032/>https://mogeko.me/2018/032/</span></p><p class="copyright-item lincese">本文采用<a rel=license href=http://creativecommons.org/licenses/by-nc/4.0/ target=_blank>知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p></div><div class=post-tags><section><i class="iconfont icon-tag"></i>Tag(s):
+<span class=tag><a href=https://mogeko.me/tags/gnu/linux/>#GNU/Linux</a></span></section><section><a href=javascript:window.history.back();>back</a></span> ·
+<span><a href=https://mogeko.me>home</a></span></section></div><div class=post-nav><a href=https://mogeko.me/2018/031/ class=prev rel=prev title="GNU/Linux 输入法折腾笔记 (RIME)"><i class="iconfont icon-left"></i>&nbsp;GNU/Linux 输入法折腾笔记 (RIME)</a>
+<a href=https://mogeko.me/2018/033/ class=next rel=next title="为 Hugo 博客添加字数统计">为 Hugo 博客添加字数统计&nbsp;<i class="iconfont icon-right"></i></a></div><div class=post-comment><div id=utteranc-container><script src=https://utteranc.es/client.js repo=Mogeko/blog-commits issue-term=title theme=preferred-color-scheme crossorigin=anonymous async></script></div></div></article></div></main><footer class=footer><div class=copyright>&copy;
+<span itemprop=copyrightYear>2017 - 2020</span>
+<span class=with-love><i class="iconfont icon-love"></i></span><span class=author itemprop=copyrightHolder><a href=https://mogeko.me>Mogeko</a> |</span>
+<span>Powered by <a href=https://gohugo.io/ target=_blank rel="external nofollow">Hugo</a> & <a href=https://github.com/Mogeko/Mogege target=_blank rel="external nofollow">Mogege</a></span></div></footer><script defer src=/js/vendor_main.min.js></script><script src=https://cdn.jsdelivr.net/npm/pangu@4.0.7/dist/browser/pangu.min.js integrity="sha256-j+yj56cdEY2CwkVtGyz18fNybFGpMGJ8JxG3GSyO2+I=" crossorigin=anonymous></script><script>pangu.spacingPage();</script></div></body></html>
